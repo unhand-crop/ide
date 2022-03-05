@@ -1,4 +1,4 @@
-import Index from "@/pages/Index";
+import Home from "@/pages/Home";
 import Workbench from "@/pages/Workbench";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
@@ -8,7 +8,7 @@ function render() {
   ReactDOM.render(
     <Router>
       <Routes>
-        <Route path="/" element={<Index />} />
+        <Route path="/" element={<Home />} />
         <Route path="/workbench" element={<Workbench />} />
       </Routes>
     </Router>,
