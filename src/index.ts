@@ -15,13 +15,18 @@ const createWindow = (): void => {
   const mainWindow = new BrowserWindow({
     height: 1000,
     width: 1400,
+    show: false,
   });
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
+
+  mainWindow.on("ready-to-show", () => {
+    mainWindow.show();
+  });
 };
 
 // This method will be called when Electron has finished

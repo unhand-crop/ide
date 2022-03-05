@@ -27,7 +27,6 @@
  */
 
 import "./index.scss";
-import "@dtinsight/molecule/esm/style/mo.css";
 import "./App";
 
 console.log(

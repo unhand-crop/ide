@@ -1,6 +1,6 @@
 {
   "name": "ide",
-  "productName": "ide",
+  "productName": "Unhand Studio",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": ".webpack/main",
@@ -35,7 +35,9 @@
         {
           "name": "@electron-forge/maker-zip",
           "platforms": [
-            "darwin"
+            "darwin",
+            "win32",
+            "linux"
           ]
         },
         {
