@@ -4,16 +4,22 @@ import * as ReactDOM from "react-dom";
 import { Route, HashRouter as Router, Routes } from "react-router-dom";
 
 import Workbench from "@/pages/Workbench";
+import useSettingModel from "@/models/setting";
 
-function render() {
-  ReactDOM.render(
+const App = () => {
+  useSettingModel();
+
+  return (
     <Router>
       <Routes>
         <Route path="/" element={<Workbench />} />
       </Routes>
-    </Router>,
-    document.body
+    </Router>
   );
+};
+
+function render() {
+  ReactDOM.render(<App />, document.body);
 }
 
 render();

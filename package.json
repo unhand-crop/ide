@@ -9,7 +9,8 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint --ext .ts,.tsx .",
+    "icon": "npx iconfont-h5"
   },
   "keywords": [],
   "author": {
@@ -74,6 +75,7 @@
     }
   },
   "devDependencies": {
+    "@dtinsight/molecule": "^0.9.0-beta.4.2",
     "@electron-forge/cli": "^6.0.0-beta.63",
     "@electron-forge/maker-deb": "^6.0.0-beta.63",
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
@@ -95,6 +97,7 @@
     "monaco-editor-webpack-plugin": "^7.0.1",
     "node-loader": "^2.0.0",
     "node-sass": "^7.0.1",
+    "react-iconfont-cli": "^2.0.2",
     "sass-loader": "^12.6.0",
     "style-loader": "^3.0.0",
     "ts-loader": "^9.2.2",
@@ -109,6 +112,7 @@
     "hox": "^1.1.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-router-dom": "^6.2.2"
+    "react-router-dom": "^6.2.2",
+    "react-split-pane": "2.0.3"
   }
 }

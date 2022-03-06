@@ -1,8 +1,14 @@
+import { useMount, useReactive } from "ahooks";
+
 import { createModel } from "hox";
-import { useReactive } from "ahooks";
 
 const useSettingModel = () => {
   const model = useReactive({});
+
+  useMount(async () => {
+    console.log("-->!", await window.api.store.set("settings", "test"));
+    console.log("-->", await window.api.store.get("settings"));
+  });
 
   return {
     model,

@@ -1,0 +1,77 @@
+.launcher {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding-top: 85px;
+  .title {
+    color: white;
+    font-size: 500;
+    font-size: 16px;
+  }
+  .project {
+    margin-top: 40px;
+    &_button {
+      display: flex;
+      padding: 0 4rem;
+      margin-top: 2rem;
+      & > :first-child {
+        margin-right: 14rem;
+      }
+      .historical_project {
+        color: white;
+        .project_list {
+          margin: 0;
+          font-size: 12px;
+          color: #d8d8d8;
+          font-weight: 400;
+          line-height: 17px;
+          &:hover {
+            color: white;
+            cursor: pointer;
+          }
+        }
+        .project_list + .project_list {
+          margin-top: 0.75rem;
+        }
+      }
+    }
+    &_operation {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .project_icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 3.375rem;
+        height: 3.375rem;
+        background-color: #0b5aa6;
+      }
+      p {
+        margin-top: 1rem;
+        font-size: 14px;
+        color: #d8d8d8;
+        font-weight: 400;
+      }
+      &:hover {
+        cursor: pointer;
+        .project_icon {
+          background-color: #017cf1;
+        }
+        p {
+          color: white;
+        }
+      }
+    }
+    a {
+      display: inline-block;
+      margin-left: 4rem;
+      margin-top: 2rem;
+      color: #0082ff;
+      &:hover {
+        color: #0256a7;
+      }
+    }
+  }
+}
