@@ -1,7 +1,9 @@
-import Workbench from "@/pages/Workbench";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+
+import { Route, HashRouter as Router, Routes } from "react-router-dom";
+
+import Workbench from "@/pages/Workbench";
 
 function render() {
   ReactDOM.render(
