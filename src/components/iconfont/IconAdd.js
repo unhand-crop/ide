@@ -7,7 +7,7 @@ const DEFAULT_STYLE = {
   display: 'block',
 };
 
-const IconTianjia = ({ size, color, style: _style, ...rest }) => {
+const IconAdd = ({ size, color, style: _style, ...rest }) => {
   const style = _style ? { ...DEFAULT_STYLE, ..._style } : DEFAULT_STYLE;
 
   return (
@@ -20,8 +20,8 @@ const IconTianjia = ({ size, color, style: _style, ...rest }) => {
   );
 };
 
-IconTianjia.defaultProps = {
+IconAdd.defaultProps = {
   size: 18,
 };
 
-export default IconTianjia;
+export default IconAdd;

@@ -25,9 +25,7 @@ const LauncherCom = () => {
             // onClick={createNew}
             className={`${styles.project_operation} ${styles.text_width}`}
           >
-            <div className={styles.project_icon}>
-              <IconACreatnew />
-            </div>
+            <div className={styles.project_icon}>{/* <IconACreatnew /> */}</div>
             <p>Creat New Algorithm</p>
           </div>
           <div
@@ -35,7 +33,7 @@ const LauncherCom = () => {
             // onClick={openPro}
           >
             <div className={styles.project_icon}>
-              <IconAOpenproject />
+              {/* <IconAOpenproject /> */}
             </div>
             <p>Open Project</p>
           </div>
