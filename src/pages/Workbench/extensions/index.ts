@@ -4,13 +4,15 @@ import { SearchExtension } from "./search";
 import { AccountExtension } from "./account";
 import { MarketExtension } from "./market";
 import { ExplorerExtension } from "./explorer ";
+import { ResultExtension } from "./result";
 
 const extensions: IExtension[] = [
 	new LauncherExtension(),
 	new SearchExtension(),
 	new AccountExtension(),
 	new MarketExtension(),
-	new ExplorerExtension()
+	new ExplorerExtension(),
+	new ResultExtension(),
 ];
 
 export default extensions;
