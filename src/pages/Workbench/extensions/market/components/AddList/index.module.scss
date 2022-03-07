@@ -1,0 +1,47 @@
+.item {
+  display: flex;
+  align-items: center;
+  padding: 0 1.25rem;
+  height: 40px;
+  border-bottom: 1px solid #2a2e39;
+  .left {
+    width: 144px;
+    .name {
+      font-size: 16px;
+      color: #b2b5be;
+    }
+  }
+  .right {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    .symbol_description {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: #b2b5be;
+    }
+    .exchange_cell {
+      display: flex;
+      align-items: center;
+      .market_type {
+        color: #787b86;
+        font-size: 12px;
+      }
+      .exchange_name {
+        padding: 0 0.5rem;
+        font-size: 14px;
+        color: #b2b5be;
+      }
+      .icon {
+        margin-right: 1.25rem;
+        height: 18px;
+        width: 18px;
+        border-radius: 50%;
+      }
+    }
+  }
+  &:hover {
+    background-color: #2a2e39;
+  }
+}

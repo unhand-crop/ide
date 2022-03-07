@@ -1,0 +1,169 @@
+.coin_container {
+  padding: 0 0.5rem 1.5rem 0.5rem;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    p {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    svg:hover {
+      cursor: pointer;
+    }
+  }
+  .table {
+    .table_content {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      padding-right: 1.25rem;
+      padding-bottom: 6rem;
+      width: 100%;
+      height: 100%;
+      overflow-y: scroll;
+    }
+    .table_content::-webkit-scrollbar {
+      display: none;
+    }
+    .table_column {
+      position: relative;
+      display: flex;
+      align-items: center;
+      flex: 1 1 auto;
+      min-width: 100%;
+      border-bottom: 1px solid #363a45;
+      &:hover {
+        .close {
+          display: block;
+        }
+      }
+      &:hover {
+        cursor: pointer;
+        background-color: #2a2e39;
+      }
+    }
+    .select_column {
+      background-color: #363a45;
+    }
+    .last_column_header {
+      justify-content: end !important;
+      flex: 4 3 70px !important;
+    }
+    .close {
+      position: absolute;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      display: none;
+      width: 22px;
+      height: 22px;
+      background-color: #2a2e39;
+    }
+    .column_header {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      flex: 1 4 90px;
+      padding-bottom: 3px;
+      padding-top: 3px;
+      height: 27px;
+      max-width: 100%;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      .coin_logo_container {
+        display: inline-block;
+        margin-right: 0.375rem;
+        min-width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        .logo {
+          min-width: 18px;
+          height: 18px;
+          border-radius: 50%;
+        }
+      }
+      .inner {
+        font-size: 14px;
+        color: #b2b5be;
+      }
+      .plus {
+        font-size: 14px;
+        color: #22ab94;
+      }
+      .coin_name {
+        font-size: 14px;
+        color: #b2b5be;
+      }
+      .fall {
+        font-size: 14px;
+        color: #f23645;
+      }
+      .label {
+        flex: 0 1 auto;
+        max-width: 100%;
+        min-width: 0;
+        overflow: hidden;
+        color: #787b86;
+      }
+    }
+  }
+}
+
+.add_commodity_code {
+  :global(.ant-modal-close-icon > svg) {
+    fill: #b2b5be;
+  }
+  :global(.ant-modal-content) {
+    height: 680px;
+    background-color: #1e222c;
+  }
+  :global(.ant-modal-header) {
+    background-color: #1e222c;
+    border-bottom: none;
+    :global(.ant-modal-title) {
+      color: #b2b5be;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+  :global(.ant-modal-body) {
+    padding: 0;
+    background-color: #1e222c;
+    :global(.ant-input-affix-wrapper) {
+      height: 40px;
+      background-color: #1e222c;
+      border-left: transparent;
+      border-right: transparent;
+    }
+    :global(.ant-input-affix-wrapper:focus) {
+      border-color: #e0e3eb;
+    }
+    :global(.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover) {
+      border-color: #e0e3eb;
+    }
+    :global(.ant-input) {
+      color: #a3a6af;
+      background-color: #1e222c;
+    }
+    .commodity {
+      .commodity_header {
+        display: flex;
+        align-items: center;
+        padding: 0 1.25rem;
+        height: 40px;
+        font-size: 14px;
+        color: #787b86;
+        .commodity_code {
+          width: 144px;
+        }
+        .explain {
+          flex: 1;
+        }
+      }
+    }
+  }
+}
