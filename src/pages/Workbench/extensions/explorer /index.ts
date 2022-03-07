@@ -12,6 +12,6 @@ export class ExplorerExtension implements IExtension {
   }
 
   dispose(extensionCtx: IExtensionService): void {
-    throw new Error("Method not implemented.");
+    // throw new Error("Method not implemented.");
   }
 }
