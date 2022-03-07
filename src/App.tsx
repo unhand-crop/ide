@@ -7,6 +7,7 @@ import { Route, HashRouter as Router, Routes } from "react-router-dom";
 import Workbench from "@/pages/Workbench";
 import { useMount } from "ahooks";
 import useSettingModel from "@/models/setting";
+import "@dtinsight/molecule/esm/style/mo.css";
 
 const App = () => {
   useSettingModel();
