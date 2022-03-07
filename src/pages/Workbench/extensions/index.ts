@@ -5,6 +5,7 @@ import { AccountExtension } from "./account";
 import { MarketExtension } from "./market";
 import { ExplorerExtension } from "./explorer ";
 import { ResultExtension } from "./result";
+import { StatusBarExtension } from "./statusbar";
 
 const extensions: IExtension[] = [
 	new LauncherExtension(),
@@ -13,6 +14,7 @@ const extensions: IExtension[] = [
 	new MarketExtension(),
 	new ExplorerExtension(),
 	new ResultExtension(),
+	new StatusBarExtension(),
 ];
 
 export default extensions;
