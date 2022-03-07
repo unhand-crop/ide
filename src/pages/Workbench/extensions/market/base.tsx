@@ -3,9 +3,10 @@ import {
   IEditorTab,
   ISidebarPane,
 } from "@dtinsight/molecule/esm/model";
-//   import MarketSidebarView from "./MarketSidebarView";
+import MarketSidebarView from "./MarketSidebarView";
 //   import ResultPaneView from "../result/ResultPaneView";
 import molecule from "@dtinsight/molecule";
+import React from "react";
 
 export const marketActivityBar: IActivityBarItem = {
   id: "sidebar.market",
@@ -18,9 +19,9 @@ export const marketActivityBar: IActivityBarItem = {
 export const marketSidebar: ISidebarPane = {
   id: "sidebar.market",
   title: "Market Pane",
-  // render: () => {
-  // //   return <MarketSidebarView />;
-  // },
+  render: () => {
+    return <MarketSidebarView />;
+  },
 };
 
 export function openCreateDataSourceView(name: string) {
