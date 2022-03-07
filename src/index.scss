@@ -11,3 +11,11 @@ dd {
   margin: 0;
   padding: 0;
 }
+
+.mo-panel__container {
+  overflow-y: auto;
+}
+
+.mo-panel__container::-webkit-scrollbar {
+  display: none;
+}
