@@ -53,6 +53,7 @@
           "@electron-forge/plugin-webpack",
           {
             "mainConfig": "./webpack.main.config.js",
+            "devContentSecurityPolicy": "default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;",
             "renderer": {
               "config": "./webpack.renderer.config.js",
               "entryPoints": [
@@ -106,6 +107,7 @@
   },
   "dependencies": {
     "@dtinsight/molecule": "^0.9.0-beta.4.2",
+    "@microsoft/signalr": "^6.0.2",
     "ahooks": "^3.1.13",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.0.1",
