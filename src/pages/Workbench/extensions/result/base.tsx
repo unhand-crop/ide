@@ -1,5 +1,6 @@
 import { IPanelItem } from "@dtinsight/molecule/esm/model";
-// import ResultPaneView from "./ResultPaneView";
+import React from "react";
+import ResultPaneView from "./ResultPaneView";
 
 export const resultPanel: IPanelItem = {
   id: "panel.result",
@@ -8,6 +9,6 @@ export const resultPanel: IPanelItem = {
   sortIndex: 1,
   closable: false,
   renderPane: () => {
-    // return <ResultPaneView />;
+    return <ResultPaneView />;
   },
 };
