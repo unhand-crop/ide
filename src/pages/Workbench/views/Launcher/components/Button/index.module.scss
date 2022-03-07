@@ -1,0 +1,28 @@
+.project_operation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .project_icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3.375rem;
+    height: 3.375rem;
+    background-color: #0b5aa6;
+  }
+  p {
+    margin-top: 1rem;
+    font-size: 14px;
+    color: #d8d8d8;
+    font-weight: 400;
+  }
+  &:hover {
+    cursor: pointer;
+    .project_icon {
+      background-color: #017cf1;
+    }
+    p {
+      color: white;
+    }
+  }
+}
