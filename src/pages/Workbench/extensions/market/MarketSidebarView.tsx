@@ -403,8 +403,6 @@ export default () => {
   });
 
   const handleSelect = (index: number, name: string) => {
-    console.log(index);
-
     state.selectIndex = index;
     openCreateDataSourceView(name);
   };
