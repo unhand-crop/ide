@@ -1,8 +1,32 @@
+// import useEditorModel from "@/models/editor";
 import React from "react";
-import LauncherCom from "./components/Launcher";
+import Button from "./components/Button";
+import styles from "./index.module.scss";
 
 const Launcher = () => {
-  return <LauncherCom />;
+  //   const { setDirPath } = useEditorModel();
+
+  //   const createNew = async () => {
+  //     const path = await window.api.local.getDirectory();
+  //     await window.api.engine.create(path);
+  //     setDirPath(path);
+  //   };
+
+  //   const openPro = async () => {
+  //     await window.api.local.openDirectory();
+  //   };
+
+  return (
+    <div className={styles.launcher}>
+      <div className={styles.project}>
+        <p className={styles.title}>Start</p>
+        <div className={styles.project_button}>
+          <Button title="Creat New Algorithm" />
+          <Button title="Open Project" />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Launcher;
