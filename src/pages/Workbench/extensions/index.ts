@@ -1,9 +1,9 @@
-import { IExtension } from "@dtinsight/molecule/esm/model";
 import { AccountExtension } from "./account";
 import { ActionExtension } from "./action";
 import { EditorExtension } from "./editor";
 import { ExplorerExtension } from "./explorer ";
 import { FoldTreeExtension } from './folderTree';
+import { IExtension } from "@dtinsight/molecule/esm/model";
 import { LauncherExtension } from "./launcher";
 import { MarketExtension } from "./market";
 import { ResultExtension } from "./result";
