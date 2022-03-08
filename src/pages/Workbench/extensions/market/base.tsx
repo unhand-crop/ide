@@ -4,7 +4,7 @@ import {
   ISidebarPane,
 } from "@dtinsight/molecule/esm/model";
 import MarketSidebarView from "./MarketSidebarView";
-//   import ResultPaneView from "../result/ResultPaneView";
+import ResultPaneView from "../result/ResultPaneView";
 import molecule from "@dtinsight/molecule";
 import React from "react";
 
@@ -29,7 +29,7 @@ export function openCreateDataSourceView(name: string) {
     id: name,
     name,
     renderPane: () => {
-      // return <ResultPaneView />;
+      return <ResultPaneView />;
     },
   });
 }
