@@ -15,7 +15,13 @@ dd {
 .mo-panel__container {
   overflow-y: auto;
 }
-
 .mo-panel__container::-webkit-scrollbar {
+  display: none;
+}
+
+.mo-editor__group-container {
+  overflow-y: auto;
+}
+.mo-editor__group-container::-webkit-scrollbar {
   display: none;
 }
