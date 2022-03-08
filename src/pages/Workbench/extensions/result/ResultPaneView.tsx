@@ -1,9 +1,10 @@
-// import TradingView from "@/components/TradingView";
-// import { ResolutionString } from "@/components/TradingView/Chart/datafeed-api";
-import React from "react";
-import { useReactive } from "ahooks";
-import styles from "./ResultPaneView.module.scss";
 import { Table, TableColumnsType } from "antd";
+
+import React from "react";
+import { ResolutionString } from "@/components/TradingView/Chart/datafeed-api";
+import TradingView from "@/components/TradingView";
+import styles from "./ResultPaneView.module.scss";
+import { useReactive } from "ahooks";
 
 const columns: TableColumnsType<never> | undefined = [
   {
@@ -93,14 +94,14 @@ export default () => {
             ))}
           </ul>
           <div className={styles.chart}>
-            {/* <TradingView
+            <TradingView
               options={{
                 symbol: "AAPL",
                 interval: "D" as ResolutionString,
                 datafeedUrl: "https://demo_feed.tradingview.com",
                 chartsStorageUrl: "https://saveload.tradingview.com",
                 chartsStorageApiVersion: "1.1",
-                clientId: "tradingview.cxxxom",
+                clientId: "tradingview.com",
                 userId: "public_user_id",
                 fullscreen: false,
                 autosize: true,
@@ -109,7 +110,7 @@ export default () => {
                 theme: "Dark",
                 height: 400,
               }}
-            /> */}
+            />
           </div>
         </div>
       </div>

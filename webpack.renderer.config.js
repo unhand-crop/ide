@@ -1,6 +1,8 @@
+const path = require("path");
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const rules = require("./webpack.rules");
 const plugins = require("./webpack.plugins");
-const path = require("path");
 
 const resolve = (dir) => path.resolve(__dirname, dir);
 
@@ -27,6 +29,19 @@ rules.push({
     { loader: "sass-loader" },
   ],
 });
+
+plugins.push(
+  new MonacoWebpackPlugin(["javascript", "typescript", "css", "html", "json"])
+);
+
+plugins.push(
+  new CopyWebpackPlugin({
+    patterns: [
+      { from: resolve("public"), to: resolve(".webpack/renderer/main_window") },
+      { from: resolve("charts"), to: resolve(".webpack/renderer") },
+    ],
+  })
+);
 
 module.exports = {
   module: {
