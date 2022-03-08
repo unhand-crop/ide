@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import "@dtinsight/molecule/esm/style/mo.css";
 
 import {
   ILayoutController,
@@ -26,9 +27,9 @@ import SplitPane from "react-split-pane";
 import { StatusBarView } from "@dtinsight/molecule/esm//workbench/statusBar";
 import { connect } from "@dtinsight/molecule/esm/react";
 import { container } from "tsyringe";
-import useEditorModel from "@/models/editor";
 // import useSettingModel from "@/models/setting";
 import molecule from "@dtinsight/molecule";
+import useEditorModel from "@/models/editor";
 
 const mainBenchClassName = prefixClaName("mainBench");
 const workbenchClassName = prefixClaName("workbench");
