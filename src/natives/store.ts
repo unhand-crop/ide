@@ -1,18 +1,8 @@
 import { BrowserWindow, ipcMain, ipcRenderer } from "electron";
 
-import Store from "electron-store";
-
-const store = new Store();
-
-store.set("settings", "xx");
-
 export const registerStoreHandlers = async (mainWindow: BrowserWindow) => {
-  ipcMain.handle("store.get", (event, key) => {
-    return store.get(key);
-  });
-  ipcMain.handle("store.set", (event, key, data) => {
-    return store.set(key, data);
-  });
+  ipcMain.handle("store.get", (event, key) => {});
+  ipcMain.handle("store.set", (event, key, data) => {});
 };
 
 export const registerStoreInvokes = () => {
