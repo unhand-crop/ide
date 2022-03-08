@@ -2,6 +2,7 @@ import { IExtension } from "@dtinsight/molecule/esm/model";
 import { AccountExtension } from "./account";
 import { EditorExtension } from "./editor";
 import { ExplorerExtension } from "./explorer ";
+import { FoldTreeExtension } from './folderTree';
 import { LauncherExtension } from "./launcher";
 import { MarketExtension } from "./market";
 import { ResultExtension } from "./result";
@@ -17,6 +18,7 @@ const extensions: IExtension[] = [
 	new ResultExtension(),
 	new StatusBarExtension(),
 	new EditorExtension(),
+	new FoldTreeExtension()
 ];
 
 export default extensions;
