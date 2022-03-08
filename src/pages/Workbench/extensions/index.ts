@@ -1,5 +1,6 @@
 import { IExtension } from "@dtinsight/molecule/esm/model";
 import { AccountExtension } from "./account";
+import { ActionExtension } from "./action";
 import { EditorExtension } from "./editor";
 import { ExplorerExtension } from "./explorer ";
 import { FoldTreeExtension } from './folderTree';
@@ -18,7 +19,8 @@ const extensions: IExtension[] = [
 	new ResultExtension(),
 	new StatusBarExtension(),
 	new EditorExtension(),
-	new FoldTreeExtension()
+	new FoldTreeExtension(),
+	new ActionExtension(),
 ];
 
 export default extensions;
