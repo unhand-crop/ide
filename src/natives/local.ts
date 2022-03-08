@@ -4,6 +4,7 @@ import fs from "fs";
 import { promisify } from "util";
 
 const readFileAsync = promisify(fs.readFile);
+const writeFileAsync = promisify(fs.writeFile);
 
 export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
 	ipcMain.handle("open-directory", async (_) => {
@@ -25,6 +26,9 @@ export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
 	ipcMain.handle("read-file", async (_, ...args) => {
 		return await readFileAsync(args[0], { encoding: "utf-8" });
 	});
+	ipcMain.handle("write-file", async (_, ...args) => {
+		return await writeFileAsync(args[0], args[1], { encoding: "utf-8" });
+	});
   };
   
   export const registerLocalInvokes = () => {
@@ -41,6 +45,9 @@ export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
 		},
 		 async readFile(...args: any[]) {
 			return await ipcRenderer.invoke("read-file", ...args);
+		},
+		async writeFile(...args: any[]) {
+			return await ipcRenderer.invoke("write-file", ...args);
 		},
 	};
   };
