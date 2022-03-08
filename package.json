@@ -110,6 +110,7 @@
     "@microsoft/signalr": "^6.0.2",
     "ahooks": "^3.1.13",
     "antd": "^4.18.9",
+    "directory-tree": "^3.2.2",
     "electron-squirrel-startup": "^1.0.0",
     "hox": "^1.1.6",
     "react": "^17.0.2",
