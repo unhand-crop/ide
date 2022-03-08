@@ -16,9 +16,15 @@ export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
 		  mainWindow.webContents.send("open-directory", dirPath);
 		}
 	});
+	ipcMain.handle("open-path", async (...args) => {
+		const path = args[1];
+		if (path) {
+		  mainWindow.webContents.send("open-directory", path);
+		}
+	});
 	ipcMain.handle("read-file", async (_, ...args) => {
 		return await readFileAsync(args[0], { encoding: "utf-8" });
-	  });
+	});
   };
   
   export const registerLocalInvokes = () => {
@@ -30,6 +36,9 @@ export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
 	    async openDirectory() {
 		  return await ipcRenderer.invoke("open-directory");
 	 	},
+		 async openPath(...args: any[]) {
+			return await ipcRenderer.invoke("open-path", ...args);
+		},
 		 async readFile(...args: any[]) {
 			return await ipcRenderer.invoke("read-file", ...args);
 		},
