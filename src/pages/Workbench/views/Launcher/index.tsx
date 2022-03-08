@@ -12,9 +12,9 @@ const Launcher = () => {
   //     setDirPath(path);
   //   };
 
-  //   const openPro = async () => {
-  //     await window.api.local.openDirectory();
-  //   };
+  const openPro = async () => {
+    await window.api.local.openDirectory();
+  };
 
   return (
     <div className={styles.launcher}>
@@ -22,7 +22,7 @@ const Launcher = () => {
         <p className={styles.title}>Start</p>
         <div className={styles.project_button}>
           <Button title="Creat New Algorithm" />
-          <Button title="Open Project" />
+          <Button onClick={() => openPro()} title="Open Project" />
         </div>
       </div>
     </div>
