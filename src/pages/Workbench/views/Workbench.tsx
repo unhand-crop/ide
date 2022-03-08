@@ -26,7 +26,7 @@ import SplitPane from "react-split-pane";
 import { StatusBarView } from "@dtinsight/molecule/esm//workbench/statusBar";
 import { connect } from "@dtinsight/molecule/esm/react";
 import { container } from "tsyringe";
-// import useEditorModel from "@/models/editor";
+import useEditorModel from "@/models/editor";
 // import useSettingModel from "@/models/setting";
 import molecule from "@dtinsight/molecule";
 
@@ -51,21 +51,21 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
     horizontalSplitPanePos,
   } = props;
 
-  //   const { model } = useEditorModel();
-  //   const { loadSettings } = useSettingModel();
+  const { model } = useEditorModel();
+  // const { loadSettings } = useSettingModel();
 
-  //   useEffect(() => {
-  //     loadSettings();
-  //   }, []);
+  // useEffect(() => {
+  //   loadSettings();
+  // }, []);
 
-  //   useEffect(() => {
-  //     const hidden = !model.dirPath;
-  //     molecule.layout.setState({
-  //       activityBar: { hidden },
-  //       sidebar: { hidden, position: "left" },
-  //       statusBar: { hidden },
-  //     });
-  //   }, [model.dirPath]);
+  useEffect(() => {
+    const hidden = !model.dirPath;
+    molecule.layout.setState({
+      activityBar: { hidden },
+      sidebar: { hidden, position: "left" },
+      statusBar: { hidden },
+    });
+  }, [model.dirPath]);
 
   const getContent = (panelMaximized: boolean, panelHidden: boolean) => {
     const editor = (
