@@ -6,8 +6,6 @@ import molecule from "@dtinsight/molecule";
 
 function createNode() {
   molecule.folderTree.onCreate((type, id) => {
-	  console.log(22222);
-	  
     if (type !== "RootFolder") {
       molecule.folderTree.add(
         {
@@ -24,24 +22,24 @@ function createNode() {
   });
 
   molecule.folderTree.onUpdateFileName(async (file) => {
-    if (file.id === "input") {
-      const catalog = `${file.path}/${file.name}`;
-      const data = {
-        id: catalog,
-        path: catalog,
-        name: file.name,
-        fileType: file.fileType,
-        isLeaf: file.isLeaf,
-      };
-      molecule.folderTree.remove("input");
-      molecule.folderTree.add(data, file.path);
-      if (file.fileType === "Folder") {
-        await window.api.local.mkdirFile(catalog);
+    if(file.name){
+      if (file.id === "input") {
+        const catalog = `${file.path}/${file.name}`;
+        const data = {
+          id: catalog,
+          path: catalog,
+          name: file.name,
+          fileType: file.fileType,
+          isLeaf: file.isLeaf,
+        };
+        molecule.folderTree.remove("input");
+        molecule.folderTree.add(data, file.path);
+        if (file.fileType === "Folder") {
+          await window.api.local.mkdirFile(catalog);
+        } else {
+          await window.api.local.writeFile(catalog, "");
+        }
       } else {
-        await window.api.local.writeFile(catalog, "");
-      }
-    } else {
-      if (file.name) {
         const filePath = file.path.substring(0, file.path.lastIndexOf("/"));
         const stitchingName = `${filePath}/${file.name}`;
         const { folderTree } = molecule.folderTree.getState();

@@ -12,6 +12,8 @@ import { SearchExtension } from "./search";
 import { StatusBarExtension } from "./statusbar";
 
 const extensions: IExtension[] = [
+	// new ActionExtension(),
+	new InteractiveExtension(),
 	new LauncherExtension(),
 	new SearchExtension(),
 	new AccountExtension(),
@@ -21,8 +23,7 @@ const extensions: IExtension[] = [
 	new StatusBarExtension(),
 	new EditorExtension(),
 	new FoldTreeExtension(),
-	new ActionExtension(),
-	new InteractiveExtension()
+	
 ];
 
 export default extensions;
