@@ -1,6 +1,7 @@
 import { IExtension } from "@dtinsight/molecule/esm/model";
 import { IExtensionService } from "@dtinsight/molecule/esm/services";
 import { TreeViewUtil } from "@dtinsight/molecule/esm/common/treeUtil";
+import { fileIcon } from "@/utils";
 // import { getLanguageByExt, getFileExt, convertToTreeModel } from '@/utils';
 import molecule from "@dtinsight/molecule";
 
@@ -29,6 +30,7 @@ function createNode() {
           id: catalog,
           path: catalog,
           name: file.name,
+          icon: fileIcon(file.name),
           fileType: file.fileType,
           isLeaf: file.isLeaf,
         };
