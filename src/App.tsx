@@ -3,15 +3,19 @@ import * as ReactDOM from "react-dom";
 
 import { Route, HashRouter as Router, Routes } from "react-router-dom";
 
-import Workbench from "@/pages/Workbench";
+import { MoleculeProvider } from "@dtinsight/molecule";
+import Workbench from "@/pages/Workbench/views/Workbench";
+import extensions from "@/pages/Workbench/extensions";
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Workbench />} />
-      </Routes>
-    </Router>
+    <MoleculeProvider extensions={extensions}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Workbench />} />
+        </Routes>
+      </Router>
+    </MoleculeProvider>
   );
 };
 

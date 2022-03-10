@@ -12,7 +12,7 @@ export class KeybindingAction extends Action2 {
     super({
       id: KeybindingAction.ID,
       precondition: undefined,
-      f1: false,
+      f1: false, // Not show in the Command Palette
       keybinding: {
         weight: KeybindingWeight.WorkbenchContrib,
         when: undefined,
@@ -22,21 +22,7 @@ export class KeybindingAction extends Action2 {
   }
 
   run(accessor: any, ...args: any[]) {
-    // alert("Save success!");
+    alert("Save success!");
+    // do something
   }
-
-  //    async run(accessor: any, ...args: any[]) {
-  // 		const { current } = molecule.editor.getState();
-  // 		console.log(current,'---->');
-
-  // 		if(current){
-  // 			const tab = molecule.editor.getTabById<any>(
-  // 				current!.activeTab!,
-  // 				current!.id,
-  // 			)!;
-  // 			console.log(tab,'====>');
-
-  // 			await window.api.local.writeFile(tab.id,tab.data.value);
-  // 		}
-  //     }
 }
