@@ -32,20 +32,19 @@ const Launcher = () => {
         <div className={styles.algorithm_container}>
           <ul className={styles.algorithm_list}>
             <li className={styles.algorithm_item}>
-              <div className={styles.new_algorithm}>
-                <IconAdd size={80} color="#b2b5be" />
-                <p>新建</p>
+              <div className={styles.container}>
+                <img src="./public/image/algorithm_template.png" />
               </div>
+              <p className={styles.title}>基础模版</p>
             </li>
-            <li className={styles.algorithm_item}></li>
-            <li className={styles.algorithm_item}></li>
-            <li className={styles.algorithm_item}></li>
-            <li className={styles.algorithm_item}></li>
-            <li className={styles.algorithm_item}></li>
-            <li className={styles.algorithm_item}></li>
-            <li className={styles.algorithm_item}></li>
+            <li className={styles.algorithm_item}>
+              <div className={styles.container}>
+                <IconAdd color="#ffffff" size={64} />
+              </div>
+              <p className={styles.title}>新建模版</p>
+            </li>
           </ul>
-          <Pagination />
+          {/* <Pagination /> */}
         </div>
       </Modal>
     </div>
