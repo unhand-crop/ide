@@ -1,3 +1,4 @@
+import { IconClose } from "@/components/iconfont";
 import React from "react";
 import styles from "./index.module.scss";
 
@@ -52,7 +53,7 @@ const List = ({ item, index, onClick, selectIndex }: ListProps) => {
         </span>
       </span>
       <span className={styles.close}>
-        {/* <IconClose size={18} color="#787b86" /> */}
+        <IconClose size={18} color="#787b86" />
       </span>
     </div>
   );
