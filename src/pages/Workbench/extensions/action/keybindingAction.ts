@@ -4,7 +4,6 @@ import { Action2 } from "@dtinsight/molecule/esm/monaco/action";
 //@ts-ignore
 import { KeyChord } from "monaco-editor/esm/vs/base/common/keyCodes";
 import { KeybindingWeight } from "@dtinsight/molecule/esm/monaco/common";
-import molecule from "@dtinsight/molecule";
 
 export class KeybindingAction extends Action2 {
   static readonly ID = "AutoSave";
@@ -23,8 +22,7 @@ export class KeybindingAction extends Action2 {
   }
 
   run(accessor: any, ...args: any[]) {
-
-    alert("Save success!");
+    // alert("Save success!");
   }
 
   //    async run(accessor: any, ...args: any[]) {

@@ -1,17 +1,17 @@
-import { IExtension } from '@dtinsight/molecule/esm/model/extension';
-import { IExtensionService } from '@dtinsight/molecule/esm/services';
-import { KeybindingAction } from './keybindingAction';
+import { IExtension } from "@dtinsight/molecule/esm/model/extension";
+import { IExtensionService } from "@dtinsight/molecule/esm/services";
+import { KeybindingAction } from "./keybindingAction";
+import molecule from "@dtinsight/molecule";
 
 export class ActionExtension implements IExtension {
+  id: string = "ActionExtension";
+  name: string = "ActionExtension";
 
-    id: string = ActionExtension.name;
-    name: string = ActionExtension.name;
+  activate(extensionCtx: IExtensionService): void {
+    molecule.extension.registerAction(KeybindingAction);
+  }
 
-    activate(extensionCtx: IExtensionService): void {
-        extensionCtx.registerAction(KeybindingAction);
-    }
-
-    dispose(extensionCtx: IExtensionService): void {
-        throw new Error('Method not implemented.');
-    }
+  dispose(extensionCtx: IExtensionService): void {
+    throw new Error("Method not implemented.");
+  }
 }

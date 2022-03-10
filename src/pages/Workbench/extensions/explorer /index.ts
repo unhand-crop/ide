@@ -1,6 +1,6 @@
-import molecule from "@dtinsight/molecule";
 import { IExtension } from "@dtinsight/molecule/esm/model/extension";
 import { IExtensionService } from "@dtinsight/molecule/esm/services";
+import molecule from "@dtinsight/molecule";
 
 export class ExplorerExtension implements IExtension {
   id: string = ExplorerExtension.name;

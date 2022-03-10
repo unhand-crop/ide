@@ -56,12 +56,6 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
   const { model } = useEditorModel();
   useSettingModel();
 
-  // const { loadSettings } = useSettingModel();
-
-  // useEffect(() => {
-  //   loadSettings();
-  // }, []);
-
   useEffect(() => {
     const hidden = !model.dirPath;
     molecule.layout.setState({
