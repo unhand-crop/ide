@@ -18,7 +18,6 @@ const Launcher = () => {
   return (
     <div className={styles.launcher}>
       <div className={styles.project}>
-        <p className={styles.title}>启动</p>
         <div className={styles.project_button}>
           <Button title="新建算法" onClick={() => (state.visible = true)} />
           <Button onClick={() => openPro()} title="打开算法" />

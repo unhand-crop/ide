@@ -12,7 +12,7 @@ const Button = ({ title, onClick }: ButtonProps) => {
   return (
     <div onClick={onClick} className={`${styles.project_operation}`}>
       <div className={styles.project_icon}>
-        <IconACreatnew />
+        <IconACreatnew size={32} />
       </div>
       <p>{title}</p>
     </div>
