@@ -1,0 +1,22 @@
+.component_modal {
+  :global(.ant-modal-close-icon > svg) {
+    fill: #b2b5be;
+  }
+  :global(.ant-modal-content) {
+    height: 680px;
+    background-color: #1e222c;
+  }
+  :global(.ant-modal-header) {
+    background-color: #1e222c;
+    border-bottom: none;
+    :global(.ant-modal-title) {
+      color: #b2b5be;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+  :global(.ant-modal-body) {
+    padding: 0;
+    background-color: #1e222c;
+  }
+}
