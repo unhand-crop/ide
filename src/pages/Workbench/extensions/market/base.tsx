@@ -3,10 +3,12 @@ import {
   IEditorTab,
   ISidebarPane,
 } from "@dtinsight/molecule/esm/model";
+
 import MarketSidebarView from "./MarketSidebarView";
-import ResultPaneView from "../result/ResultPaneView";
-import molecule from "@dtinsight/molecule";
 import React from "react";
+import { ResolutionString } from "@/components/TradingView/Chart/datafeed-api";
+import TradingView from "@/components/TradingView";
+import molecule from "@dtinsight/molecule";
 
 export const marketActivityBar: IActivityBarItem = {
   id: "sidebar.market",
@@ -29,7 +31,25 @@ export function openCreateDataSourceView(name: string) {
     id: name,
     name,
     renderPane: () => {
-      return <ResultPaneView />;
+      return (
+        <TradingView
+          options={{
+            symbol: "AAPL",
+            interval: "D" as ResolutionString,
+            datafeedUrl: "https://demo_feed.tradingview.com",
+            chartsStorageUrl: "https://saveload.tradingview.com",
+            chartsStorageApiVersion: "1.1",
+            clientId: "tradingview.com",
+            userId: "public_user_id",
+            fullscreen: true,
+            autosize: true,
+            studiesOverrides: {},
+            locale: "zh",
+            theme: "Dark",
+            height: 400,
+          }}
+        />
+      );
     },
   });
 }
