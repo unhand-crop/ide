@@ -8,14 +8,13 @@ const useSettingModel = () => {
 
   useMount(async () => {
     let settings = await window.api.store.get("settings");
-    settings = settings ?? {};
     settings = {
       colorTheme: "One Dark Pro",
       "editor.renderWhitespace": "none",
       "editor.tabSize": 4,
       "editor.fontSize": 14,
       locale: "zh-CN",
-      ...settings,
+      ...(settings ?? {}),
     };
 
     molecule.settings.onChangeSettings((settings) =>
