@@ -1,6 +1,6 @@
+import Button from "./components/Button";
 // import useEditorModel from "@/models/editor";
 import React from "react";
-import Button from "./components/Button";
 import styles from "./index.module.scss";
 
 const Launcher = () => {
@@ -19,10 +19,10 @@ const Launcher = () => {
   return (
     <div className={styles.launcher}>
       <div className={styles.project}>
-        <p className={styles.title}>Start</p>
+        <p className={styles.title}>启动</p>
         <div className={styles.project_button}>
-          <Button title="Creat New Algorithm" />
-          <Button onClick={() => openPro()} title="Open Project" />
+          <Button title="新建算法" />
+          <Button onClick={() => openPro()} title="打开算法" />
         </div>
       </div>
     </div>

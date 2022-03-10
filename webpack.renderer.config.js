@@ -47,7 +47,7 @@ module.exports = {
   module: {
     rules,
   },
-  plugins: plugins,
+  plugins,
   resolve: {
     alias: {
       "@": resolve("src"),
