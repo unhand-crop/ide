@@ -37,7 +37,7 @@ plugins.push(
 plugins.push(
   new CopyWebpackPlugin({
     patterns: [
-      { from: resolve("public"), to: resolve(".webpack/renderer/main_window") },
+      { from: resolve("public"), to: resolve(".webpack/renderer/public") },
       { from: resolve("charts"), to: resolve(".webpack/renderer") },
     ],
   })

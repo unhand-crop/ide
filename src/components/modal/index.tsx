@@ -17,7 +17,7 @@ const Modal = ({ visible, title, children, onCancel }: ModalProps) => {
       title={title}
       footer={false}
       centered={true}
-      width={840}
+      width={866}
       onCancel={() => onCancel()}
       className={styles.component_modal}
     >
