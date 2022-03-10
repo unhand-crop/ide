@@ -8,6 +8,7 @@ const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
 const renameAsync = promisify(fs.rename);
 const mkdirAsync = promisify(fs.mkdir);
+const unlinkAsync = promisify(fs.unlink);
 
 export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("open-directory", async (_) => {
@@ -38,6 +39,9 @@ export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("mkidr-file", async (_, ...args) => {
     return await mkdirAsync(args[0]);
   });
+  ipcMain.handle("unlink-file",async(_, ...args) => {
+    return await unlinkAsync(args[0]);
+  })
 };
 
 export const registerLocalInvokes = () => {
@@ -67,5 +71,8 @@ export const registerLocalInvokes = () => {
     async mkdirFile(...args: any[]) {
       return await ipcRenderer.invoke("mkidr-file", ...args);
     },
+    async unlinkFile(...agrs: any[]){
+      return await ipcRenderer.invoke('unlink-file',...agrs)
+    }
   };
 };
