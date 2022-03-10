@@ -1,6 +1,5 @@
-import { IconClose, IconSearch } from "@/components/iconfont";
-
 import AddList from "./components/AddList";
+import { IconSearch } from "@/components/iconfont";
 import { Input } from "antd";
 import List from "./components/List";
 import Modal from "@/components/modal";
@@ -460,7 +459,7 @@ export default () => {
         visible={state.coinVisible}
       >
         <div className={styles.add_commodity_code}>
-          <Input prefix={<div>占位</div>} placeholder="搜索" />
+          <Input prefix={<IconSearch color="#878b94" />} placeholder="搜索" />
           <div className={styles.commodity}>
             <div className={styles.commodity_header}>
               <p className={styles.commodity_code}>商品代码</p>
