@@ -1,31 +1,10 @@
-import { getLanguage, mapTree } from "@/utils";
-import molecule from "@dtinsight/molecule";
-import {
-  Float,
-  IFolderTreeNodeProps,
-  TreeNodeModel,
-} from "@dtinsight/molecule/esm/model";
-import { IpcRendererEvent } from "electron";
+import { Float, IFolderTreeNodeProps } from "@dtinsight/molecule/esm/model";
+
 import { FoldTreeExtension } from ".";
+import { getLanguage } from "@/utils";
+import molecule from "@dtinsight/molecule";
 
 export function handleSelectFolderTree() {
-  window.api.local.on(
-    "open-directory",
-    (_: IpcRendererEvent, dirPath: string) => {
-      const data = mapTree(
-        window.api.local.directoryTree(dirPath, {
-          attributes: ["extension"],
-        })
-      );
-    //   const repo = getCookie("repo");
-    //   const rootNode = molecule.folderTree.get(`${repo}-root`);
-    //   if (rootNode) {
-    //     molecule.folderTree.update(new TreeNodeModel({ ...data }));
-    //   } else {
-        molecule.folderTree.add(new TreeNodeModel({ ...data }));
-    //   }
-    }
-  );
   molecule.folderTree.onSelectFile(async (file: IFolderTreeNodeProps) => {
     const { panel } = molecule.layout.getState();
     if (panel.panelMaximized) {

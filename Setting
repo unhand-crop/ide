@@ -1,0 +1,7 @@
+{
+    "colorTheme": "One Dark Pro",
+    "editor.renderWhitespace": "none",
+    "editor.tabSize": 4,
+    "editor.fontSize": 16,
+    "locale": "zh-CN"
+}
