@@ -52,6 +52,7 @@ function createNode() {
           id: stitchingName,
           path: stitchingName,
           name: file.name,
+          icon: fileIcon(file.name),
           fileType: file.fileType,
           isLeaf: file.isLeaf,
           children: file.children,
@@ -61,6 +62,13 @@ function createNode() {
       }
     }
   });
+
+  molecule.folderTree.onRemove(async(id) => {
+    if(id){
+      await window.api.local.unlinkFile(id);
+      molecule.folderTree.remove(id);
+    }
+  })
 }
 
 export class InteractiveExtension implements IExtension {
