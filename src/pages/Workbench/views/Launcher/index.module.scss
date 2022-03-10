@@ -40,36 +40,41 @@
 }
 
 .algorithm_container {
-  padding: 12px;
+  padding: 13px;
   .algorithm_list {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     .algorithm_item {
-      margin: 12px;
-      width: 180px;
-      height: 240px;
-      border: 1px solid #747474;
-      border-radius: 4px;
-      box-shadow: 4px 10px 20px 0 #d1cfcf0f;
-      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 12px 0;
       &:hover {
-        transform: translateY(-5px);
         cursor: pointer;
       }
-    }
-    & > :first-child {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      .new_algorithm {
-        p {
-          font-size: 20px;
-          font-weight: 600;
-          color: #cdcacd;
+      .container {
+        margin: 0 11px;
+        width: 188px;
+        height: 216px;
+        border-radius: 4px;
+        background-color: #252527;
+        img {
+          width: 188px;
+          height: 216px;
         }
       }
+      .title {
+        margin-top: 8px;
+        font-size: 12px;
+        font-weight: 400;
+        color: #d8d8d8;
+      }
+    }
+    & > :last-child > .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
   :global(.ant-pagination) {
