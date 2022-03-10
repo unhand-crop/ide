@@ -1,8 +1,8 @@
-import molecule from "@dtinsight/molecule";
+import Button from "@/components/button";
 import { IExtension } from "@dtinsight/molecule/esm/model";
 import { IExtensionService } from "@dtinsight/molecule/esm/services";
-import { Button } from "antd";
 import React from "react";
+import molecule from "@dtinsight/molecule";
 
 function initActions() {
   const { builtInEditorInitialActions } = molecule.builtin.getModules();
@@ -11,22 +11,14 @@ function initActions() {
       id: "action.backtest",
       name: "Backtest",
       title: "回测",
-      icon: (
-        <Button className="editor-test-button" type="primary" size="small">
-          回测
-        </Button>
-      ),
+      icon: <Button title="回测" />,
       place: "outer",
     },
     {
       id: "action.results",
       name: "Results",
       title: "结果",
-      icon: (
-        <Button className="editor-test-button" type="primary" size="small">
-          结果
-        </Button>
-      ),
+      icon: <Button title="结果" />,
       place: "outer",
     },
     ...builtInEditorInitialActions,
