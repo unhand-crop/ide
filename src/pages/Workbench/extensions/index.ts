@@ -7,6 +7,7 @@ import { IExtension } from "@dtinsight/molecule/esm/model";
 import { InteractiveExtension } from "./interactive";
 import { LauncherExtension } from "./launcher";
 import { MarketExtension } from "./market";
+import { OneDarkPro } from "./oneDarkPro/index";
 import { ResultExtension } from "./result";
 import { SearchExtension } from "./search";
 import { StatusBarExtension } from "./statusbar";
@@ -23,6 +24,7 @@ const extensions: IExtension[] = [
   new EditorExtension(),
   new FoldTreeExtension(),
   new ActionExtension(),
+  OneDarkPro,
 ];
 
 export default extensions;
