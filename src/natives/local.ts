@@ -39,20 +39,14 @@ export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("mkidr-file", async (_, ...args) => {
     return await mkdirAsync(args[0]);
   });
-  ipcMain.handle("unlink-file",async(_, ...args) => {
+  ipcMain.handle("unlink-file", async (_, ...args) => {
     return await unlinkAsync(args[0]);
-  })
+  });
 };
 
 export const registerLocalInvokes = () => {
   return {
     directoryTree,
-    on(
-      channel: string,
-      listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void
-    ) {
-      ipcRenderer.on(channel, listener);
-    },
     async openDirectory() {
       return await ipcRenderer.invoke("open-directory");
     },
@@ -71,8 +65,8 @@ export const registerLocalInvokes = () => {
     async mkdirFile(...args: any[]) {
       return await ipcRenderer.invoke("mkidr-file", ...args);
     },
-    async unlinkFile(...agrs: any[]){
-      return await ipcRenderer.invoke('unlink-file',...agrs)
-    }
+    async unlinkFile(...agrs: any[]) {
+      return await ipcRenderer.invoke("unlink-file", ...agrs);
+    },
   };
 };

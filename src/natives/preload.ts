@@ -1,10 +1,21 @@
 import { contextBridge, ipcRenderer } from "electron";
 
+import { registerLocalInvokes } from "./local";
+import { registerPathInvokes } from "./path";
 import { registerStoreInvokes } from "./store";
-import { registerLocalInvokes } from './local';
+import { registerWatchInvokes } from "./watch";
 
 contextBridge.exposeInMainWorld("api", {
-  ipc: ipcRenderer,
+  ipc: {
+    on(
+      channel: string,
+      listener: (event: Electron.IpcRendererEvent, ...args: any[]) => void
+    ) {
+      ipcRenderer.on(channel, listener);
+    },
+  },
   store: registerStoreInvokes(),
   local: registerLocalInvokes(),
+  watch: registerWatchInvokes(),
+  path: registerPathInvokes(),
 });

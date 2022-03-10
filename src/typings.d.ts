@@ -7,5 +7,7 @@ declare interface Window {
     local: any;
     engine: any;
     store: any;
+    watch: any;
+    path: any;
   };
 }

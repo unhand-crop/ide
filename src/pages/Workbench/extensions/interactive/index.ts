@@ -1,7 +1,7 @@
 import { IExtension } from "@dtinsight/molecule/esm/model";
 import { IExtensionService } from "@dtinsight/molecule/esm/services";
 import { TreeViewUtil } from "@dtinsight/molecule/esm/common/treeUtil";
-import { fileIcon } from "@/utils";
+import { getFileIcon } from "@/utils";
 // import { getLanguageByExt, getFileExt, convertToTreeModel } from '@/utils';
 import molecule from "@dtinsight/molecule";
 
@@ -23,14 +23,14 @@ function createNode() {
   });
 
   molecule.folderTree.onUpdateFileName(async (file) => {
-    if(file.name){
+    if (file.name) {
       if (file.id === "input") {
         const catalog = `${file.path}/${file.name}`;
         const data = {
           id: catalog,
           path: catalog,
           name: file.name,
-          icon: fileIcon(file.name),
+          icon: getFileIcon(file.name),
           fileType: file.fileType,
           isLeaf: file.isLeaf,
         };
@@ -52,7 +52,7 @@ function createNode() {
           id: stitchingName,
           path: stitchingName,
           name: file.name,
-          icon: fileIcon(file.name),
+          icon: getFileIcon(file.name),
           fileType: file.fileType,
           isLeaf: file.isLeaf,
           children: file.children,
@@ -63,12 +63,12 @@ function createNode() {
     }
   });
 
-  molecule.folderTree.onRemove(async(id) => {
-    if(id){
+  molecule.folderTree.onRemove(async (id) => {
+    if (id) {
       await window.api.local.unlinkFile(id);
       molecule.folderTree.remove(id);
     }
-  })
+  });
 }
 
 export class InteractiveExtension implements IExtension {

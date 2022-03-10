@@ -32,7 +32,7 @@ export const getLanguage = (extension: string) => {
   }
 };
 
-export const fileIcon = (name: string) => {
+export const getFileIcon = (name: string) => {
   return <Icon {...getIconByName(name)} />;
 };
 
@@ -59,6 +59,6 @@ export const mapTree = (node: TreeNode, level: number = 0) => {
   node.id = node.path;
   node.path = node.path;
   node.name = node.name;
-  node.icon = fileIcon(node.name);
+  node.icon = getFileIcon(node.name);
   return node;
 };

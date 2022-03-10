@@ -1,5 +1,5 @@
 import { Float, IFolderTreeNodeProps } from "@dtinsight/molecule/esm/model";
-import { fileIcon, getLanguage } from "@/utils";
+import { getFileIcon, getLanguage } from "@/utils";
 
 import { FoldTreeExtension } from ".";
 import molecule from "@dtinsight/molecule";
@@ -13,7 +13,7 @@ export function handleSelectFolderTree() {
     molecule.editor.open({
       id: file.id,
       name: file.name,
-      icon: fileIcon(file.name),
+      icon: getFileIcon(file.name),
       data: {
         value: await window.api.local.readFile(file.path),
       },

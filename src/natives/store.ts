@@ -5,10 +5,10 @@ import Store from "electron-store";
 const store = new Store();
 
 export const registerStoreHandlers = async (mainWindow: BrowserWindow) => {
-  ipcMain.handle("store.get", (event, key) => {
+  ipcMain.handle("store.get", (_, key) => {
     return store.get(key);
   });
-  ipcMain.handle("store.set", (event, key, data) => {
+  ipcMain.handle("store.set", (_, key, data) => {
     store.set(key, data);
   });
 };
