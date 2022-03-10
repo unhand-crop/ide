@@ -1,11 +1,13 @@
+import { IconClose, IconSearch } from "@/components/iconfont";
+
+import AddList from "./components/AddList";
+import { Input } from "antd";
+import List from "./components/List";
+import Modal from "@/components/modal";
 import React from "react";
-import { Modal, Input } from "antd";
+import { openCreateDataSourceView } from "./base";
 import styles from "./index.module.scss";
 import { useReactive } from "ahooks";
-import { openCreateDataSourceView } from "./base";
-import List from "./components/List";
-import AddList from "./components/AddList";
-import { IconClose, IconSearch } from "@/components/iconfont";
 
 export default () => {
   const state = useReactive({
@@ -456,23 +458,21 @@ export default () => {
         onCancel={() => (state.coinVisible = false)}
         title="添加商品代码"
         visible={state.coinVisible}
-        footer={false}
-        centered={true}
-        width={840}
-        className={styles.add_commodity_code}
       >
-        <Input prefix={<div>占位</div>} placeholder="搜索" />
-        <div className={styles.commodity}>
-          <div className={styles.commodity_header}>
-            <p className={styles.commodity_code}>商品代码</p>
-            <p className={styles.explain}>说明</p>
-          </div>
-          <div className={styles.commodity_content}>
-            <ul className={styles.list}>
-              {state.commodityList.map((item, index) => (
-                <AddList index={index} item={item} />
-              ))}
-            </ul>
+        <div className={styles.add_commodity_code}>
+          <Input prefix={<div>占位</div>} placeholder="搜索" />
+          <div className={styles.commodity}>
+            <div className={styles.commodity_header}>
+              <p className={styles.commodity_code}>商品代码</p>
+              <p className={styles.explain}>说明</p>
+            </div>
+            <div className={styles.commodity_content}>
+              <ul className={styles.list}>
+                {state.commodityList.map((item, index) => (
+                  <AddList index={index} item={item} />
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </Modal>
