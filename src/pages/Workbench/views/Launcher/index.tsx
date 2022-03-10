@@ -1,5 +1,10 @@
+import {
+  IconACreatnew,
+  IconAOpenproject,
+  IconAdd,
+} from "@/components/iconfont";
+
 import Button from "./components/Button";
-import { IconAdd } from "@/components/iconfont";
 import Modal from "@/components/modal";
 import { Pagination } from "antd";
 import React from "react";
@@ -19,8 +24,16 @@ const Launcher = () => {
     <div className={styles.launcher}>
       <div className={styles.project}>
         <div className={styles.project_button}>
-          <Button title="新建算法" onClick={() => (state.visible = true)} />
-          <Button onClick={() => openPro()} title="打开算法" />
+          <Button
+            icon={<IconACreatnew size={32} />}
+            title="新建算法"
+            onClick={() => (state.visible = true)}
+          />
+          <Button
+            icon={<IconAOpenproject size={32} />}
+            onClick={() => openPro()}
+            title="打开算法"
+          />
         </div>
       </div>
       <Modal
