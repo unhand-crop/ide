@@ -11,6 +11,7 @@ import {
   mdiLanguageHtml5,
   mdiLanguageJavascript,
   mdiLanguageMarkdown,
+  mdiLanguagePython,
   mdiLanguageTypescript,
   mdiReact,
 } from "@mdi/js";
@@ -62,6 +63,9 @@ export function getIconByName(fileName: string) {
   }
   if (fileName.includes("eslint")) {
     return { type: mdiEslint, color: "rgb(48,58,166)" };
+  }
+  if (fileName.endsWith(".py")) {
+    return { type: mdiLanguagePython, color: "rgb(30 122 174)" };
   }
   return { type: mdiFileOutline, color: "rgb(0 159 238)" };
 }
