@@ -1,4 +1,4 @@
-import { BrowserWindow, app } from "electron";
+import { BrowserWindow, app, nativeTheme } from "electron";
 
 import { loadApi } from "./natives/api";
 
@@ -30,6 +30,7 @@ const createWindow = (): void => {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
+  nativeTheme.themeSource = "dark";
 
   mainWindow.on("ready-to-show", () => {
     mainWindow.show();

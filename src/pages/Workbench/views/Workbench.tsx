@@ -30,6 +30,7 @@ import { container } from "tsyringe";
 // import useSettingModel from "@/models/setting";
 import molecule from "@dtinsight/molecule";
 import useEditorModel from "@/models/editor";
+import useSettingModel from "@/models/setting";
 
 const mainBenchClassName = prefixClaName("mainBench");
 const workbenchClassName = prefixClaName("workbench");
@@ -53,6 +54,8 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
   } = props;
 
   const { model } = useEditorModel();
+  useSettingModel();
+
   // const { loadSettings } = useSettingModel();
 
   // useEffect(() => {

@@ -1,13 +1,23 @@
 import { useMount, useReactive } from "ahooks";
 
 import { createModel } from "hox";
+import molecule from "@dtinsight/molecule";
 
 const useSettingModel = () => {
   const model = useReactive({});
 
   useMount(async () => {
-    console.log("-->!", await window.api.store.set("settings", "test"));
-    console.log("-->", await window.api.store.get("settings"));
+    let settings = await window.api.store.get("settings");
+    if (!settings) {
+      settings = molecule.settings.getSettings();
+      await window.api.store.set("settings", JSON.stringify(settings));
+    } else {
+      molecule.settings.applySettings(JSON.parse(settings));
+    }
+
+    molecule.settings.onChangeSettings((settings) =>
+      window.api.store.set("settings", JSON.stringify(settings))
+    );
   });
 
   return {
