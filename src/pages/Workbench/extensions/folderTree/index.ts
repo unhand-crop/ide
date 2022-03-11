@@ -36,7 +36,7 @@ export function bindingEvents() {
       name: file.name,
       icon: getFileIcon(file.name),
       data: {
-        value: await window.api.local.readFile(file.path),
+        value: await window.api.fs.readFile(file.path),
       },
     });
     updateStatusBarLanguage(getLanguage(file.extension));

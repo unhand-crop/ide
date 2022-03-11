@@ -29,7 +29,7 @@ export class KeybindingAction extends Action2 {
         current!.activeTab!,
         current!.id
       )!;
-      await window.api.local.writeFile(tab.id, tab.data.value);
+      await window.api.fs.writeFile(tab.id, tab.data.value);
     }
   }
 }

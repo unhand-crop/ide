@@ -20,9 +20,6 @@ export function loadFolderTree(path: string) {
     })
   );
   molecule.folderTree.add(new TreeNodeModel({ ...data }));
-
-  const state = molecule.explorer.getState();
-  console.log(state);
 }
 
 async function syncFileContent(path: UniqueId, position?: Position) {

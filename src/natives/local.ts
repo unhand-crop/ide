@@ -1,14 +1,6 @@
 import { BrowserWindow, dialog, ipcMain, ipcRenderer } from "electron";
 
 import directoryTree from "directory-tree";
-import fs from "fs";
-import { promisify } from "util";
-
-const readFileAsync = promisify(fs.readFile);
-const writeFileAsync = promisify(fs.writeFile);
-const renameAsync = promisify(fs.rename);
-const mkdirAsync = promisify(fs.mkdir);
-const unlinkAsync = promisify(fs.unlink);
 
 export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("open-directory", async (_) => {
@@ -27,21 +19,6 @@ export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
       mainWindow.webContents.send("open-directory", path);
     }
   });
-  ipcMain.handle("read-file", async (_, ...args) => {
-    return await readFileAsync(args[0], { encoding: "utf-8" });
-  });
-  ipcMain.handle("write-file", async (_, ...args) => {
-    return await writeFileAsync(args[0], args[1], { encoding: "utf-8" });
-  });
-  ipcMain.handle("rename-file", async (_, ...args) => {
-    return await renameAsync(args[0], args[1]);
-  });
-  ipcMain.handle("mkidr-file", async (_, ...args) => {
-    return await mkdirAsync(args[0]);
-  });
-  ipcMain.handle("unlink-file", async (_, ...args) => {
-    return await unlinkAsync(args[0]);
-  });
 };
 
 export const registerLocalInvokes = () => {
@@ -52,21 +29,6 @@ export const registerLocalInvokes = () => {
     },
     async openPath(...args: any[]) {
       return await ipcRenderer.invoke("open-path", ...args);
-    },
-    async readFile(...args: any[]) {
-      return await ipcRenderer.invoke("read-file", ...args);
-    },
-    async writeFile(...args: any[]) {
-      return await ipcRenderer.invoke("write-file", ...args);
-    },
-    async renameFile(...args: any[]) {
-      return await ipcRenderer.invoke("rename-file", ...args);
-    },
-    async mkdirFile(...args: any[]) {
-      return await ipcRenderer.invoke("mkidr-file", ...args);
-    },
-    async unlinkFile(...agrs: any[]) {
-      return await ipcRenderer.invoke("unlink-file", ...agrs);
     },
   };
 };
