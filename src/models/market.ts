@@ -1,6 +1,6 @@
 import * as signalR from "@microsoft/signalr";
 
-import { GetSymbolsOutput, getDefaultList } from "@/services/default-list";
+import { GetSymbolsOutput, getDefaultList } from "@/services/symbol";
 import { useMount, useReactive } from "ahooks";
 
 import configs from "@/configs";
