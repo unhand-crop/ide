@@ -10,6 +10,18 @@ import { UniqueId } from "@dtinsight/molecule/esm/common/types";
 import { createModel } from "hox";
 import molecule from "@dtinsight/molecule";
 
+export function loadFolderTree(path: string) {
+  molecule.folderTree.reset();
+  window.api.watch.change(path);
+  const data = mapTree(
+    window.api.local.directoryTree(path, {
+      attributes: ["extension"],
+      exclude: [/.DS_Store/],
+    })
+  );
+  molecule.folderTree.add(new TreeNodeModel({ ...data }));
+}
+
 async function syncFileContent(path: UniqueId, position?: Position) {
   if (!molecule.editor.editorInstance) return;
   position = position ?? molecule.editor.editorInstance.getPosition();
@@ -58,7 +70,7 @@ function useEditorModel() {
               path,
               name: fileName,
               icon: getFileIcon(fileName),
-              isLeaf: false,
+              isLeaf: !isDir,
               fileType: isDir ? "Folder" : "File",
               children: isDir ? [] : null,
             },
@@ -107,17 +119,13 @@ function useEditorModel() {
 
   useEffect(() => {
     if (model.dirPath) {
-      molecule.folderTree.reset();
+      loadFolderTree(model.dirPath);
 
-      window.api.watch.change(model.dirPath);
-
-      const data = mapTree(
-        window.api.local.directoryTree(model.dirPath, {
-          attributes: ["extension"],
-          exclude: [/.DS_Store/],
-        })
-      );
-      molecule.folderTree.add(new TreeNodeModel({ ...data }));
+      molecule.explorer.onPanelToolbarClick((panel, toolbarId) => {
+        if (toolbarId === "refresh") {
+          loadFolderTree(model.dirPath);
+        }
+      });
     }
   }, [model.dirPath]);
 

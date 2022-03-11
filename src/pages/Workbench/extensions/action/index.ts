@@ -3,8 +3,8 @@ import { IExtensionService } from "@dtinsight/molecule/esm/services";
 import { KeybindingAction } from "./keybindingAction";
 
 export class ActionExtension implements IExtension {
-  id: string = "actionExtension";
-  name: string = "Action Extension";
+  id: string = ActionExtension.name;
+  name: string = ActionExtension.name;
 
   activate(extensionCtx: IExtensionService): void {
     extensionCtx.registerAction(KeybindingAction);
