@@ -23,13 +23,13 @@ export class KeybindingAction extends Action2 {
   }
 
   async run(accessor: any, ...args: any[]) {
-		const { current } = molecule.editor.getState();
-		if(current){
-			const tab = molecule.editor.getTabById<any>(
-				current!.activeTab!,
-				current!.id,
-			)!;
-			await window.api.local.writeFile(tab.id,tab.data.value);
-		}
+    const { current } = molecule.editor.getState();
+    if (current) {
+      const tab = molecule.editor.getTabById<any>(
+        current!.activeTab!,
+        current!.id
+      )!;
+      await window.api.local.writeFile(tab.id, tab.data.value);
     }
+  }
 }

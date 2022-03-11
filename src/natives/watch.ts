@@ -8,7 +8,12 @@ export const registerWatchHandlers = async (mainWindow: BrowserWindow) => {
     if (watcher) {
       await watcher.close();
     }
-    watcher = watch(path);
+    watcher = watch(path, {
+      ignored: (p) => {
+        if (p.endsWith(".DS_Store")) return true;
+        return false;
+      },
+    });
     watcher.on("all", (eventName, path, stats) => {
       mainWindow.webContents.send("watch-directory", eventName, path, stats);
     });

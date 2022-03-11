@@ -9,5 +9,6 @@ declare interface Window {
     store: any;
     watch: any;
     path: any;
+    fs: any;
   };
 }

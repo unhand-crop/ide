@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer } from "electron";
 
+import { registerFsInvokes } from "./fs";
 import { registerLocalInvokes } from "./local";
 import { registerPathInvokes } from "./path";
 import { registerStoreInvokes } from "./store";
@@ -18,4 +19,5 @@ contextBridge.exposeInMainWorld("api", {
   local: registerLocalInvokes(),
   watch: registerWatchInvokes(),
   path: registerPathInvokes(),
+  fs: registerFsInvokes(),
 });

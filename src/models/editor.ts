@@ -5,8 +5,18 @@ import { useMount, useReactive } from "ahooks";
 import { IpcRendererEvent } from "electron";
 import { Stats } from "original-fs";
 import { TreeNodeModel } from "@dtinsight/molecule/esm/model";
+import { UniqueId } from "@dtinsight/molecule/esm/common/types";
 import { createModel } from "hox";
 import molecule from "@dtinsight/molecule";
+
+async function syncFileContent(path: UniqueId) {
+  if (!molecule.editor.editorInstance) return;
+  const position = molecule.editor.editorInstance.getPosition();
+  const file = await window.api.fs.readFile(path);
+
+  molecule.editor.editorInstance.setValue(file);
+  molecule.editor.editorInstance.setPosition(position);
+}
 
 function useEditorModel() {
   const model = useReactive<{ dirPath: string | null }>({
@@ -49,24 +59,39 @@ function useEditorModel() {
           );
         }
         if (eventName === "change") {
-          const node = molecule.folderTree.get(path);
-          // TODO: 同步已打开的文件内容
+          const state = molecule.editor.getState();
+          if (state.current?.activeTab !== path) return;
+
+          const position = molecule.editor.editorInstance.getPosition();
+          const file = await window.api.fs.readFile(path);
+
+          molecule.editor.editorInstance.setValue(file);
+          molecule.editor.editorInstance.setPosition(position);
         }
         if (eventName === "unlink" || eventName === "unlinkDir") {
           molecule.folderTree.remove(path);
         }
       }
     );
+
+    molecule.editor.onOpenTab(async (tab) => {
+      await syncFileContent(tab.id);
+    });
+    molecule.editor.onSelectTab(async (tabId, groupId) => {
+      await syncFileContent(tabId);
+    });
   });
 
   useEffect(() => {
     if (model.dirPath) {
       molecule.folderTree.reset();
+
       window.api.watch.change(model.dirPath);
 
       const data = mapTree(
         window.api.local.directoryTree(model.dirPath, {
           attributes: ["extension"],
+          exclude: [/.DS_Store/],
         })
       );
       molecule.folderTree.add(new TreeNodeModel({ ...data }));
