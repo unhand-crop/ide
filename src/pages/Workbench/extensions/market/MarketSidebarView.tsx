@@ -31,7 +31,7 @@ export default () => {
   useMount(async () => {
     const data: getPageInput = {
       pageIndex: 1,
-      pageSize: 100,
+      pageSize: 12,
       order: [],
       securityType: 1,
       name: "",
@@ -56,7 +56,7 @@ export default () => {
       <div className={styles.table}>
         <div className={styles.table_column}>
           <span className={styles.column_header}>
-            <span className={styles.label}>商品代码</span>
+            <span className={styles.label}>货币</span>
           </span>
           <span
             className={`${styles.last_column_header} ${styles.column_header}`}
@@ -78,6 +78,7 @@ export default () => {
           {model.defaultList.map((item: GetSymbolsOutput, index: number) => (
             <List
               index={index}
+              key={index}
               item={item}
               selectIndex={state.selectIndex}
               onClick={() => handleSelect(index, item.enName)}
@@ -87,21 +88,21 @@ export default () => {
       </div>
       <Modal
         onCancel={() => (state.coinVisible = false)}
-        title="添加商品代码"
+        title="添加货币"
         visible={state.coinVisible}
       >
         <div className={styles.add_commodity_code}>
           <Input prefix={<IconSearch color="#fff" />} placeholder="搜索" />
           <div className={styles.commodity}>
             <div className={styles.commodity_header}>
-              <p className={styles.commodity_code}>商品代码</p>
+              <p className={styles.commodity_code}>货币</p>
               <p className={styles.explain}>说明</p>
             </div>
             <div className={styles.commodity_content}>
               <ul className={styles.list}>
                 {state.commodityList.map(
                   (item: GetSymbolsOutput, index: number) => (
-                    <AddList index={index} item={item} />
+                    <AddList index={index} key={index} item={item} />
                   )
                 )}
               </ul>
