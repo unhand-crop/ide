@@ -1,15 +1,18 @@
 import { IconAdd, IconSearch } from "@/components/iconfont";
 
 import AddList from "./components/AddList";
+import { GetSymbolsOutput } from "@/services/default-list";
 import { Input } from "antd";
 import List from "./components/List";
 import Modal from "@/components/modal";
 import React from "react";
 import { openCreateDataSourceView } from "./base";
 import styles from "./index.module.scss";
+import useMarketModel from "@/models/market";
 import { useReactive } from "ahooks";
 
 export default () => {
+  const { model } = useMarketModel();
   const state = useReactive({
     coinList: [
       {
@@ -126,12 +129,12 @@ export default () => {
           </span>
         </div>
         <div className={styles.table_content}>
-          {state.coinList.map((item, index) => (
+          {model.defaultList.map((item: GetSymbolsOutput, index: number) => (
             <List
               index={index}
               item={item}
               selectIndex={state.selectIndex}
-              onClick={() => handleSelect(index, item.name)}
+              onClick={() => handleSelect(index, item.enName)}
             />
           ))}
         </div>

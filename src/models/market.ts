@@ -1,17 +1,28 @@
 import * as signalR from "@microsoft/signalr";
 
+import { GetSymbolsOutput, getDefaultList } from "@/services/default-list";
+import { useMount, useReactive } from "ahooks";
+
 import configs from "@/configs";
 import { createModel } from "hox";
 import { useEffect } from "react";
-import { useReactive } from "ahooks";
 
 function useMarketModel() {
   const model = useReactive<{
     symbols: string[];
     prices: Record<string, any>;
+    defaultList: any;
   }>({
     symbols: ["BTCUSDT"],
     prices: {},
+    defaultList:[],
+  });
+
+  useMount(async() => {
+    const result = await getDefaultList();
+    if(result.statusCode === 200){
+      model.defaultList = result.data;
+    }
   });
 
   useEffect(() => {
