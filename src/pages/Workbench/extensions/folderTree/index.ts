@@ -26,27 +26,6 @@ export function updateStatusBarLanguage(language: string) {
 }
 
 export function bindingEvents() {
-  molecule.folderTree.onRightClick((file) => {
-    if (file.fileType === "File") {
-      molecule.folderTree.setFileContextMenu([
-        { id: "rename", name: "重命名" },
-        {
-          id: "unlink-file",
-          name: "删除",
-        },
-      ]);
-    } else if (file.fileType === "Folder") {
-      molecule.folderTree.setFolderContextMenu([
-        { id: "new-file", name: "新建文件" },
-        { id: "new-folder", name: "新建文件夹" },
-        { id: "rename", name: "重命名" },
-        {
-          id: "mkdir-folder",
-          name: "删除",
-        },
-      ]);
-    }
-  });
   molecule.folderTree.onSelectFile(async (file: IFolderTreeNodeProps) => {
     const { panel } = molecule.layout.getState();
     if (panel.panelMaximized) {
@@ -77,13 +56,12 @@ export function bindingEvents() {
       );
     }
   });
-  molecule.folderTree.onRemove((id) => {});
-
-  // const state = molecule.editor.getState();
-  // state.groups.forEach((item) => {
-  //   molecule.editor.closeTab(file.id, item.id);
-  // });
-  // molecule.folderTree.remove(file.id);
+  molecule.folderTree.onRename((id) => {
+    console.log(id);
+  });
+  molecule.folderTree.onRemove(async (id) => {
+    await window.api.fs.unlink(id);
+  });
 }
 
 export class FoldTreeExtension implements IExtension {
@@ -91,8 +69,22 @@ export class FoldTreeExtension implements IExtension {
   name: string = FoldTreeExtension.name;
 
   activate(extensionCtx: IExtensionService): void {
-    // molecule.folderTree.setFileContextMenu([]);
-    // molecule.folderTree.setFolderContextMenu([]);
+    molecule.folderTree.setFileContextMenu([
+      { id: "explorer.rename", name: "重命名" },
+      {
+        id: "explorer.delete",
+        name: "删除",
+      },
+    ]);
+    molecule.folderTree.setFolderContextMenu([
+      { id: "explorer.newFile", name: "新建文件" },
+      { id: "explorer.newFolder", name: "新建文件夹" },
+      { id: "explorer.rename", name: "重命名" },
+      {
+        id: "explorer.delete",
+        name: "删除",
+      },
+    ]);
     bindingEvents();
   }
 

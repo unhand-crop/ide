@@ -4,7 +4,7 @@ import { useMount, useReactive } from "ahooks";
 
 import { IpcRendererEvent } from "electron";
 import { Position } from "@dtinsight/molecule/esm/monaco";
-import { Stats } from "original-fs";
+import { Stats } from "fs";
 import { TreeNodeModel } from "@dtinsight/molecule/esm/model";
 import { UniqueId } from "@dtinsight/molecule/esm/common/types";
 import { createModel } from "hox";
@@ -20,6 +20,9 @@ export function loadFolderTree(path: string) {
     })
   );
   molecule.folderTree.add(new TreeNodeModel({ ...data }));
+
+  const state = molecule.explorer.getState();
+  console.log(state);
 }
 
 async function syncFileContent(path: UniqueId, position?: Position) {
@@ -42,7 +45,7 @@ function useEditorModel() {
     positions: {},
   });
 
-  useMount(() => {
+  useMount(async () => {
     window.api.ipc.on(
       "open-directory",
       (_: IpcRendererEvent, dirPath: string) => {
@@ -109,17 +112,17 @@ function useEditorModel() {
     molecule.editor.onCloseTab(async (tabId) => {
       model.positions[tabId] = null;
     });
+    const dirPath = await window.api.store.get("dir-path");
+    if (dirPath) {
+      model.dirPath = dirPath;
+    }
   });
-
-  // useEffect(() => {
-  //   if (model.currentTabId) {
-  //     molecule.editor.editorInstance.onDidChangeCursorPosition((e) => {});
-  //   }
-  // }, [model.currentTabId]);
 
   useEffect(() => {
     if (model.dirPath) {
       loadFolderTree(model.dirPath);
+
+      window.api.store.set("dir-path", model.dirPath);
 
       molecule.explorer.onPanelToolbarClick((panel, toolbarId) => {
         if (toolbarId === "refresh") {
