@@ -49,7 +49,7 @@ export default () => {
         <p>列表</p>
         <IconAdd
           onClick={() => (state.coinVisible = true)}
-          size={24}
+          size={18}
           color="#b2b5be"
         />
       </div>
@@ -63,11 +63,11 @@ export default () => {
           >
             <span className={styles.label}>最新价</span>
           </span>
-          <span
+          {/* <span
             className={`${styles.last_column_header} ${styles.column_header}`}
           >
             <span className={styles.label}>涨跌</span>
-          </span>
+          </span> */}
           <span
             className={`${styles.last_column_header} ${styles.column_header}`}
           >
