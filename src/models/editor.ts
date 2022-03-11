@@ -3,15 +3,16 @@ import { useCallback, useEffect } from "react";
 import { useMount, useReactive } from "ahooks";
 
 import { IpcRendererEvent } from "electron";
+import { Position } from "@dtinsight/molecule/esm/monaco";
 import { Stats } from "original-fs";
 import { TreeNodeModel } from "@dtinsight/molecule/esm/model";
 import { UniqueId } from "@dtinsight/molecule/esm/common/types";
 import { createModel } from "hox";
 import molecule from "@dtinsight/molecule";
 
-async function syncFileContent(path: UniqueId) {
+async function syncFileContent(path: UniqueId, position?: Position) {
   if (!molecule.editor.editorInstance) return;
-  const position = molecule.editor.editorInstance.getPosition();
+  position = position ?? molecule.editor.editorInstance.getPosition();
   const file = await window.api.fs.readFile(path);
 
   molecule.editor.editorInstance.setValue(file);
@@ -19,8 +20,14 @@ async function syncFileContent(path: UniqueId) {
 }
 
 function useEditorModel() {
-  const model = useReactive<{ dirPath: string | null }>({
+  const model = useReactive<{
+    currentTabId: UniqueId;
+    dirPath: string | null;
+    positions: Record<UniqueId, Position>;
+  }>({
+    currentTabId: null,
     dirPath: null,
+    positions: {},
   });
 
   useMount(() => {
@@ -62,25 +69,37 @@ function useEditorModel() {
           const state = molecule.editor.getState();
           if (state.current?.activeTab !== path) return;
 
-          const position = molecule.editor.editorInstance.getPosition();
-          const file = await window.api.fs.readFile(path);
-
-          molecule.editor.editorInstance.setValue(file);
-          molecule.editor.editorInstance.setPosition(position);
+          await syncFileContent(path);
         }
         if (eventName === "unlink" || eventName === "unlinkDir") {
           molecule.folderTree.remove(path);
         }
       }
     );
-
-    molecule.editor.onOpenTab(async (tab) => {
-      await syncFileContent(tab.id);
-    });
-    molecule.editor.onSelectTab(async (tabId, groupId) => {
-      await syncFileContent(tabId);
-    });
+    // molecule.editor.onOpenTab(async (tab) => {
+    //   model.currentTabId = tab.id;
+    //   await syncFileContent(
+    //     tab.id,
+    //     model.positions[tab.id] ?? new Position(0, 0)
+    //   );
+    // });
+    // molecule.editor.onSelectTab(async (tabId) => {
+    //   model.currentTabId = tabId;
+    //   await syncFileContent(
+    //     tabId,
+    //     model.positions[tabId] ?? new Position(0, 0)
+    //   );
+    // });
+    // molecule.editor.onCloseTab(async (tabId) => {
+    //   model.positions[tabId] = null;
+    // });
   });
+
+  useEffect(() => {
+    // if (model.currentTabId) {
+    //   molecule.editor.editorInstance.onDidChangeCursorPosition((e) => {});
+    // }
+  }, [model.currentTabId]);
 
   useEffect(() => {
     if (model.dirPath) {
