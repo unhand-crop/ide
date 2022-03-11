@@ -22,7 +22,9 @@ function useMarketModel() {
     const result = await getDefaultList();
     if (result.statusCode === 200) {
       model.defaultList = result.data;
-      model.symbols = result.data.map((item) => item.symbol + "usdt").join(",");
+      model.symbols = result.data
+        ?.map((item) => item.symbol + "usdt")
+        .join(",");
     }
   });
 
