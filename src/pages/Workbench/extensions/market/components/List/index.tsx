@@ -1,4 +1,4 @@
-import { GetSymbolsOutput } from "@/services/default-list";
+import { GetSymbolsOutput } from "@/services/symbol";
 import { IconClose } from "@/components/iconfont";
 import React from "react";
 import styles from "./index.module.scss";
@@ -22,7 +22,7 @@ const List = ({ item, index, onClick, selectIndex }: ListProps) => {
     >
       <span className={styles.column_header}>
         <span className={styles.coin_logo_container}>
-          {/* <img className={styles.logo} src={item.img} /> */}
+          <img className={styles.logo} src={item.imagePath} />
         </span>
         <span className={styles.coin_name}>{item.enName}</span>
       </span>

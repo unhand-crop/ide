@@ -1,7 +1,8 @@
+import { GetSymbolsOutput, getPage, getPageInput } from "@/services/symbol";
 import { IconAdd, IconSearch } from "@/components/iconfont";
+import { useMount, useReactive } from "ahooks";
 
 import AddList from "./components/AddList";
-import { GetSymbolsOutput } from "@/services/default-list";
 import { Input } from "antd";
 import List from "./components/List";
 import Modal from "@/components/modal";
@@ -9,85 +10,15 @@ import React from "react";
 import { openCreateDataSourceView } from "./base";
 import styles from "./index.module.scss";
 import useMarketModel from "@/models/market";
-import { useReactive } from "ahooks";
 
 export default () => {
   const { model } = useMarketModel();
-  const state = useReactive({
-    coinList: [
-      {
-        img: "https://static.coinall.ltd/cdn/wallet/logo/usdt.png?x-oss-process=image/format,webp",
-        name: "USDT",
-        latestPrice: { front: 32, after: 22.1 },
-        riseAndFall: 20,
-        percentageUpAndDown: 19,
-      },
-      {
-        img: "https://static.coinall.ltd/cdn/wallet/logo/USDC.png?x-oss-process=image/format,webp",
-        name: "USDC",
-        latestPrice: { front: 41, after: 21.1 },
-        riseAndFall: 9,
-        percentageUpAndDown: 19,
-      },
-      {
-        img: "https://static.coinall.ltd/cdn/wallet/logo/ETH.png?x-oss-process=image/format,webp",
-        name: "ETH",
-        latestPrice: { front: 41, after: 21.1 },
-        riseAndFall: 10,
-        percentageUpAndDown: 20,
-      },
-    ],
-    commodityList: [
-      {
-        name: "BTCUSDT",
-        symbol_description: "Bitcoin / TetherUS",
-        market_type: "crypto",
-        exchange_name: "BINANCE",
-        img: "https://s3-symbol-logo.tradingview.com/provider/binance.svg",
-      },
-      {
-        name: "BTCUSD",
-        symbol_description: "Bitcoin / U.S. dollar",
-        market_type: "crypto",
-        exchange_name: "BITSTAMP",
-        img: "https://s3-symbol-logo.tradingview.com/provider/bitstamp.svg",
-      },
-      {
-        name: "NIFTY",
-        symbol_description: "NIFTY 50",
-        market_type: "指数 ",
-        exchange_name: "NSE",
-        img: "https://s3-symbol-logo.tradingview.com/country/IN.svg",
-      },
-      {
-        name: "BANKNIFTY",
-        symbol_description: "NIFTY BANK",
-        market_type: "指数 ",
-        exchange_name: "NSE",
-        img: "https://s3-symbol-logo.tradingview.com/country/IN.svg",
-      },
-      {
-        name: "BTCUSD",
-        symbol_description: "BTC/USD",
-        market_type: "crypto",
-        exchange_name: "COINBASE",
-        img: "https://s3-symbol-logo.tradingview.com/provider/coinbase.svg",
-      },
-      {
-        name: "XAUUSD",
-        symbol_description: "GOLD",
-        market_type: "差价合约",
-        exchange_name: "ONADA",
-        img: "https://s3-symbol-logo.tradingview.com/provider/fxcm.svg",
-      },
-      {
-        name: "EURUSD",
-        symbol_description: "Euro Fx/U.S. Dollar",
-        market_type: "外汇",
-        exchange_name: "FXCM",
-        img: "https://s3-symbol-logo.tradingview.com/provider/fxcm.svg",
-      },
-    ],
+  const state = useReactive<{
+    commodityList: any;
+    selectIndex: number;
+    coinVisible: boolean;
+  }>({
+    commodityList: [],
     selectIndex: -1,
     coinVisible: false,
   });
@@ -96,6 +27,21 @@ export default () => {
     state.selectIndex = index;
     openCreateDataSourceView(name);
   };
+
+  useMount(async () => {
+    const data: getPageInput = {
+      pageIndex: 1,
+      pageSize: 100,
+      order: [],
+      securityType: 1,
+      name: "",
+      symbol: "",
+    };
+    const result = await getPage({ ...data });
+    if (result.statusCode === 200) {
+      state.commodityList = result.data?.items;
+    }
+  });
 
   return (
     <div className={styles.coin_container}>
@@ -153,9 +99,11 @@ export default () => {
             </div>
             <div className={styles.commodity_content}>
               <ul className={styles.list}>
-                {state.commodityList.map((item, index) => (
-                  <AddList index={index} item={item} />
-                ))}
+                {state.commodityList.map(
+                  (item: GetSymbolsOutput, index: number) => (
+                    <AddList index={index} item={item} />
+                  )
+                )}
               </ul>
             </div>
           </div>
