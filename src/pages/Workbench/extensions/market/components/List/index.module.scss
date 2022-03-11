@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   min-width: 100%;
+  padding: 0 8px;
   border-bottom: 1px solid #363a45;
   &:hover {
     .close {
@@ -18,7 +19,7 @@
     display: flex;
     align-items: center;
     justify-content: start;
-    flex: 1 4 90px;
+    flex: 1 4 70px;
     padding-bottom: 3px;
     padding-top: 3px;
     height: 27px;

@@ -13,7 +13,6 @@ interface ListProps {
 
 const List = ({ item, index, onClick, selectIndex }: ListProps) => {
   const { model } = useMarketModel();
-  // console.log(model.prices, "数据");
 
   return (
     <div
@@ -31,13 +30,12 @@ const List = ({ item, index, onClick, selectIndex }: ListProps) => {
       </span>
       <span className={`${styles.last_column_header} ${styles.column_header}`}>
         <span className={styles.label}>
-          <span className={styles.inner}>{/* {item.latestPrice.after} */}</span>
-          <span className={styles.plus}>{/* {item.latestPrice.front} */}</span>
-        </span>
-      </span>
-      <span className={`${styles.last_column_header} ${styles.column_header}`}>
-        <span className={styles.label}>
-          <span className={styles.fall}>{/* -{item.riseAndFall} */}</span>
+          <span className={styles.inner}>
+            {Number(model.prices[item.symbol + "usdt"]?.AvgPrice ?? 0).toFixed(
+              5
+            )}
+          </span>
+          {/* <span className={styles.plus}>{item.latestPrice.front}</span> */}
         </span>
       </span>
       <span className={`${styles.last_column_header} ${styles.column_header}`}>
