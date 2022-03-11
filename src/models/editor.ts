@@ -72,34 +72,38 @@ function useEditorModel() {
           await syncFileContent(path);
         }
         if (eventName === "unlink" || eventName === "unlinkDir") {
+          const state = molecule.editor.getState();
+          state.groups.forEach((item) => {
+            molecule.editor.closeTab(path, item.id);
+          });
           molecule.folderTree.remove(path);
         }
       }
     );
-    // molecule.editor.onOpenTab(async (tab) => {
-    //   model.currentTabId = tab.id;
-    //   await syncFileContent(
-    //     tab.id,
-    //     model.positions[tab.id] ?? new Position(0, 0)
-    //   );
-    // });
-    // molecule.editor.onSelectTab(async (tabId) => {
-    //   model.currentTabId = tabId;
-    //   await syncFileContent(
-    //     tabId,
-    //     model.positions[tabId] ?? new Position(0, 0)
-    //   );
-    // });
-    // molecule.editor.onCloseTab(async (tabId) => {
-    //   model.positions[tabId] = null;
-    // });
+    molecule.editor.onOpenTab(async (tab) => {
+      model.currentTabId = tab.id;
+      await syncFileContent(
+        tab.id,
+        model.positions[tab.id] ?? new Position(0, 0)
+      );
+    });
+    molecule.editor.onSelectTab(async (tabId) => {
+      model.currentTabId = tabId;
+      await syncFileContent(
+        tabId,
+        model.positions[tabId] ?? new Position(0, 0)
+      );
+    });
+    molecule.editor.onCloseTab(async (tabId) => {
+      model.positions[tabId] = null;
+    });
   });
 
-  useEffect(() => {
-    // if (model.currentTabId) {
-    //   molecule.editor.editorInstance.onDidChangeCursorPosition((e) => {});
-    // }
-  }, [model.currentTabId]);
+  // useEffect(() => {
+  //   if (model.currentTabId) {
+  //     molecule.editor.editorInstance.onDidChangeCursorPosition((e) => {});
+  //   }
+  // }, [model.currentTabId]);
 
   useEffect(() => {
     if (model.dirPath) {
