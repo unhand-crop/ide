@@ -112,8 +112,10 @@ function useEditorModel() {
     molecule.editor.onCloseTab(async (tabId) => {
       model.positions[tabId] = null;
     });
+    await window.api.store.set("dir-path", null);
     const dirPath = await window.api.store.get("dir-path");
     if (dirPath) {
+      // TODO: 判断历史路径是否存在
       model.dirPath = dirPath;
     }
   });

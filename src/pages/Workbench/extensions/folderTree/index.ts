@@ -56,11 +56,23 @@ export function bindingEvents() {
       );
     }
   });
-  molecule.folderTree.onRename((id) => {
-    console.log(id);
-  });
   molecule.folderTree.onRemove(async (id) => {
     await window.api.fs.unlink(id);
+  });
+  molecule.folderTree.onUpdateFileName(async (file) => {
+    if (file.name) {
+      if (file.id === "input") {
+        molecule.folderTree.remove("input");
+        const path = await window.api.path.join(file.path, file.name);
+        if (file.fileType === "Folder") {
+          await window.api.fs.mkdir(path);
+        } else {
+          await window.api.fs.writeFile(path, "");
+        }
+      } else {
+        await window.api.fs.rename(file.path, file.name);
+      }
+    }
   });
 }
 
@@ -85,6 +97,7 @@ export class FoldTreeExtension implements IExtension {
         name: "删除",
       },
     ]);
+
     bindingEvents();
   }
 

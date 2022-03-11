@@ -1,5 +1,5 @@
 import { BrowserWindow, ipcMain, ipcRenderer } from "electron";
-import { basename, dirname, extname } from "path";
+import { basename, dirname, extname, join } from "path";
 
 export const registerPathHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("path.basename", async (_, path) => {
@@ -10,6 +10,9 @@ export const registerPathHandlers = async (mainWindow: BrowserWindow) => {
   });
   ipcMain.handle("path.extname", async (_, path) => {
     return extname(path);
+  });
+  ipcMain.handle("path.join", async (_, ...paths) => {
+    return join(...paths);
   });
 };
 
@@ -23,6 +26,9 @@ export const registerPathInvokes = () => {
     },
     async extname(path: string) {
       return await ipcRenderer.invoke("path.extname", path);
+    },
+    async join(...paths: string[]) {
+      return await ipcRenderer.invoke("path.join", ...paths);
     },
   };
 };
