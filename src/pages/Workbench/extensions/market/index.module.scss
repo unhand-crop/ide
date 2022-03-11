@@ -27,108 +27,28 @@
     .table_content::-webkit-scrollbar {
       display: none;
     }
-    .table_column {
-      position: relative;
-      display: flex;
-      align-items: center;
-      flex: 1 1 auto;
-      min-width: 100%;
-      border-bottom: 1px solid #363a45;
-      &:hover {
-        .close {
-          display: block;
-        }
-      }
-      &:hover {
-        cursor: pointer;
-        background-color: #2a2e39;
-      }
-    }
-    .select_column {
-      background-color: #363a45;
-    }
-    .last_column_header {
-      justify-content: end !important;
-      flex: 4 3 70px !important;
-    }
-    .close {
-      position: absolute;
-      right: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      display: none;
-      width: 22px;
-      height: 22px;
-      background-color: #2a2e39;
-    }
-    .column_header {
-      display: flex;
-      align-items: center;
-      justify-content: start;
-      flex: 1 4 90px;
-      padding-bottom: 3px;
-      padding-top: 3px;
-      height: 27px;
-      max-width: 100%;
-      min-width: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      .coin_logo_container {
-        display: inline-block;
-        margin-right: 0.375rem;
-        min-width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        .logo {
-          min-width: 18px;
-          height: 18px;
-          border-radius: 50%;
-        }
-      }
-      .inner {
-        font-size: 14px;
-        color: #b2b5be;
-      }
-      .plus {
-        font-size: 14px;
-        color: #22ab94;
-      }
-      .coin_name {
-        font-size: 14px;
-        color: #b2b5be;
-      }
-      .fall {
-        font-size: 14px;
-        color: #f23645;
-      }
-      .label {
-        flex: 0 1 auto;
-        max-width: 100%;
-        min-width: 0;
-        overflow: hidden;
-        color: #787b86;
-      }
-    }
   }
 }
 
 .add_commodity_code {
   :global(.ant-input-affix-wrapper) {
-    height: 40px;
-    background-color: #1e222c;
-    border-left: transparent;
-    border-right: transparent;
+    height: 28px;
+    background: #3c3f41;
+    border: none;
   }
   :global(.ant-input-affix-wrapper:focus) {
     border-color: #e0e3eb;
+    box-shadow: none;
+  }
+  :global(.ant-input-affix-wrapper-focused) {
+    box-shadow: none;
   }
   :global(.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover) {
     border-color: #e0e3eb;
   }
   :global(.ant-input) {
-    color: #a3a6af;
-    background-color: #1e222c;
+    color: #fff;
+    background: #3c3f41;
   }
   .commodity {
     .commodity_header {
