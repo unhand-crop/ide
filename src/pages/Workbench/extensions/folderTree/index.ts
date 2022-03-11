@@ -64,15 +64,31 @@ export function bindingEvents() {
       if (file.id === "input") {
         molecule.folderTree.remove("input");
         const path = await window.api.path.join(file.path, file.name);
+        // TODO: 判断文件或文件夹是否存在，如果存在则为新文件或文件夹的名字添加 _copy 后缀
         if (file.fileType === "Folder") {
           await window.api.fs.mkdir(path);
         } else {
           await window.api.fs.writeFile(path, "");
         }
       } else {
-        await window.api.fs.rename(file.path, file.name);
+        const path = await window.api.path.join(
+          await window.api.path.dirname(file.path),
+          file.name
+        );
+        await window.api.fs.rename(file.path, path);
       }
     }
+  });
+  molecule.folderTree.onDropTree(async (source, target) => {
+    const stat = await window.api.fs.stat(target.path);
+    if (!stat || !stat.isDirectory) return;
+
+    // TODO: 判断文件或文件夹是否存在，如果存在则询问用户是否覆盖
+
+    await window.api.fs.rename(
+      source.path,
+      await window.api.path.join(target.path, source.name)
+    );
   });
 }
 
