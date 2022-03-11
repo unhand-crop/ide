@@ -10,7 +10,7 @@ interface AddListProps {
 
 const AddList = ({ item, index }: AddListProps) => {
   return (
-    <li key={index} className={styles.item}>
+    <li className={styles.item}>
       <div className={styles.left}>
         <img className={styles.icon} src={item.imagePath} />
         <p className={styles.name}>{item.enName}</p>

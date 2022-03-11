@@ -9,39 +9,41 @@ import { useEffect } from "react";
 
 function useMarketModel() {
   const model = useReactive<{
-    symbols: string[];
+    symbols: string;
     prices: Record<string, any>;
     defaultList: any;
   }>({
-    symbols: ["BTCUSDT"],
+    symbols: "",
     prices: {},
-    defaultList:[],
+    defaultList: [],
   });
 
-  useMount(async() => {
+  useMount(async () => {
     const result = await getDefaultList();
-    if(result.statusCode === 200){
+    if (result.statusCode === 200) {
       model.defaultList = result.data;
+      model.symbols = result.data.map((item) => item.symbol + "usdt").join(",");
     }
   });
 
   useEffect(() => {
-    model.prices = {};
+    let connection: signalR.HubConnection;
+    if (model.symbols) {
+      connection = new signalR.HubConnectionBuilder()
+        .withUrl(
+          `${configs.baseUrl}/emapi/market?symbols=${model.symbols}&eventName=ticker&ticket=`
+        )
+        .build();
 
-    const connection = new signalR.HubConnectionBuilder()
-      .withUrl(
-        `${configs.baseUrl}:8085/market?symbols=btcusdt&eventName=aggTrade&ticket=`
-      )
-      .build();
+      connection.on("marketMessage", (event, symbol, message) => {
+        model.prices[symbol] = message;
+      });
 
-    connection.on("marketMessage", (event, symbol, message) => {
-      model.prices[symbol] = message;
-    });
-
-    connection.start();
+      connection.start();
+    }
 
     return () => {
-      connection.stop();
+      connection?.stop();
     };
   }, [model.symbols]);
 

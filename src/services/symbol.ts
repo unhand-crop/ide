@@ -17,7 +17,7 @@ export interface GetSymbolsOutput {
 };
 
 
-export const getDefaultList = async():Promise<Response<GetSymbolsOutput>> => {
+export const getDefaultList = async():Promise<Response<GetSymbolsOutput[]>> => {
 	return request.get('/eapi/v1/symbol/getoptional',{})
 }
 

@@ -2,6 +2,7 @@ import { GetSymbolsOutput } from "@/services/symbol";
 import { IconClose } from "@/components/iconfont";
 import React from "react";
 import styles from "./index.module.scss";
+import useMarketModel from "@/models/market";
 
 interface ListProps {
   item: GetSymbolsOutput;
@@ -11,13 +12,15 @@ interface ListProps {
 }
 
 const List = ({ item, index, onClick, selectIndex }: ListProps) => {
+  const { model } = useMarketModel();
+  // console.log(model.prices, "数据");
+
   return (
     <div
       className={`${styles.table_column} ${
         selectIndex === index ? styles.select_column : ""
       }
 		`}
-      key={index}
       onClick={() => onClick(index, item.enName)}
     >
       <span className={styles.column_header}>
