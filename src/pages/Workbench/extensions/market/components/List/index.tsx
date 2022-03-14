@@ -35,13 +35,23 @@ const List = ({ item, index, onClick, selectIndex }: ListProps) => {
               5
             )}
           </span>
-          {/* <span className={styles.plus}>{item.latestPrice.front}</span> */}
         </span>
       </span>
       <span className={`${styles.last_column_header} ${styles.column_header}`}>
         <span className={styles.label}>
-          <span className={styles.fall}>
-            {/* -{item.percentageUpAndDown}% */}
+          <span
+            className={
+              model.prices[item.symbol + "usdt"]?.Direction === 1
+                ? styles.plus
+                : model.prices[item.symbol + "usdt"]?.Direction === -1
+                ? styles.fall
+                : styles.inner
+            }
+          >
+            {Number(
+              model.prices[item.symbol + "usdt"]?.PriceChangePercent ?? 0
+            ).toFixed(2)}
+            %
           </span>
         </span>
       </span>
