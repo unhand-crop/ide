@@ -26,16 +26,18 @@ export default () => {
     selectIndex: number;
     coinVisible: boolean;
     totalCount: number;
+    existence: boolean;
   }>({
     commodityList: [],
     selectIndex: -1,
     coinVisible: false,
     totalCount: 0,
+    existence: false,
   });
 
   useEffect(() => {
     fetchData();
-  }, [params]);
+  }, [params, state.coinVisible]);
 
   const handleSelect = (index: number, name: string) => {
     state.selectIndex = index;
@@ -52,6 +54,24 @@ export default () => {
 
   const handleChange = (page: number, pageSize: number) => {
     setParams({ ...params, pageIndex: page });
+  };
+
+  const handleAdd = async (item: GetSymbolsOutput) => {
+    let addList = await window.api.store.get("defaultList");
+    addList.push(JSON.parse(JSON.stringify(item)));
+    await window.api.store.set("defaultList", addList);
+  };
+
+  const handleCanel = async (ite: string) => {
+    let addList = await window.api.store.get("defaultList");
+    const data = addList.filter(
+      (item: GetSymbolsOutput) => item.symbol !== ite
+    );
+    await window.api.store.set("defaultList", data);
+  };
+
+  const handleEnter = (e: any) => {
+    setParams({ ...params, name: e.target.defaultValue });
   };
 
   return (
@@ -93,6 +113,7 @@ export default () => {
               item={item}
               selectIndex={state.selectIndex}
               onClick={() => handleSelect(index, item.enName)}
+              onCanel={() => handleCanel(item.symbol)}
             />
           ))}
         </div>
@@ -103,7 +124,11 @@ export default () => {
         visible={state.coinVisible}
       >
         <div className={styles.add_commodity_code}>
-          <Input prefix={<IconSearch color="#fff" />} placeholder="搜索" />
+          <Input
+            onPressEnter={(e) => handleEnter(e)}
+            prefix={<IconSearch color="#fff" />}
+            placeholder="搜索"
+          />
           <div className={styles.commodity}>
             <div className={styles.commodity_header}>
               <p className={styles.commodity_code}>货币</p>
@@ -113,7 +138,13 @@ export default () => {
               <ul className={styles.list}>
                 {state.commodityList.map(
                   (item: GetSymbolsOutput, index: number) => (
-                    <AddList index={index} key={index} item={item} />
+                    <AddList
+                      onClick={(item) => handleAdd(item)}
+                      existence={state.existence}
+                      index={index}
+                      key={index}
+                      item={item}
+                    />
                   )
                 )}
               </ul>

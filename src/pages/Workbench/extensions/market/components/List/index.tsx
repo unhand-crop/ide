@@ -9,9 +9,10 @@ interface ListProps {
   index: number;
   onClick: (index: number, name: string) => void;
   selectIndex: number;
+  onCanel: (item: string) => void;
 }
 
-const List = ({ item, index, onClick, selectIndex }: ListProps) => {
+const List = ({ item, index, onClick, onCanel, selectIndex }: ListProps) => {
   const { model } = useMarketModel();
 
   return (
@@ -20,7 +21,9 @@ const List = ({ item, index, onClick, selectIndex }: ListProps) => {
         selectIndex === index ? styles.select_column : ""
       }
 		`}
-      onClick={() => onClick(index, item.enName)}
+      onClick={(e) => {
+        onClick(index, item.enName), e.stopPropagation();
+      }}
     >
       <span className={styles.column_header}>
         <span className={styles.coin_logo_container}>
@@ -55,7 +58,12 @@ const List = ({ item, index, onClick, selectIndex }: ListProps) => {
           </span>
         </span>
       </span>
-      <span className={styles.close}>
+      <span
+        onClick={(e) => {
+          onCanel(item.symbol), e.stopPropagation();
+        }}
+        className={styles.close}
+      >
         <IconClose size={18} color="#787b86" />
       </span>
     </div>
