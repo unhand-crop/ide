@@ -6,7 +6,6 @@ import {
 
 import Button from "./components/Button";
 import Modal from "@/components/modal";
-import { Pagination } from "antd";
 import React from "react";
 import styles from "./index.module.scss";
 import { useReactive } from "ahooks";

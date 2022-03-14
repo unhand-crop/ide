@@ -1,10 +1,10 @@
 import * as signalR from "@microsoft/signalr";
 
-import { GetSymbolsOutput, getDefaultList } from "@/services/symbol";
 import { useMount, useReactive } from "ahooks";
 
 import configs from "@/configs";
 import { createModel } from "hox";
+import { getDefaultList } from "@/services/symbol";
 import { useEffect } from "react";
 
 function useMarketModel() {

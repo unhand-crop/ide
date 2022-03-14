@@ -46,6 +46,7 @@ function useEditorModel() {
     window.api.ipc.on(
       "open-directory",
       (_: IpcRendererEvent, dirPath: string) => {
+        window.api.store.set("dir-path", null);
         model.dirPath = dirPath;
       }
     );
