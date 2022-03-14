@@ -145,4 +145,12 @@
       }
     }
   }
+  :global(.ant-pagination) {
+    text-align: end;
+    margin: 20px 20px 0;
+    color: white;
+    :global(.ant-pagination-item-ellipsis) {
+      color: white;
+    }
+  }
 }
