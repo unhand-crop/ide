@@ -1,47 +1,58 @@
 import { GetSymbolsOutput, getPage, getPageInput } from "@/services/symbol";
 import { IconAdd, IconSearch } from "@/components/iconfont";
+import { Input, Pagination } from "antd";
+import React, { useEffect, useState } from "react";
 import { useMount, useReactive } from "ahooks";
 
 import AddList from "./components/AddList";
-import { Input } from "antd";
 import List from "./components/List";
 import Modal from "@/components/modal";
-import React from "react";
 import { openCreateDataSourceView } from "./base";
 import styles from "./index.module.scss";
 import useMarketModel from "@/models/market";
 
 export default () => {
   const { model } = useMarketModel();
+  const [params, setParams] = useState<getPageInput>({
+    pageIndex: 1,
+    pageSize: 12,
+    order: [],
+    securityType: 1,
+    name: "",
+    symbol: "",
+  });
   const state = useReactive<{
     commodityList: any;
     selectIndex: number;
     coinVisible: boolean;
+    totalCount: number;
   }>({
     commodityList: [],
     selectIndex: -1,
     coinVisible: false,
+    totalCount: 0,
   });
+
+  useEffect(() => {
+    fetchData();
+  }, [params]);
 
   const handleSelect = (index: number, name: string) => {
     state.selectIndex = index;
     openCreateDataSourceView(name);
   };
 
-  useMount(async () => {
-    const data: getPageInput = {
-      pageIndex: 1,
-      pageSize: 12,
-      order: [],
-      securityType: 1,
-      name: "",
-      symbol: "",
-    };
-    const result = await getPage({ ...data });
+  const fetchData = async () => {
+    const result = await getPage({ ...params });
     if (result.statusCode === 200) {
       state.commodityList = result.data?.items;
+      state.totalCount = result.data?.totalCount;
     }
-  });
+  };
+
+  const handleChange = (page: number, pageSize: number) => {
+    setParams({ ...params, pageIndex: page });
+  };
 
   return (
     <div className={styles.coin_container}>
@@ -106,6 +117,13 @@ export default () => {
                   )
                 )}
               </ul>
+              <Pagination
+                total={state.totalCount}
+                defaultPageSize={12}
+                showSizeChanger={false}
+                showTotal={(total, range) => `共有${total}条数据`}
+                onChange={(page, pageSize) => handleChange(page, pageSize)}
+              />
             </div>
           </div>
         </div>
