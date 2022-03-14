@@ -120,6 +120,7 @@ export default () => {
               <Pagination
                 total={state.totalCount}
                 defaultPageSize={12}
+                hideOnSinglePage={true}
                 showSizeChanger={false}
                 showTotal={(total, range) => `共有${total}条数据`}
                 onChange={(page, pageSize) => handleChange(page, pageSize)}

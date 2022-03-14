@@ -1,11 +1,11 @@
 import * as signalR from "@microsoft/signalr";
 
+import { GetSymbolsOutput, getDefaultList } from "@/services/symbol";
+import { useEffect, useState } from "react";
 import { useMount, useReactive } from "ahooks";
 
 import configs from "@/configs";
 import { createModel } from "hox";
-import { getDefaultList } from "@/services/symbol";
-import { useEffect } from "react";
 
 function useMarketModel() {
   const model = useReactive<{
@@ -18,15 +18,26 @@ function useMarketModel() {
     defaultList: [],
   });
 
-  useMount(async () => {
-    const result = await getDefaultList();
-    if (result.statusCode === 200) {
-      model.defaultList = result.data;
-      model.symbols = result.data
-        ?.map((item) => item.symbol + "usdt")
-        .join(",");
-    }
-  });
+  useEffect(() => {
+    (async () => {
+      let defaultList = await window.api.store.get("defaultList");
+      if (defaultList) {
+        model.defaultList = defaultList;
+        model.symbols = defaultList
+          ?.map((item: GetSymbolsOutput) => item.symbol + "usdt")
+          .join(",");
+      } else {
+        const result = await getDefaultList();
+        if (result.statusCode === 200) {
+          model.defaultList = result.data;
+          await window.api.store.set("defaultList", result.data);
+          model.symbols = result.data
+            ?.map((item) => item.symbol + "usdt")
+            .join(",");
+        }
+      }
+    })();
+  }, [model.defaultList]);
 
   useEffect(() => {
     let connection: signalR.HubConnection;
