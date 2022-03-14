@@ -1,4 +1,5 @@
 import { BrowserWindow } from "electron";
+import { registerEngineHandlers } from "./engine";
 import { registerFsHandlers } from "./fs";
 import { registerLocalHandlers } from "./local";
 import { registerPathHandlers } from "./path";
@@ -11,4 +12,5 @@ export async function loadApi(mainWindow: BrowserWindow) {
   await registerWatchHandlers(mainWindow);
   await registerPathHandlers(mainWindow);
   await registerFsHandlers(mainWindow);
+  await registerEngineHandlers(mainWindow);
 }
