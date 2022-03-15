@@ -1,12 +1,12 @@
 import Button from "@/components/button";
 import { IExtension } from "@dtinsight/molecule/esm/model";
 import { IExtensionService } from "@dtinsight/molecule/esm/services";
-import { IpcRendererEvent } from "electron";
 import React from "react";
 import molecule from "@dtinsight/molecule";
 
 function initActions() {
   const { builtInEditorInitialActions } = molecule.builtin.getModules();
+
   molecule.editor.setDefaultActions([
     {
       id: "action.backtest",
