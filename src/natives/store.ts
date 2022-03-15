@@ -2,7 +2,7 @@ import { BrowserWindow, ipcMain, ipcRenderer } from "electron";
 
 import Store from "electron-store";
 
-const store = new Store();
+export const store = new Store();
 
 export const registerStoreHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("store.get", (_, key) => {

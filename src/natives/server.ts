@@ -1,6 +1,7 @@
 import { BrowserWindow } from "electron";
 import Fastify from "fastify";
 import getPort from "get-port";
+import { store } from "./store";
 
 export async function initServer(mainWindow: BrowserWindow) {
   const fastify = Fastify({
@@ -8,6 +9,8 @@ export async function initServer(mainWindow: BrowserWindow) {
   });
 
   const port = await getPort();
+
+  store.set("server-port", port);
 
   fastify.get("/", (request, reply) => {
     reply.send({ success: true, message: "OK" });
