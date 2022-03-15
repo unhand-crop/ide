@@ -3,20 +3,31 @@ import {
   IconAOpenproject,
   IconAdd,
 } from "@/components/iconfont";
+import { useMount, useReactive } from "ahooks";
 
 import Button from "./components/Button";
+import { IpcRendererEvent } from "electron";
 import Modal from "@/components/modal";
 import React from "react";
 import styles from "./index.module.scss";
-import { useReactive } from "ahooks";
 
 const Launcher = () => {
   const state = useReactive({
     visible: false,
   });
 
+  useMount(() => {
+    window.api.ipc.on("select-path", (_: IpcRendererEvent, dirPath: string) => {
+      console.log(dirPath, "是啥");
+    });
+  });
+
   const openPro = async () => {
     await window.api.local.openDirectory();
+  };
+
+  const handleNewBasicTemplate = async () => {
+    await window.api.local.selectPath();
   };
 
   return (
@@ -42,20 +53,26 @@ const Launcher = () => {
       >
         <div className={styles.algorithm_container}>
           <ul className={styles.algorithm_list}>
-            <li className={styles.algorithm_item}>
+            {/* <li
+              onClick={() => handleBasicTemplate()}
+              className={styles.algorithm_item}
+            >
               <div className={styles.container}>
                 <img src="./public/image/algorithm_template.png" />
               </div>
               <p className={styles.title}>基础模版</p>
-            </li>
-            <li className={styles.algorithm_item}>
+            </li> */}
+            <li
+              onClick={() => handleNewBasicTemplate()}
+              className={styles.algorithm_item}
+            >
               <div className={styles.container}>
-                <IconAdd color="#ffffff" size={64} />
+                <img src="./public/image/algorithm_template.png" />
+                {/* <IconAdd color="#ffffff" size={64} /> */}
               </div>
-              <p className={styles.title}>新建模版</p>
+              <p className={styles.title}>新建基础模版</p>
             </li>
           </ul>
-          {/* <Pagination /> */}
         </div>
       </Modal>
     </div>
