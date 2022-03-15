@@ -16,3 +16,19 @@
     }
   }
 }
+
+.component_button_disabled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 32px;
+  border-radius: 2px;
+  background-color: #082036;
+  .title {
+    color: #636363;
+  }
+  &:hover {
+    cursor: not-allowed;
+  }
+}
