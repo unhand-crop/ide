@@ -36,6 +36,12 @@ function emitEvent() {
           }
           molecule.layout.togglePanelVisibility();
         }
+        const { current } = molecule.editor.getState();
+        (async () => {
+          if (current) {
+            await window.api.engine.backtest(current.activeTab);
+          }
+        })();
         break;
       case "action.results":
         if (!panel.panelMaximized) {
