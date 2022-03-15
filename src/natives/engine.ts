@@ -5,7 +5,7 @@ import { Logger, runner } from "hygen";
 
 import Docker from "dockerode";
 
-export class Engine {
+class Engine {
   private readonly docker: Docker;
 
   constructor(
