@@ -11,11 +11,11 @@ export class Engine {
   constructor(
     private readonly dockerOptions: Docker.DockerOptions,
     private readonly templates?: string,
-    private readonly image: string = "unhand/engine:latest"
+    private readonly image: string = "unhand/unhand:latest"
   ) {
     this.docker = new Docker(this.dockerOptions);
     if (!templates) {
-      this.templates = path.join(__dirname, "../", "_templates");
+      this.templates = path.join(__dirname, "_templates");
     }
   }
 
@@ -127,7 +127,7 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
       (stream) => {
         stream.on("data", (data) => {
           if (data) {
-            mainWindow.webContents.send("terminal-output", data.toString());
+            // mainWindow.webContents.send("terminal-output", data.toString());
           }
         });
       }

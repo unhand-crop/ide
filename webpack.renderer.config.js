@@ -39,6 +39,10 @@ plugins.push(
     patterns: [
       { from: resolve("public"), to: resolve(".webpack/renderer/public") },
       { from: resolve("charts"), to: resolve(".webpack/renderer") },
+      {
+        from: resolve("_templates"),
+        to: resolve(".webpack/main/_templates"),
+      },
     ],
   })
 );
