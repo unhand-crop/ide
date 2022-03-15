@@ -75,7 +75,7 @@ export class Engine {
     return await engineContainer.wait();
   }
 
-  private async pull() {
+  async pull() {
     const imageIndex = (await this.docker.listImages()).findIndex(
       (img) => img.RepoTags[0] === this.image
     );
@@ -97,7 +97,7 @@ export class Engine {
           resolve(true);
         }
         function onProgress(event: any) {
-          // console.log(event.status);
+          console.log(event.status);
         }
       });
     });
@@ -105,6 +105,8 @@ export class Engine {
 }
 
 const engine = new Engine({ socketPath: "/var/run/docker.sock" });
+
+// engine.pull();
 
 export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("create", async (_, args) => {

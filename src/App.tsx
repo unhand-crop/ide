@@ -6,8 +6,10 @@ import { Route, HashRouter as Router, Routes } from "react-router-dom";
 import { MoleculeProvider } from "@dtinsight/molecule";
 import Workbench from "@/pages/Workbench/views/Workbench";
 import extensions from "@/pages/Workbench/extensions";
+import useEngineModel from "@/models/engine";
 
 const App = () => {
+  useEngineModel();
   return (
     <MoleculeProvider extensions={extensions}>
       <Router>
