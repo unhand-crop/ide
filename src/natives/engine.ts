@@ -4,6 +4,7 @@ import { BrowserWindow, ipcMain, ipcRenderer } from "electron";
 import { Logger, runner } from "hygen";
 
 import Docker from "dockerode";
+import { store } from "./store";
 
 class Engine {
   private readonly docker: Docker;
@@ -112,25 +113,47 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("engine.create", async (_, args) => {
     const path = args[0];
     const language = args[1] ?? "python";
-    console.log(engine);
     await engine.create(path, language);
   });
   ipcMain.handle("engine.backtest", async (_, args) => {
-    console.log(args);
-
+    const port = await store.get("server-port");
     const exitInfo = await engine.backtest(
       {
         HostConfig: {
           AutoRemove: true,
           Binds: [`${args[0]}:/app/custom/algorithm`],
         },
+        // LOADREMOTE：是否加载远程engine数据
+        // INTERVAL：时间间隔：暂时支持 1d/1h/1m
+        // STARTTIME：回测开始时间
+        // ENDTIME：回测结束时间
+        Env: [
+          `LOADREMOTE=true`,
+          `INTERVAL="1h"`,
+          `STARTTIME="2018-06-01"`,
+          `ENDTIME="2018-09-01"`,
+          `DOMAIN="http://host.docker.internal:${port}/"`,
+        ],
       },
       (stream) => {
+        stream.on("start", () => {
+          mainWindow.webContents.send("engine-stream-start");
+        });
+        stream.on("end", () => {
+          mainWindow.webContents.send("engine-stream-end");
+        });
+        stream.on("error", () => {
+          mainWindow.webContents.send("engine-stream-error");
+        });
+        stream.on("finish", () => {
+          mainWindow.webContents.send("engine-stream-finish");
+        });
         stream.on("data", (data) => {
           if (data) {
-            console.log(data, "--->");
-
-            // mainWindow.webContents.send("terminal-output", data.toString());
+            mainWindow.webContents.send(
+              "engine-stream-data",
+              Buffer.from(data).toString("utf-8")
+            );
           }
         });
       }
