@@ -6,7 +6,6 @@ import {
 import { useMount, useReactive } from "ahooks";
 
 import Button from "./components/Button";
-import { IpcRendererEvent } from "electron";
 import Modal from "@/components/modal";
 import React from "react";
 import styles from "./index.module.scss";
@@ -16,18 +15,14 @@ const Launcher = () => {
     visible: false,
   });
 
-  useMount(() => {
-    window.api.ipc.on("select-path", (_: IpcRendererEvent, dirPath: string) => {
-      console.log(dirPath, "是啥");
-    });
-  });
-
   const openPro = async () => {
     await window.api.local.openDirectory();
   };
 
   const handleNewBasicTemplate = async () => {
-    await window.api.local.selectPath();
+    const path = await window.api.local.getDirectory();
+    console.log(path);
+    await window.api.engine.create(path);
   };
 
   return (

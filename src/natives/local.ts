@@ -19,15 +19,13 @@ export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
       mainWindow.webContents.send("open-directory", path);
     }
   });
-  ipcMain.handle("select-path", async (_) => {
+  ipcMain.handle("get-directory", async (_) => {
     const dirPath = await dialog
       .showOpenDialog({
         properties: ["openDirectory"],
       })
       .then((res) => (res.canceled ? null : res.filePaths[0]));
-    if (dirPath) {
-      mainWindow.webContents.send("select-path", dirPath);
-    }
+    return dirPath;
   });
 };
 
@@ -40,8 +38,8 @@ export const registerLocalInvokes = () => {
     async openPath(...args: any[]) {
       return await ipcRenderer.invoke("open-path", ...args);
     },
-    async selectPath() {
-      return await ipcRenderer.invoke("select-path");
+    async getDirectory() {
+      return await ipcRenderer.invoke("get-directory");
     },
   };
 };

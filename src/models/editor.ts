@@ -81,7 +81,6 @@ function useEditorModel() {
         if (eventName === "change") {
           const state = molecule.editor.getState();
           if (state.current?.activeTab !== path) return;
-
           await syncFileContent(path);
         }
         if (eventName === "unlink" || eventName === "unlinkDir") {
@@ -122,9 +121,7 @@ function useEditorModel() {
   useEffect(() => {
     if (model.dirPath) {
       loadFolderTree(model.dirPath);
-
       window.api.store.set("dir-path", model.dirPath);
-
       molecule.explorer.onPanelToolbarClick((panel, toolbarId) => {
         if (toolbarId === "refresh") {
           loadFolderTree(model.dirPath);
