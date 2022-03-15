@@ -3,26 +3,30 @@ import {
   IconAOpenproject,
   IconAdd,
 } from "@/components/iconfont";
-import { useMount, useReactive } from "ahooks";
 
 import Button from "./components/Button";
 import Modal from "@/components/modal";
 import React from "react";
 import styles from "./index.module.scss";
+import useEditorModel from "@/models/editor";
+import { useReactive } from "ahooks";
 
 const Launcher = () => {
   const state = useReactive({
     visible: false,
   });
 
-  const openPro = async () => {
+  const { setDirPath } = useEditorModel();
+
+  const handleOpen = async () => {
     await window.api.local.openDirectory();
   };
 
-  const handleNewBasicTemplate = async () => {
+  const handleCreate = async () => {
     const path = await window.api.local.getDirectory();
-    console.log(path);
     await window.api.engine.create(path);
+    state.visible = false;
+    setDirPath(path);
   };
 
   return (
@@ -36,7 +40,7 @@ const Launcher = () => {
           />
           <Button
             icon={<IconAOpenproject size={32} />}
-            onClick={() => openPro()}
+            onClick={() => handleOpen()}
             title="打开算法"
           />
         </div>
@@ -58,14 +62,14 @@ const Launcher = () => {
               <p className={styles.title}>基础模版</p>
             </li> */}
             <li
-              onClick={() => handleNewBasicTemplate()}
+              onClick={() => handleCreate()}
               className={styles.algorithm_item}
             >
               <div className={styles.container}>
-                <img src="./public/image/algorithm_template.png" />
-                {/* <IconAdd color="#ffffff" size={64} /> */}
+                {/* <img src="./public/image/algorithm_template.png" /> */}
+                <IconAdd color="#ffffff" size={64} />
               </div>
-              <p className={styles.title}>新建基础模版</p>
+              <p className={styles.title}>新建算法</p>
             </li>
           </ul>
         </div>

@@ -109,12 +109,13 @@ const engine = new Engine({ socketPath: "/var/run/docker.sock" });
 // engine.pull();
 
 export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
-  ipcMain.handle("create", async (_, args) => {
+  ipcMain.handle("engine.create", async (_, args) => {
     const path = args[0];
     const language = args[1] ?? "python";
+    console.log(engine);
     await engine.create(path, language);
   });
-  ipcMain.handle("backtest", async (_) => {
+  ipcMain.handle("engine.backtest", async (_) => {
     const exitInfo = await engine.backtest(
       {
         HostConfig: {
@@ -136,13 +137,13 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
   });
 };
 
-export const registerEngineInvokes = async () => {
+export const registerEngineInvokes = () => {
   return {
     async create(...args: any[]) {
-      return await ipcRenderer.invoke("create", args);
+      return await ipcRenderer.invoke("engine.create", args);
     },
     async backtest(...args: any[]) {
-      return await ipcRenderer.invoke("backtest", args);
+      return await ipcRenderer.invoke("engine.backtest", args);
     },
   };
 };
