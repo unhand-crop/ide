@@ -116,6 +116,8 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     await engine.create(path, language);
   });
   ipcMain.handle("engine.backtest", async (_, args) => {
+    console.log(args);
+
     const exitInfo = await engine.backtest(
       {
         HostConfig: {
