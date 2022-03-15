@@ -34,9 +34,7 @@ const List = ({ item, index, onClick, onCanel, selectIndex }: ListProps) => {
       <span className={`${styles.last_column_header} ${styles.column_header}`}>
         <span className={styles.label}>
           <span className={styles.inner}>
-            {Number(model.prices[item.symbol + "usdt"]?.AvgPrice ?? 0).toFixed(
-              5
-            )}
+            ${model.prices[item.enName + "-USD"]?.content?.currentPrice ?? 0}
           </span>
         </span>
       </span>
@@ -44,15 +42,16 @@ const List = ({ item, index, onClick, onCanel, selectIndex }: ListProps) => {
         <span className={styles.label}>
           <span
             className={
-              model.prices[item.symbol + "usdt"]?.Direction === 1
+              model.prices[item.enName + "-USD"]?.content?.direction === 1
                 ? styles.plus
-                : model.prices[item.symbol + "usdt"]?.Direction === -1
+                : model.prices[item.enName + "-USD"]?.content?.direction === -1
                 ? styles.fall
                 : styles.inner
             }
           >
             {Number(
-              model.prices[item.symbol + "usdt"]?.PriceChangePercent ?? 0
+              model.prices[item.enName + "-USD"]?.content?.priceChangePercent ??
+                0
             ).toFixed(2)}
             %
           </span>
