@@ -9,6 +9,7 @@ import React from "react";
 import { ResolutionString } from "@/components/TradingView/Chart/datafeed-api";
 import TradingView from "@/components/TradingView";
 import molecule from "@dtinsight/molecule";
+import configs from "@/configs";
 
 export const marketActivityBar: IActivityBarItem = {
   id: "sidebar.market",
@@ -34,9 +35,9 @@ export function openCreateDataSourceView(name: string) {
       return (
         <TradingView
           options={{
-            symbol: "AAPL",
+            symbol: name + "USDT",
             interval: "D" as ResolutionString,
-            datafeedUrl: "https://demo_feed.tradingview.com",
+            datafeedUrl: configs.baseUrl + "/eapi/v1/kline",
             chartsStorageUrl: "https://saveload.tradingview.com",
             chartsStorageApiVersion: "1.1",
             clientId: "tradingview.com",
