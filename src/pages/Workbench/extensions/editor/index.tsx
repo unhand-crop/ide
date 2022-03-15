@@ -1,6 +1,7 @@
 import Button from "@/components/button";
 import { IExtension } from "@dtinsight/molecule/esm/model";
 import { IExtensionService } from "@dtinsight/molecule/esm/services";
+import { IpcRendererEvent } from "electron";
 import React from "react";
 import molecule from "@dtinsight/molecule";
 
@@ -36,6 +37,12 @@ function emitEvent() {
           }
           molecule.layout.togglePanelVisibility();
         }
+        const { folderTree } = molecule.folderTree.getState();
+        (async () => {
+          if (folderTree?.data[0]?.id) {
+            await window.api.engine.backtest(folderTree?.data[0]?.id);
+          }
+        })();
         break;
       case "action.results":
         if (!panel.panelMaximized) {

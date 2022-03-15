@@ -115,19 +115,21 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     console.log(engine);
     await engine.create(path, language);
   });
-  ipcMain.handle("engine.backtest", async (_) => {
+  ipcMain.handle("engine.backtest", async (_, args) => {
+    console.log(args);
+
     const exitInfo = await engine.backtest(
       {
         HostConfig: {
           AutoRemove: true,
-          Binds: [
-            `/Users/linzhixiao/Desktop/code/studio/local/demo:/usr/engine`,
-          ],
+          Binds: [`${args[0]}:/app/custom/algorithm`],
         },
       },
       (stream) => {
         stream.on("data", (data) => {
           if (data) {
+            console.log(data, "--->");
+
             // mainWindow.webContents.send("terminal-output", data.toString());
           }
         });
