@@ -157,6 +157,7 @@ export default () => {
         onCancel={() => (state.coinVisible = false)}
         title="添加货币"
         visible={state.coinVisible}
+        width={866}
       >
         <div className={styles.add_commodity_code}>
           <Input
