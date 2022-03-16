@@ -173,16 +173,17 @@ export default () => {
             <div className={styles.commodity_content}>
               <ul className={styles.list}>
                 {state.commodityList.map(
-                  (item: GetSymbolsOutput, index: number) => (
-                    <AddList
+                  (item: GetSymbolsOutput, index: number) => {
+                    const shouldAdd = model.defaultList.some((everyItem: GetSymbolsOutput) => everyItem.symbol === item.symbol);
+                    return <AddList
                       onClick={(item) => handleAdd(item)}
+                      shouldAdd={!shouldAdd}
                       existence={state.existence}
                       index={index}
                       key={index}
                       item={item}
                     />
-                  )
-                )}
+                  })}
               </ul>
               <Pagination
                 total={state.totalCount}
