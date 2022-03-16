@@ -47,6 +47,7 @@ const Launcher = () => {
       </div>
       <Modal
         title="新建算法"
+        width={866}
         visible={state.visible}
         onCancel={() => (state.visible = false)}
       >
