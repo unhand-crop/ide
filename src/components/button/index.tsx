@@ -10,7 +10,7 @@ interface ButtonProps {
 const Button = ({ title, onClick, disabled = false }: ButtonProps) => {
   return (
     <div
-      onClick={disabled ? onClick : null}
+      onClick={!disabled ? onClick : null}
       className={
         disabled ? styles.component_button_disabled : styles.component_button
       }
