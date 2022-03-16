@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Table, TableColumnsType } from "antd";
+import { Spin, Table, TableColumnsType } from "antd";
 
 import { ResolutionString } from "@/components/TradingView/Chart/datafeed-api";
 import TradingView from "@/components/TradingView";
@@ -52,7 +52,11 @@ const columns: TableColumnsType<never> | undefined = [
 
 export default () => {
   const { model } = useEngineModel();
-  const state = useReactive<{ marketList: any; statistics: any }>({
+  const state = useReactive<{
+    marketList: any;
+    results: any;
+    loading: boolean;
+  }>({
     marketList: [
       { label: "Open Price", value: 0 },
       { label: "Close Price", value: 0 },
@@ -61,63 +65,84 @@ export default () => {
       { label: "Change", value: 0 },
       { label: "Amplitude", value: 0 },
     ],
-    statistics: {},
+    results: {},
+    loading: false,
   });
   useEffect(() => {
-    const Statistics = model?.results?.content?.oResults?.Statistics || {};
-    state.statistics = Statistics;
-    console.log(1111);
+    const Statistics = model?.results?.content?.oResults || {};
+    state.results = Statistics;
+    if (model.results.length > 0) {
+      state.loading = false;
+    } else {
+      state.loading = true;
+    }
   }, [model.results]);
 
   return (
     <div className={styles.container}>
-      <div className={styles.card_container}>
-        <div className={styles.card_header}>
-          <p>Performance</p>
-        </div>
-        <div className={styles.card_body}>
-          <ul className={styles.card_list}>
-            {state.statistics &&
-              Object.keys(state.statistics).map((key, index) => {
-                const item = state.statistics[key];
-                return (
-                  <li className={styles.card_item} key={index}>
-                    <div className={styles.item}>
-                      <p className={styles.value}>{item}</p>
-                      <p className={styles.label}>{key}</p>
-                    </div>
-                  </li>
-                );
-              })}
-          </ul>
-          <div className={styles.chart}>
-            <TradingView
-              options={{
-                symbol: "AAPL",
-                interval: "D" as ResolutionString,
-                datafeedUrl: "https://demo_feed.tradingview.com",
-                chartsStorageUrl: "https://saveload.tradingview.com",
-                chartsStorageApiVersion: "1.1",
-                clientId: "tradingview.com",
-                userId: "public_user_id",
-                fullscreen: false,
-                autosize: true,
-                studiesOverrides: {},
-                locale: "zh",
-                theme: "Dark",
-                height: 400,
-              }}
-            />
+      <Spin size="large" tip="加载中..." spinning={state.loading}>
+        {state.loading && <div className={styles.occlusion}></div>}
+        <div className={styles.card_container}>
+          <div className={styles.card_header}>
+            <p>Statistics</p>
+          </div>
+          <div className={styles.card_body}>
+            <ul className={styles.card_list}>
+              {state.results?.Statistics &&
+                Object.keys(state.results?.Statistics).map((key, index) => {
+                  const item = state.results?.Statistics[key];
+                  return (
+                    <li className={styles.card_item} key={index}>
+                      <div className={styles.item}>
+                        <p className={styles.value}>{item}</p>
+                        <p className={styles.label}>{key}</p>
+                      </div>
+                    </li>
+                  );
+                })}
+            </ul>
+            <div className={styles.chart}>
+              <TradingView
+                options={{
+                  symbol: "AAPL",
+                  interval: "D" as ResolutionString,
+                  datafeedUrl: "https://demo_feed.tradingview.com",
+                  chartsStorageUrl: "https://saveload.tradingview.com",
+                  chartsStorageApiVersion: "1.1",
+                  clientId: "tradingview.com",
+                  userId: "public_user_id",
+                  fullscreen: false,
+                  autosize: true,
+                  studiesOverrides: {},
+                  locale: "zh",
+                  theme: "Dark",
+                  height: 400,
+                }}
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div className={styles.card_container}>
-        <div className={styles.card_header}>
-          <p>Market</p>
-        </div>
-        <div style={{ padding: 0 }} className={styles.card_body}>
-          <ul className={styles.card_list}>
-            {state.marketList.map(
+        <div className={styles.card_container}>
+          <div className={styles.card_header}>
+            <p>RuntimeStatistics</p>
+          </div>
+          <div style={{ padding: 0 }} className={styles.card_body}>
+            <ul className={styles.card_list}>
+              {state.results?.RuntimeStatistics &&
+                Object.keys(state.results?.RuntimeStatistics).map(
+                  (key, index) => {
+                    const item = state.results?.RuntimeStatistics[key];
+                    return (
+                      <li className={styles.card_item} key={index}>
+                        <div className={styles.item}>
+                          <p className={styles.value}>{item}</p>
+                          <p className={styles.label}>{key}</p>
+                        </div>
+                      </li>
+                    );
+                  }
+                )}
+              {/* {state.marketList.map(
               (item: { value: string; label: string }, index: number) => (
                 <li className={styles.card_item} key={index}>
                   <div className={styles.item}>
@@ -126,42 +151,43 @@ export default () => {
                   </div>
                 </li>
               )
-            )}
-          </ul>
+            )} */}
+            </ul>
+          </div>
         </div>
-      </div>
-      <div className={styles.card_container}>
-        <div className={styles.card_header}>
-          <p>Activity</p>
+        <div className={styles.card_container}>
+          <div className={styles.card_header}>
+            <p>Activity</p>
+          </div>
+          <div style={{ padding: 0 }} className={styles.card_body}>
+            <ul className={styles.row}>
+              <li className={styles.row_item}>
+                <div className={styles.content}>
+                  <div className={styles.title}>Initial Position</div>
+                  <div className={styles.title}>- -</div>
+                  <div className={styles.title}>- -</div>
+                </div>
+              </li>
+              <li className={styles.row_item}>
+                <div className={styles.content}>
+                  <div className={styles.title}>Final Position</div>
+                  <div className={styles.title}>- -</div>
+                  <div className={styles.title}>- -</div>
+                </div>
+              </li>
+              <li className={styles.row_item}>
+                <div className={styles.content}>
+                  <div className={styles.title}>Fees Collected</div>
+                  <div className={styles.title}>- -</div>
+                  <div className={styles.title}>- -</div>
+                </div>
+              </li>
+            </ul>
+            <div className={styles.split_line}></div>
+            <Table columns={columns} dataSource={[]} pagination={false} />
+          </div>
         </div>
-        <div style={{ padding: 0 }} className={styles.card_body}>
-          <ul className={styles.row}>
-            <li className={styles.row_item}>
-              <div className={styles.content}>
-                <div className={styles.title}>Initial Position</div>
-                <div className={styles.title}>- -</div>
-                <div className={styles.title}>- -</div>
-              </div>
-            </li>
-            <li className={styles.row_item}>
-              <div className={styles.content}>
-                <div className={styles.title}>Final Position</div>
-                <div className={styles.title}>- -</div>
-                <div className={styles.title}>- -</div>
-              </div>
-            </li>
-            <li className={styles.row_item}>
-              <div className={styles.content}>
-                <div className={styles.title}>Fees Collected</div>
-                <div className={styles.title}>- -</div>
-                <div className={styles.title}>- -</div>
-              </div>
-            </li>
-          </ul>
-          <div className={styles.split_line}></div>
-          <Table columns={columns} dataSource={[]} pagination={false} />
-        </div>
-      </div>
+      </Spin>
     </div>
   );
 };
