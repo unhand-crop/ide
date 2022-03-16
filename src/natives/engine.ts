@@ -125,6 +125,7 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
         },
         // LOADREMOTE：是否加载远程engine数据
         Env: [`LOADREMOTE=true`, `DOMAIN=http://host.docker.internal:${port}/`],
+
       },
       (stream) => {
         stream.on("start", () => {
