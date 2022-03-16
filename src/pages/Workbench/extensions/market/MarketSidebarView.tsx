@@ -1,4 +1,4 @@
-import { GetSymbolsOutput, getPage, getPageInput } from "@/services/symbol";
+import { GetSymbolsOutput, getPage, getPageInput, getDefaultList } from "@/services/symbol";
 import { IconAdd, IconSearch } from "@/components/iconfont";
 import { Input, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
@@ -39,6 +39,18 @@ export default () => {
     fetchData();
   }, [params, state.coinVisible]);
 
+  useEffect(() => {
+    init();
+  }, []);
+
+  const init = async () => {
+    const defaultList = await getList();
+    if (defaultList) {
+      model.defaultList = defaultList;
+      model.symbols = defaultList.map((item: GetSymbolsOutput) => item.name + "-USD").join(",");
+    }
+  }
+
   const handleSelect = (index: number, name: string) => {
     state.selectIndex = index;
     openCreateDataSourceView(name);
@@ -56,19 +68,42 @@ export default () => {
     setParams({ ...params, pageIndex: page });
   };
 
+  const getList = async (): Promise<any> => {
+    const defaultList = await window.api.store.get("defaultList");
+    if (defaultList) return defaultList;
+    const { statusCode, data } = await getDefaultList();
+    if (statusCode === 200) return data;
+    return [];
+  }
+
+  const setList = async (item: GetSymbolsOutput) => {
+    const defaultList = await getList();
+    defaultList.push(JSON.parse(JSON.stringify(item)));
+    await window.api.store.set("defaultList", defaultList);
+    return defaultList;
+  }
+
+  const removeDefaultListItem = async (itemSymbol: string) => {
+    const defaultList = await getList();
+    const newDefaultList = defaultList.filter((item: GetSymbolsOutput) => item.symbol !== itemSymbol);
+    await window.api.store.set("defaultList", newDefaultList);
+    return newDefaultList;
+  }
+
   const handleAdd = async (item: GetSymbolsOutput) => {
-    let addList = await window.api.store.get("defaultList");
-    addList.push(JSON.parse(JSON.stringify(item)));
-    await window.api.store.set("defaultList", addList);
+    const defaultList = await setList(item);
+    upModelDefultList(defaultList);
   };
 
-  const handleCanel = async (ite: string) => {
-    let addList = await window.api.store.get("defaultList");
-    const data = addList.filter(
-      (item: GetSymbolsOutput) => item.symbol !== ite
-    );
-    await window.api.store.set("defaultList", data);
+  const handleCanel = async (itemSymbol: string) => {
+    const defaultList = await removeDefaultListItem(itemSymbol);
+    upModelDefultList(defaultList);
   };
+
+  const upModelDefultList = (defaultList: Array<any>) => {
+    model.defaultList = defaultList;
+    model.symbols = defaultList.map((item: GetSymbolsOutput) => item.name + "-USD").join(",");
+  }
 
   const handleEnter = (e: any) => {
     setParams({ ...params, name: e.target.defaultValue });
