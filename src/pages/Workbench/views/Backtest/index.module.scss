@@ -1,0 +1,10 @@
+.back_test_container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  height: 35px;
+  background-color: #21252a;
+  .button {
+    margin: 0 8px;
+  }
+}
