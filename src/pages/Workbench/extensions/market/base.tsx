@@ -35,7 +35,7 @@ export function openCreateDataSourceView(name: string) {
       return (
         <TradingView
           options={{
-            symbol: name + "USDT",
+            symbol: name + "USD",
             interval: "D" as ResolutionString,
             datafeedUrl: configs.baseUrl + "/eapi/v1/kline",
             chartsStorageUrl: "https://saveload.tradingview.com",
