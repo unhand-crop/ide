@@ -1,6 +1,5 @@
 import { AccountExtension } from "./account";
 import { ActionExtension } from "./action";
-import { EditorExtension } from "./editor";
 import { ExplorerExtension } from "./explorer ";
 import { FoldTreeExtension } from "./folderTree";
 import { IExtension } from "@dtinsight/molecule/esm/model";
@@ -19,7 +18,6 @@ const extensions: IExtension[] = [
   new ExplorerExtension(),
   new ResultExtension(),
   new StatusBarExtension(),
-  new EditorExtension(),
   new FoldTreeExtension(),
   new ActionExtension(),
   OneDarkPro,
