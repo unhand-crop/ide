@@ -24,7 +24,7 @@ function useMarketModel() {
       if (defaultList) {
         model.defaultList = defaultList;
         model.symbols = defaultList
-          ?.map((item: GetSymbolsOutput) => item.symbol + "usdt")
+          ?.map((item: GetSymbolsOutput) => item.name + "-USD")
           .join(",");
       } else {
         const result = await getDefaultList();
@@ -32,7 +32,7 @@ function useMarketModel() {
           model.defaultList = result.data;
           await window.api.store.set("defaultList", result.data);
           model.symbols = result.data
-            ?.map((item) => item.symbol + "usdt")
+            ?.map((item) => item.name + "-USD")
             .join(",");
         }
       }
