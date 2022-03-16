@@ -21,6 +21,7 @@ import {
 
 import { APP_PREFIX } from "@dtinsight/molecule/esm/common/const";
 import { ActivityBarView } from "@dtinsight/molecule/esm/workbench/activityBar";
+import BackTest from "./Backtest";
 import { EditorView } from "@dtinsight/molecule/esm//workbench/editor";
 import { ID_APP } from "@dtinsight/molecule/esm/common/id";
 import { IWorkbench } from "@dtinsight/molecule/esm/model/workbench";
@@ -180,6 +181,7 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
               onResizeStrategy={() => ["pave", "keep"]}
             >
               <Pane minSize="10%" maxSize="80%">
+                <BackTest />
                 <EditorView />
               </Pane>
               <PanelView />
