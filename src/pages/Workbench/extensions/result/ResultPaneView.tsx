@@ -1,6 +1,6 @@
+import React, { useEffect } from "react";
 import { Table, TableColumnsType } from "antd";
 
-import React from "react";
 import { ResolutionString } from "@/components/TradingView/Chart/datafeed-api";
 import TradingView from "@/components/TradingView";
 import styles from "./ResultPaneView.module.scss";
@@ -52,23 +52,7 @@ const columns: TableColumnsType<never> | undefined = [
 
 export default () => {
   const { model } = useEngineModel();
-  const state = useReactive({
-    // performanceList: [
-    //   { label: "Pool", value: 0 },
-    //   { label: "Time Range", value: 0 },
-    //   { label: "Total Days", value: 0 },
-    //   { label: "Price Range Size", value: 0 },
-    //   { label: "Rebalance Strategy", value: 0 },
-    //   { label: "Gross Fee APR", value: 0 },
-    //   { label: "Gross Fee Return", value: 0 },
-    //   { label: "Net APR", value: 0 },
-    //   { label: "Net Returns", value: 0 },
-    //   { label: "Rebalance Times", value: 0 },
-    //   { label: "Rebalance Winning Ratio", value: 0 },
-    //   { label: "Max Drawdown", value: 0 },
-    //   { label: "Volatility", value: 0 },
-    //   { label: "Sharpe Ratio", value: 0 },
-    // ],
+  const state = useReactive<{ marketList: any; statistics: any }>({
     marketList: [
       { label: "Open Price", value: 0 },
       { label: "Close Price", value: 0 },
@@ -77,7 +61,14 @@ export default () => {
       { label: "Change", value: 0 },
       { label: "Amplitude", value: 0 },
     ],
+    statistics: {},
   });
+  useEffect(() => {
+    const Statistics = model?.results?.content?.oResults?.Statistics || {};
+    state.statistics = Statistics;
+    console.log(1111);
+  }, [model.results]);
+
   return (
     <div className={styles.container}>
       <div className={styles.card_container}>
@@ -86,16 +77,18 @@ export default () => {
         </div>
         <div className={styles.card_body}>
           <ul className={styles.card_list}>
-            {/* {model.Statistics.map(
-              (item: { value: string; label: string }, index: number) => (
-                <li className={styles.card_item} key={index}>
-                  <div className={styles.item}>
-                    <p className={styles.value}>{item.value}</p>
-                    <p className={styles.label}>{item.label}</p>
-                  </div>
-                </li>
-              )
-            )} */}
+            {state.statistics &&
+              Object.keys(state.statistics).map((key, index) => {
+                const item = state.statistics[key];
+                return (
+                  <li className={styles.card_item} key={index}>
+                    <div className={styles.item}>
+                      <p className={styles.value}>{item}</p>
+                      <p className={styles.label}>{key}</p>
+                    </div>
+                  </li>
+                );
+              })}
           </ul>
           <div className={styles.chart}>
             <TradingView
@@ -124,14 +117,16 @@ export default () => {
         </div>
         <div style={{ padding: 0 }} className={styles.card_body}>
           <ul className={styles.card_list}>
-            {state.marketList.map((item, index) => (
-              <li className={styles.card_item} key={index}>
-                <div className={styles.item}>
-                  <p className={styles.value}>{item.value}</p>
-                  <p className={styles.label}>{item.label}</p>
-                </div>
-              </li>
-            ))}
+            {state.marketList.map(
+              (item: { value: string; label: string }, index: number) => (
+                <li className={styles.card_item} key={index}>
+                  <div className={styles.item}>
+                    <p className={styles.value}>{item.value}</p>
+                    <p className={styles.label}>{item.label}</p>
+                  </div>
+                </li>
+              )
+            )}
           </ul>
         </div>
       </div>
