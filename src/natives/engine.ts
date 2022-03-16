@@ -129,10 +129,10 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
         // ENDTIME：回测结束时间
         Env: [
           `LOADREMOTE=true`,
-          `INTERVAL="1h"`,
-          `STARTTIME="2018-06-01"`,
-          `ENDTIME="2018-09-01"`,
-          `DOMAIN="http://host.docker.internal:${port}/"`,
+          // `INTERVAL="1h"`,
+          // `STARTTIME="2018-06-01"`,
+          // `ENDTIME="2018-09-01"`,
+          `DOMAIN=http://host.docker.internal:${port}/`,
         ],
       },
       (stream) => {

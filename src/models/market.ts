@@ -18,26 +18,26 @@ function useMarketModel() {
     defaultList: [],
   });
 
-  useEffect(() => {
-    (async () => {
-      let defaultList = await window.api.store.get("defaultList");
-      if (defaultList) {
-        model.defaultList = defaultList;
-        model.symbols = defaultList
-          ?.map((item: GetSymbolsOutput) => item.name + "-USD")
-          .join(",");
-      } else {
-        const result = await getDefaultList();
-        if (result.statusCode === 200) {
-          model.defaultList = result.data;
-          await window.api.store.set("defaultList", result.data);
-          model.symbols = result.data
-            ?.map((item) => item.name + "-USD")
-            .join(",");
-        }
-      }
-    })();
-  }, [model.defaultList]);
+  // useEffect(() => {
+  //   (async () => {
+  //     let defaultList = await window.api.store.get("defaultList");
+  //     if (defaultList) {
+  //       model.defaultList = defaultList;
+  //       model.symbols = defaultList
+  //         ?.map((item: GetSymbolsOutput) => item.name + "-USD")
+  //         .join(",");
+  //     } else {
+  //       const result = await getDefaultList();
+  //       if (result.statusCode === 200) {
+  //         model.defaultList = result.data;
+  //         await window.api.store.set("defaultList", result.data);
+  //         model.symbols = result.data
+  //           ?.map((item) => item.name + "-USD")
+  //           .join(",");
+  //       }
+  //     }
+  //   })();
+  // }, [model.defaultList]);
 
   useEffect(() => {
     let connection: signalR.HubConnection;
