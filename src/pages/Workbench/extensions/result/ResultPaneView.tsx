@@ -53,18 +53,9 @@ const columns: TableColumnsType<never> | undefined = [
 export default () => {
   const { model } = useEngineModel();
   const state = useReactive<{
-    marketList: any;
     results: any;
     loading: boolean;
   }>({
-    marketList: [
-      { label: "Open Price", value: 0 },
-      { label: "Close Price", value: 0 },
-      { label: "High Price", value: 0 },
-      { label: "Low Price", value: 0 },
-      { label: "Change", value: 0 },
-      { label: "Amplitude", value: 0 },
-    ],
     results: {},
     loading: false,
   });
@@ -74,7 +65,7 @@ export default () => {
     if (Object.keys(state.results).length > 0) {
       state.loading = false;
     } else {
-      state.loading = true;
+      state.loading = false;
     }
   }, [model.results]);
 
@@ -142,25 +133,15 @@ export default () => {
                     );
                   }
                 )}
-              {/* {state.marketList.map(
-              (item: { value: string; label: string }, index: number) => (
-                <li className={styles.card_item} key={index}>
-                  <div className={styles.item}>
-                    <p className={styles.value}>{item.value}</p>
-                    <p className={styles.label}>{item.label}</p>
-                  </div>
-                </li>
-              )
-            )} */}
             </ul>
           </div>
         </div>
         <div className={styles.card_container}>
-          <div className={styles.card_header}>
+          {/* <div className={styles.card_header}>
             <p>Activity</p>
-          </div>
+          </div> */}
           <div style={{ padding: 0 }} className={styles.card_body}>
-            <ul className={styles.row}>
+            {/* <ul className={styles.row}>
               <li className={styles.row_item}>
                 <div className={styles.content}>
                   <div className={styles.title}>Initial Position</div>
@@ -182,7 +163,7 @@ export default () => {
                   <div className={styles.title}>- -</div>
                 </div>
               </li>
-            </ul>
+            </ul> */}
             <div className={styles.split_line}></div>
             <Table columns={columns} dataSource={[]} pagination={false} />
           </div>
