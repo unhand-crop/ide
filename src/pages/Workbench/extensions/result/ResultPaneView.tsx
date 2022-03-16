@@ -71,7 +71,7 @@ export default () => {
   useEffect(() => {
     const Statistics = model?.results?.content?.oResults || {};
     state.results = Statistics;
-    if (model.results.length > 0) {
+    if (Object.keys(state.results).length > 0) {
       state.loading = false;
     } else {
       state.loading = true;

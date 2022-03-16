@@ -1,16 +1,14 @@
-import { DatePicker, Form, Radio } from "antd";
-
 import Button from "@/components/button";
-import Modal from "@/components/modal";
 import React from "react";
-import locale from "antd/es/date-picker/locale/zh_CN";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
-import { useReactive } from "ahooks";
+import useEngineModel from "@/models/engine";
 
 const BackTest = () => {
   const { panel } = molecule.layout.getState();
   const { folderTree } = molecule.folderTree.getState();
+  const { model } = useEngineModel();
+
   //   const state = useReactive({
   //     visible: false,
   //     radioValue: 0,
@@ -45,10 +43,18 @@ const BackTest = () => {
   return (
     <div className={styles.back_test_container}>
       <div className={styles.button}>
-        <Button title="回测" onClick={() => handleBackTest()} />
+        <Button
+          disabled={model.running}
+          title="回测"
+          onClick={() => handleBackTest()}
+        />
       </div>
       <div className={styles.button}>
-        <Button title="结果" onClick={() => handleResult()} />
+        <Button
+          disabled={Object.keys(model.results).length < 1}
+          title="结果"
+          onClick={() => handleResult()}
+        />
       </div>
       {/* <Modal
         title="回测"
