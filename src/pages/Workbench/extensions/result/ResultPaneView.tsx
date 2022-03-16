@@ -86,7 +86,7 @@ export default () => {
         </div>
         <div className={styles.card_body}>
           <ul className={styles.card_list}>
-            {model.Statistics.map(
+            {/* {model.Statistics.map(
               (item: { value: string; label: string }, index: number) => (
                 <li className={styles.card_item} key={index}>
                   <div className={styles.item}>
@@ -95,7 +95,7 @@ export default () => {
                   </div>
                 </li>
               )
-            )}
+            )} */}
           </ul>
           <div className={styles.chart}>
             <TradingView
