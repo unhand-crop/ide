@@ -124,16 +124,7 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
           Binds: [`${args[0]}:/app/custom/algorithm`],
         },
         // LOADREMOTE：是否加载远程engine数据
-        // INTERVAL：时间间隔：暂时支持 1d/1h/1m
-        // STARTTIME：回测开始时间
-        // ENDTIME：回测结束时间
-        Env: [
-          `LOADREMOTE=true`,
-          `INTERVAL="1h"`,
-          `STARTTIME="2018-06-01"`,
-          `ENDTIME="2018-09-01"`,
-          `DOMAIN="http://host.docker.internal:${port}/"`,
-        ],
+        Env: [`LOADREMOTE=true`, `DOMAIN=http://host.docker.internal:${port}/`],
       },
       (stream) => {
         stream.on("start", () => {
