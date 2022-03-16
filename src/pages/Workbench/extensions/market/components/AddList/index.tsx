@@ -8,10 +8,11 @@ interface AddListProps {
   item: GetSymbolsOutput;
   index: number;
   existence: boolean;
+  shouldAdd: boolean;
   onClick: (item: GetSymbolsOutput) => void;
 }
 
-const AddList = memo(({ item, index, existence, onClick }: AddListProps) => {
+const AddList = memo(({ item, index, existence, shouldAdd, onClick }: AddListProps) => {
   return (
     <li className={styles.item}>
       <div className={styles.left}>
@@ -20,9 +21,9 @@ const AddList = memo(({ item, index, existence, onClick }: AddListProps) => {
       </div>
       <div className={styles.right}>
         <div className={styles.symbol_description}>{item.remark}</div>
-        <div className={styles.exchange_cell} onClick={() => onClick(item)}>
+        {shouldAdd && <div className={styles.exchange_cell} onClick={() => onClick(item)}>
           <IconAdd size={28} color="#2c62ff" />
-        </div>
+        </div>}
       </div>
     </li>
   );

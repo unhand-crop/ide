@@ -36,7 +36,9 @@ export default () => {
   });
 
   useEffect(() => {
-    fetchData();
+    if (params && state.coinVisible) {
+      fetchData();
+    }
   }, [params, state.coinVisible]);
 
   useEffect(() => {
@@ -110,47 +112,49 @@ export default () => {
   };
 
   return (
-    <div className={styles.coin_container}>
-      <div className={styles.header}>
-        <p>列表</p>
-        <IconAdd
-          onClick={() => (state.coinVisible = true)}
-          size={18}
-          color="#b2b5be"
-        />
-      </div>
-      <div className={styles.table}>
-        <div className={styles.table_column}>
-          <span className={styles.column_header}>
-            <span className={styles.label}>货币</span>
-          </span>
-          <span
-            className={`${styles.last_column_header} ${styles.column_header}`}
-          >
-            <span className={styles.label}>最新价</span>
-          </span>
-          {/* <span
+    <>
+      <div className={styles.coin_container}>
+        <div className={styles.header}>
+          <p>列表</p>
+          <IconAdd
+            onClick={() => (state.coinVisible = true)}
+            size={18}
+            color="#b2b5be"
+          />
+        </div>
+        <div className={styles.table}>
+          <div className={styles.table_column}>
+            <span className={styles.column_header}>
+              <span className={styles.label}>货币</span>
+            </span>
+            <span
+              className={`${styles.last_column_header} ${styles.column_header}`}
+            >
+              <span className={styles.label}>最新价</span>
+            </span>
+            {/* <span
             className={`${styles.last_column_header} ${styles.column_header}`}
           >
             <span className={styles.label}>涨跌</span>
           </span> */}
-          <span
-            className={`${styles.last_column_header} ${styles.column_header}`}
-          >
-            <span className={styles.label}>涨跌%</span>
-          </span>
-        </div>
-        <div className={styles.table_content}>
-          {model.defaultList.map((item: GetSymbolsOutput, index: number) => (
-            <List
-              index={index}
-              key={index}
-              item={item}
-              selectIndex={state.selectIndex}
-              onClick={() => handleSelect(index, item.enName)}
-              onCanel={() => handleCanel(item.symbol)}
-            />
-          ))}
+            <span
+              className={`${styles.last_column_header} ${styles.column_header}`}
+            >
+              <span className={styles.label}>涨跌%</span>
+            </span>
+          </div>
+          <div className={styles.table_content}>
+            {model.defaultList.map((item: GetSymbolsOutput, index: number) => (
+              <List
+                index={index}
+                key={index}
+                item={item}
+                selectIndex={state.selectIndex}
+                onClick={() => handleSelect(index, item.enName)}
+                onCanel={() => handleCanel(item.symbol)}
+              />
+            ))}
+          </div>
         </div>
       </div>
       <Modal
@@ -173,16 +177,17 @@ export default () => {
             <div className={styles.commodity_content}>
               <ul className={styles.list}>
                 {state.commodityList.map(
-                  (item: GetSymbolsOutput, index: number) => (
-                    <AddList
+                  (item: GetSymbolsOutput, index: number) => {
+                    const shouldAdd = model.defaultList.some((everyItem: GetSymbolsOutput) => everyItem.symbol === item.symbol);
+                    return <AddList
                       onClick={(item) => handleAdd(item)}
+                      shouldAdd={!shouldAdd}
                       existence={state.existence}
                       index={index}
                       key={index}
                       item={item}
                     />
-                  )
-                )}
+                  })}
               </ul>
               <Pagination
                 total={state.totalCount}
@@ -196,6 +201,6 @@ export default () => {
           </div>
         </div>
       </Modal>
-    </div>
+    </>
   );
 };
