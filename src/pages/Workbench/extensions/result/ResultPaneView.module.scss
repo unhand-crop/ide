@@ -105,6 +105,9 @@
         :global(.ant-empty-img-simple-g) {
           stroke: #434343;
         }
+        :global(.ant-table-tbody > tr.ant-table-row:hover > td) {
+          background-color: transparent;
+        }
       }
       .statistics {
         border-radius: 2px;

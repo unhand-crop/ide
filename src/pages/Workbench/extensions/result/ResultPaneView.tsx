@@ -9,44 +9,39 @@ import { useReactive } from "ahooks";
 
 const columns: TableColumnsType<never> | undefined = [
   {
-    title: "Time",
-    key: "Time",
-    dataIndex: 1,
+    title: "Date Time",
+    dataIndex: "Time",
+    key: "1",
+  },
+  {
+    title: "Symbol",
+    dataIndex: "Symbol",
+    key: "2",
   },
   {
     title: "Type",
-    key: "Type",
-    dataIndex: 2,
-  },
-  {
-    title: "Liquidity",
-    key: "Liquidity",
-    dataIndex: 3,
+    dataIndex: "Type",
+    key: "3",
   },
   {
     title: "Price",
-    key: "Price",
-    dataIndex: 4,
+    dataIndex: "Price",
+    key: "4",
   },
   {
-    title: "Gas Fee",
-    key: "Gas Fee",
-    dataIndex: 5,
+    title: "Quantity",
+    dataIndex: "Quantity",
+    key: "5",
   },
   {
-    title: "Fees Collected",
-    key: "Fees Collected",
-    dataIndex: 6,
+    title: "Status",
+    dataIndex: "Status",
+    key: "6",
   },
   {
-    title: "Rebalance Loss",
-    key: "Rebalance Loss",
-    dataIndex: 7,
-  },
-  {
-    title: "Net Profit",
-    key: "Net Profit",
-    dataIndex: 8,
+    title: "Tag",
+    dataIndex: "Tag",
+    key: "7",
   },
 ];
 
@@ -62,43 +57,44 @@ export default () => {
     statisticsList: statisticsListProps[];
     selectItem: number;
     dateResult: any;
+    orders: readonly object[];
   }>({
     results: {},
     loading: false,
     statisticsList: [{ label: "周期统计" }, { label: "订单" }],
     selectItem: 0,
     dateResult: {},
+    orders: [],
   });
   useEffect(() => {
     const Statistics = model?.results?.content?.oResults || {};
     state.results = Statistics;
     if (Object.keys(state.results).length > 0) {
+      state.orders = state.results?.Orders;
+      fetchData();
       state.loading = false;
     } else {
       state.loading = true;
     }
-    fetchData();
   }, [model.results]);
 
   const fetchData = () => {
-    if (Object.keys(state.results).length > 0) {
-      const datas = Object.keys(state.results?.RollingWindow).map((key) => {
-        return key.split("_")[1];
-      });
-      const setArr = Array.from(new Set(datas));
-      const config = ["M1", "M3", "M6", "M12"];
-      const res: any = {};
-      setArr.map((itemKey) => {
-        const obj: any = {};
-        for (let i = 0; i < 4; i++) {
-          const key = `${config[i]}`;
-          obj[key] = state.results?.RollingWindow[`${key}_${itemKey}`];
-        }
-        res[itemKey] = obj;
-      });
+    const datas = Object.keys(state.results?.RollingWindow).map((key) => {
+      return key.split("_")[1];
+    });
+    const setArr = Array.from(new Set(datas));
+    const config = ["M1", "M3", "M6", "M12"];
+    const res: any = {};
+    setArr.map((itemKey) => {
+      const obj: any = {};
+      for (let i = 0; i < 4; i++) {
+        const key = `${config[i]}`;
+        obj[key] = state.results?.RollingWindow[`${key}_${itemKey}`];
+      }
+      res[itemKey] = obj;
+    });
 
-      state.dateResult = res;
-    }
+    state.dateResult = res;
   };
 
   return (
@@ -197,7 +193,7 @@ export default () => {
               </li>
             </ul> */}
             {/* <div className={styles.split_line}></div> */}
-            {/* <Table columns={columns} dataSource={[]} pagination={false} /> */}
+
             <div className={styles.statistics}>
               <div className={styles.statistics_header}>
                 <ul className={styles.header_list}>
@@ -214,46 +210,55 @@ export default () => {
                   ))}
                 </ul>
               </div>
-              <div className={styles.statistics_body}>
-                <ul className={styles.date_list}>
-                  <li className={styles.date_item}>
-                    <p className={styles.text}></p>
-                    <p className={styles.text}>1Month</p>
-                    <p className={styles.text}>3Month</p>
-                    <p className={styles.text}>6Month</p>
-                    <p className={styles.text}>12Month</p>
-                  </li>
-                  {Object.keys(state.dateResult).map((item, index) => (
-                    <li className={styles.date_item} key={index}>
-                      <p className={styles.text}>{item}</p>
-                      <p className={styles.text}>
-                        {
-                          state.dateResult[item]?.M1?.PortfolioStatistics
-                            ?.SharpeRatio
-                        }
-                      </p>
-                      <p className={styles.text}>
-                        {
-                          state.dateResult[item]?.M3?.PortfolioStatistics
-                            ?.SharpeRatio
-                        }
-                      </p>
-                      <p className={styles.text}>
-                        {
-                          state.dateResult[item]?.M6?.PortfolioStatistics
-                            ?.SharpeRatio
-                        }
-                      </p>
-                      <p className={styles.text}>
-                        {
-                          state.dateResult[item]?.M12?.PortfolioStatistics
-                            ?.SharpeRatio
-                        }
-                      </p>
+              {state.selectItem === 0 && (
+                <div className={styles.statistics_body}>
+                  <ul className={styles.date_list}>
+                    <li className={styles.date_item}>
+                      <p className={styles.text}></p>
+                      <p className={styles.text}>1Month</p>
+                      <p className={styles.text}>3Month</p>
+                      <p className={styles.text}>6Month</p>
+                      <p className={styles.text}>12Month</p>
                     </li>
-                  ))}
-                </ul>
-              </div>
+                    {Object.keys(state.dateResult).map((item, index) => (
+                      <li className={styles.date_item} key={index}>
+                        <p className={styles.text}>{item}</p>
+                        <p className={styles.text}>
+                          {
+                            state.dateResult[item]?.M1?.PortfolioStatistics
+                              ?.SharpeRatio
+                          }
+                        </p>
+                        <p className={styles.text}>
+                          {
+                            state.dateResult[item]?.M3?.PortfolioStatistics
+                              ?.SharpeRatio
+                          }
+                        </p>
+                        <p className={styles.text}>
+                          {
+                            state.dateResult[item]?.M6?.PortfolioStatistics
+                              ?.SharpeRatio
+                          }
+                        </p>
+                        <p className={styles.text}>
+                          {
+                            state.dateResult[item]?.M12?.PortfolioStatistics
+                              ?.SharpeRatio
+                          }
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {state.selectItem === 1 && (
+                <Table
+                  columns={columns}
+                  dataSource={Object.values(state.orders)}
+                  pagination={false}
+                />
+              )}
             </div>
           </div>
         </div>
