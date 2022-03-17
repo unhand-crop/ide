@@ -106,6 +106,50 @@
           stroke: #434343;
         }
       }
+      .statistics {
+        border-radius: 2px;
+        border: 1px solid #464648;
+        .statistics_header {
+          height: 50px;
+          border-bottom: 1px solid #464648;
+          .header_list {
+            display: flex;
+            height: 100%;
+            .header_item {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 126px;
+              height: 100%;
+              border-radius: 2px;
+              cursor: pointer;
+              p {
+                font-size: 16px;
+                font-weight: 500;
+                color: #fff;
+              }
+            }
+            .select_item {
+              background: #3c3f41;
+            }
+          }
+        }
+        .date_list {
+          padding: 0 24px;
+          .date_item {
+            display: flex;
+            height: 48px;
+            border-bottom: 1px solid #464648;
+            .text {
+              width: 20%;
+              line-height: 48px;
+            }
+          }
+          & > :last-child {
+            border-bottom: none;
+          }
+        }
+      }
     }
   }
   .chart {
