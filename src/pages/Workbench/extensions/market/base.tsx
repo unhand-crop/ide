@@ -36,12 +36,9 @@ export function openCreateDataSourceView(name: string) {
         <TradingView
           options={{
             symbol: name + "USD",
-            interval: "D" as ResolutionString,
+            interval: "1D" as ResolutionString,
             datafeedUrl: configs.baseUrl + "/eapi/v1/kline",
-            chartsStorageUrl: "https://saveload.tradingview.com",
-            chartsStorageApiVersion: "1.1",
-            clientId: "tradingview.com",
-            userId: "public_user_id",
+            timeframe: "3D",
             fullscreen: true,
             autosize: true,
             studiesOverrides: {},
