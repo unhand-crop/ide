@@ -1,6 +1,6 @@
 import { AccountExtension } from "./account";
 import { ActionExtension } from "./action";
-import { ExplorerExtension } from "./explorer ";
+import { ExplorerExtension } from "./explorer";
 import { FoldTreeExtension } from "./folderTree";
 import { IExtension } from "@dtinsight/molecule/esm/model";
 import { LauncherExtension } from "./launcher";
