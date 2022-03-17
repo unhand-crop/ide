@@ -1,5 +1,14 @@
 .container {
+  height: calc(100% - 20px);
   padding: 0 1.25rem;
+  position: relative;
+  .occlusion {
+    position: absolute;
+    background-color: #24272d;
+    width: 100%;
+    height: 100%;
+    z-index: 11;
+  }
   .card_container {
     margin-bottom: 2.5rem;
     background-color: #131722;
@@ -97,11 +106,69 @@
         :global(.ant-empty-img-simple-g) {
           stroke: #434343;
         }
+        :global(.ant-table-tbody > tr.ant-table-row:hover > td) {
+          background-color: transparent;
+        }
+      }
+      .statistics {
+        border-radius: 2px;
+        border: 1px solid #464648;
+        .statistics_header {
+          height: 50px;
+          border-bottom: 1px solid #464648;
+          .header_list {
+            display: flex;
+            height: 100%;
+            .header_item {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 126px;
+              height: 100%;
+              border-radius: 2px;
+              cursor: pointer;
+              p {
+                font-size: 16px;
+                font-weight: 500;
+                color: #fff;
+              }
+            }
+            .select_item {
+              background: #3c3f41;
+            }
+          }
+        }
+        .date_list {
+          padding: 0 24px;
+          .date_item {
+            display: flex;
+            height: 48px;
+            border-bottom: 1px solid #464648;
+            .text {
+              width: 20%;
+              line-height: 48px;
+            }
+          }
+          & > :last-child {
+            border-bottom: none;
+          }
+        }
       }
     }
   }
   .chart {
     padding: 0.9375rem;
     height: 400px;
+  }
+}
+
+:global(.ant-spin-nested-loading > div > .ant-spin .ant-spin-text) {
+  text-shadow: none;
+}
+
+:global(.ant-spin-nested-loading) {
+  height: 100%;
+  :global(.ant-spin-container) {
+    height: 100%;
   }
 }
