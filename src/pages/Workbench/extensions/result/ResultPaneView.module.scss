@@ -1,4 +1,5 @@
 .container {
+  height: calc(100% - 20px);
   padding: 0 1.25rem;
   position: relative;
   .occlusion {
@@ -163,4 +164,11 @@
 
 :global(.ant-spin-nested-loading > div > .ant-spin .ant-spin-text) {
   text-shadow: none;
+}
+
+:global(.ant-spin-nested-loading) {
+  height: 100%;
+  :global(.ant-spin-container) {
+    height: 100%;
+  }
 }
