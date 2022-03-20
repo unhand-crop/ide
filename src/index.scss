@@ -25,3 +25,16 @@ dd {
 .mo-editor__group-container::-webkit-scrollbar {
   display: none;
 }
+
+.mo-folderTree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .mo-tree__treenode {
+    margin-top: 1px;
+    width: 100%;
+  }
+  .mo-tree__treenode {
+    width: calc(100% - 2px);
+  }
+}
