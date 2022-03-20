@@ -181,7 +181,7 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
               onResizeStrategy={() => ["pave", "keep"]}
             >
               <Pane minSize="10%" maxSize="80%">
-                <BackTest />
+                {!activityBar.hidden && <BackTest />}
                 <EditorView />
               </Pane>
               <PanelView />
