@@ -4,6 +4,7 @@ import { BrowserWindow, ipcMain, ipcRenderer } from "electron";
 import { Logger, runner } from "hygen";
 
 import Docker from "dockerode";
+import { platform } from "os";
 import { store } from "./store";
 
 class Engine {
@@ -105,9 +106,10 @@ class Engine {
   }
 }
 
-const engine = new Engine({ socketPath: "/var/run/docker.sock" });
-
-// engine.pull();
+const engine = new Engine({
+  socketPath:
+    platform() === "win32" ? "//./pipe/docker_engine" : "/var/run/docker.sock",
+});
 
 export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("engine.create", async (_, args) => {
@@ -125,7 +127,6 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
         },
         // LOADREMOTE：是否加载远程engine数据
         Env: [`LOADREMOTE=true`, `DOMAIN=http://host.docker.internal:${port}/`],
-
       },
       (stream) => {
         stream.on("start", () => {
