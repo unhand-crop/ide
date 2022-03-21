@@ -45,6 +45,7 @@ export function openCreateDataSourceView(name: string) {
             locale: "zh",
             theme: "Dark",
             height: 400,
+            key: name,
           }}
         />
       );

@@ -138,6 +138,7 @@ export default () => {
                   locale: "zh",
                   theme: "Dark",
                   height: 400,
+                  key:"AAPL"
                 }}
               />
             </div>

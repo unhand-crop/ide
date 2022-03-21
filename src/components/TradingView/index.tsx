@@ -26,6 +26,7 @@ interface TradingViewProps {
     height?: ChartingLibraryWidgetOptions["height"];
     width?: ChartingLibraryWidgetOptions["width"];
     debug?: ChartingLibraryWidgetOptions["debug"];
+    key: string;
   };
 }
 
@@ -57,7 +58,7 @@ const TradingView = (props: TradingViewProps) => {
     };
   }, [ref.current]);
 
-  return <div ref={ref} style={{ height: props.options.height }}></div>;
+  return <div ref={ref} key={props.options.key} style={{ height: props.options.height }}></div>;
 };
 
 export default TradingView;
