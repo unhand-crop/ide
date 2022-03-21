@@ -6,6 +6,8 @@ const plugins = require("./webpack.plugins");
 
 const resolve = (dir) => path.resolve(__dirname, dir);
 
+const isDev = process.env.NODE_ENV === "development"; 
+
 rules.push({
   test: /\.css$/,
   use: [{ loader: "style-loader" }, { loader: "css-loader" }],
@@ -38,7 +40,7 @@ plugins.push(
   new CopyWebpackPlugin({
     patterns: [
       { from: resolve("public"), to: resolve(".webpack/renderer/public") },
-      { from: resolve("charts"), to: resolve(".webpack/renderer") },
+      { from: resolve("charts"), to: resolve(`.webpack/renderer${!isDev ? "/main_window" : ""}`) },
       {
         from: resolve("_templates"),
         to: resolve(".webpack/main/_templates"),
