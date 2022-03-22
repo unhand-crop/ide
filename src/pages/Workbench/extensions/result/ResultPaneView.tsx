@@ -6,6 +6,7 @@ import TradingView from "@/components/TradingView";
 import styles from "./ResultPaneView.module.scss";
 import useEngineModel from "@/models/engine";
 import { useReactive } from "ahooks";
+import TradingViewDataBase from "@/components/TradingView/TradingViewDataBase";
 
 const columns: TableColumnsType<never> | undefined = [
   {
@@ -58,6 +59,7 @@ export default () => {
     selectItem: number;
     dateResult: any;
     orders: readonly object[];
+    tradingData?: any;
   }>({
     results: {},
     loading: false,
@@ -65,11 +67,13 @@ export default () => {
     selectItem: 0,
     dateResult: {},
     orders: [],
+    tradingData: [],
   });
   useEffect(() => {
     const Statistics = model?.results?.content?.oResults || {};
     state.results = Statistics;
     if (Object.keys(state.results).length > 0) {
+      state.tradingData = state.results?.Charts["Strategy Equity"]?.Series?.Equity?.Values || [];
       state.orders = state.results?.Orders;
       fetchData();
       state.loading = false;
@@ -123,24 +127,7 @@ export default () => {
                 )}
             </ul>
             <div className={styles.chart}>
-              <TradingView
-                options={{
-                  symbol: "AAPL",
-                  interval: "D" as ResolutionString,
-                  datafeedUrl: "https://demo_feed.tradingview.com",
-                  chartsStorageUrl: "https://saveload.tradingview.com",
-                  chartsStorageApiVersion: "1.1",
-                  clientId: "tradingview.com",
-                  userId: "public_user_id",
-                  fullscreen: false,
-                  autosize: true,
-                  studiesOverrides: {},
-                  locale: "zh",
-                  theme: "Dark",
-                  height: 400,
-                  key:"AAPL"
-                }}
-              />
+              <TradingViewDataBase tradingData={state.tradingData} />
             </div>
           </div>
         </div>
