@@ -6,6 +6,7 @@ import TradingView from "@/components/TradingView";
 import styles from "./ResultPaneView.module.scss";
 import useEngineModel from "@/models/engine";
 import { useReactive } from "ahooks";
+import TradingViewDataBase from "@/components/TradingView/TradingViewDataBase";
 
 const columns: TableColumnsType<never> | undefined = [
   {
@@ -52,34 +53,42 @@ interface statisticsListProps {
 export default () => {
   const { model } = useEngineModel();
   const state = useReactive<{
-    results: any;
+    oResults: any;
     loading: boolean;
     statisticsList: statisticsListProps[];
     selectItem: number;
     dateResult: any;
     orders: readonly object[];
+    TradeBars?: any;
+    symbol?: string;
   }>({
-    results: {},
+    oResults: {},
     loading: false,
     statisticsList: [{ label: "周期统计" }, { label: "订单" }],
     selectItem: 0,
     dateResult: {},
     orders: [],
+    TradeBars: [],
+    symbol: '',
   });
   useEffect(() => {
-    const Statistics = model?.results?.content?.oResults || {};
-    state.results = Statistics;
-    if (Object.keys(state.results).length > 0) {
-      state.orders = state.results?.Orders;
+    const { type = "", content = {} } = model?.results;
+    console.log('---------------------model?.results------------------', model?.results);
+    if (type === "backtestresult") {
+      const { Orders = {} } = state.oResults = content?.oResults || {};
+      state.orders = Orders;
       fetchData();
       state.loading = false;
+    } else if (type === "kline") {
+      state.symbol = content?.Symbol?.Value || "";
+      state.TradeBars = content?.TradeBars || [];
     } else {
       state.loading = true;
     }
   }, [model.results]);
 
   const fetchData = () => {
-    const datas = Object.keys(state.results?.RollingWindow).map((key) => {
+    const datas = Object.keys(state.oResults?.RollingWindow).map((key) => {
       return key.split("_")[1];
     });
     const setArr = Array.from(new Set(datas));
@@ -89,7 +98,7 @@ export default () => {
       const obj: any = {};
       for (let i = 0; i < 4; i++) {
         const key = `${config[i]}`;
-        obj[key] = state.results?.RollingWindow[`${key}_${itemKey}`];
+        obj[key] = state.oResults?.RollingWindow[`${key}_${itemKey}`];
       }
       res[itemKey] = obj;
     });
@@ -107,10 +116,10 @@ export default () => {
           </div>
           <div className={styles.card_body}>
             <ul className={styles.card_list}>
-              {state.results?.RuntimeStatistics &&
-                Object.keys(state.results?.RuntimeStatistics).map(
+              {state.oResults?.RuntimeStatistics &&
+                Object.keys(state.oResults?.RuntimeStatistics).map(
                   (key, index) => {
-                    const item = state.results?.RuntimeStatistics[key];
+                    const item = state.oResults?.RuntimeStatistics[key];
                     return (
                       <li className={styles.card_item} key={index}>
                         <div className={styles.item}>
@@ -123,24 +132,7 @@ export default () => {
                 )}
             </ul>
             <div className={styles.chart}>
-              <TradingView
-                options={{
-                  symbol: "AAPL",
-                  interval: "D" as ResolutionString,
-                  datafeedUrl: "https://demo_feed.tradingview.com",
-                  chartsStorageUrl: "https://saveload.tradingview.com",
-                  chartsStorageApiVersion: "1.1",
-                  clientId: "tradingview.com",
-                  userId: "public_user_id",
-                  fullscreen: false,
-                  autosize: true,
-                  studiesOverrides: {},
-                  locale: "zh",
-                  theme: "Dark",
-                  height: 400,
-                  key:"AAPL"
-                }}
-              />
+              {state.TradeBars.length > 0 && < TradingViewDataBase TradeBars={state.TradeBars} symbol={state.symbol} orders={state.orders} />}
             </div>
           </div>
         </div>
@@ -150,9 +142,9 @@ export default () => {
           </div>
           <div style={{ padding: 0 }} className={styles.card_body}>
             <ul className={styles.card_list}>
-              {state.results?.Statistics &&
-                Object.keys(state.results?.Statistics).map((key, index) => {
-                  const item = state.results?.Statistics[key];
+              {state.oResults?.Statistics &&
+                Object.keys(state.oResults?.Statistics).map((key, index) => {
+                  const item = state.oResults?.Statistics[key];
                   return (
                     <li className={styles.card_item} key={index}>
                       <div className={styles.item}>
@@ -202,9 +194,8 @@ export default () => {
                     <li
                       key={index}
                       onClick={() => (state.selectItem = index)}
-                      className={`${styles.header_item} ${
-                        state.selectItem === index ? styles.select_item : null
-                      }`}
+                      className={`${styles.header_item} ${state.selectItem === index ? styles.select_item : null
+                        }`}
                     >
                       <p>{item.label}</p>
                     </li>
