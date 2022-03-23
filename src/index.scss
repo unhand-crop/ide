@@ -25,6 +25,9 @@ dd {
 .mo-editor__group-container::-webkit-scrollbar {
   display: none;
 }
+.mo-panel__container {
+  margin-bottom: 24px;
+}
 
 .mo-folderTree {
   display: flex;
