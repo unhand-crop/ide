@@ -1,45 +1,43 @@
-import React, { PureComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 import { widget as Widget } from "./Chart/charting_library.esm";
 
-
 interface Iprops {
-    tradingData?: any;
-    on?: any;
+    TradeBars?: any;
+    symbol?: string;
+    orders?: any;
 }
 
+export default (props: Iprops) => {
+    const { symbol = "", TradeBars = [], orders = [] } = props;
+    const [currentTradeBars, upCurrentTradeBars] = useState([]);
+    let feed: any = null;
+    let chart: any = null;
+    useEffect(() => {
+        upCurrentTradeBars(currentTradeBars.concat(TradeBars));
+        if (!feed || !chart) {
+            feed = createFeed();
+            chart = new Widget({
+                fullscreen: false,
+                autosize: true,
+                symbol: symbol,
+                container_id: symbol,
+                datafeed: feed,
+                locale: "en",
+                timezone: "Etc/UTC",
+                debug: false,
+                interval: "60",
+                height: 400,
+                disabled_features: ["header_symbol_search", "header_compare"],
+                theme: "Dark"
+            });
+            chart.onChartReady(() => {
+                // chart.activeChart().resetData(); // callback resolveSymbol
+                chart.activeChart().setSymbol(symbol);
+            });
+        }
+    }, [TradeBars]);
 
-export default class TradingViewDataBase extends PureComponent<Iprops> {
-    constructor(props: Iprops) {
-        super(props)
-    }
-
-    currency1 = "USD";
-    currency2 = "BTC";
-    saved_chart: any = null;
-    chart: any = null;
-    feed: any = null;
-    last_price = 1234.2365;
-
-    componentDidMount() {
-        const that = this;
-        that.feed = that.createFeed();
-        that.chart = new Widget({
-            fullscreen: false,
-            autosize: true,
-            symbol: that.currency1 + ":" + that.currency2,
-            container_id: "TradingViewRef",
-            datafeed: that.feed,
-            locale: "en",
-            timezone: "Etc/UTC",
-            debug: false,
-            interval: "60",
-            height: 400,
-            disabled_features: ["header_symbol_search", "header_compare"],
-        });
-    }
-
-    createFeed = () => {
-        let that = this;
+    const createFeed = () => {
         interface Datafeed {
             DataPulseUpdater: any;
         }
@@ -162,7 +160,7 @@ export default class TradingViewDataBase extends PureComponent<Iprops> {
                 supports_search: false,
                 supports_group_request: false,
                 supported_resolutions: ['1', '3', '5', '15', '30', '60', '120', '240', '360', '720', '1D', '3D', '1W', '1M'],
-                supports_marks: false,
+                supports_marks: true,
                 supports_timescale_marks: false,
                 exchanges: ['myExchange']
             };
@@ -204,19 +202,13 @@ export default class TradingViewDataBase extends PureComponent<Iprops> {
 
         Datafeed.Container.prototype.resolveSymbol = function (symbolName: any, onSymbolResolvedCallback: any, onResolveErrorCallback: any) {
             Promise.resolve().then(() => {
-                function adjustScale() {
-                    if (that.last_price > 1000)
-                        return 100;
-                    else
-                        return 100000000;
-                }
                 onSymbolResolvedCallback({
-                    "name": that.currency1 + ":" + that.currency2,
+                    "name": symbol,
                     "timezone": "Europe/Warsaw",
-                    "pricescale": adjustScale(),
+                    "pricescale": 100000000,
                     "minmov": 1,
                     "minmov2": 0,
-                    "ticker": that.currency1 + ":" + that.currency2,
+                    "ticker": symbol,
                     "description": "",
                     "session": "24x7",
                     "type": "bitcoin",
@@ -231,6 +223,40 @@ export default class TradingViewDataBase extends PureComponent<Iprops> {
             })
         };
 
+        Datafeed.Container.prototype.getMarks = function (symbolInfo: any, from: any, to: any, onDataCallback: any, resolution: any) {
+            // BrokerId: ['1']
+            // ContingentId: 0
+            // CreatedTime: "2021-05-04T04:00:00Z"
+            // Direction: 0
+            // Id: 1
+            // IsMarketable: true
+            // LastFillTime: "2021-05-04T04:00:00Z"
+            // OrderSubmissionData: {BidPrice: 55484.23, AskPrice: 55484.23, LastPrice: 55484.23}
+            // Price: 55484.23
+            // PriceCurrency: "USDT"
+            // Properties: {TimeInForce: {…}}
+            // Quantity: 1.79601
+            // SecurityType: 7
+            // Status: 3
+            // Symbol: {Value: 'BTCUSDT', ID: 'BTCUSDT 18N', Permtick: 'BTCUSDT'}
+            // Time: "2021-05-04T04:00:00Z"
+            // Type: 0
+            // Value: 99650.2319223
+
+            // orders.map((mark: any) => {
+            //     const { Id = 0, Time = 0, } = mark;
+            //     onDataCallback({
+            //         id: Id,
+            //         time: new Date(Time).getTime(),
+            //         color,
+            //         test,
+            //         babel,
+            //         labelFontColor,
+            //         minSize:
+            //     })
+            // })
+        }
+
         Datafeed.Container.prototype.getBars = function (symbolInfo: any, resolution: any, rangeStartDate: number, onHistoryCallback: any, onDataCallback: any, onErrorCallback: any) {
             if (rangeStartDate > 0 && (rangeStartDate + '').length > 10) {
                 throw new Error('Got a JS time instead of Unix one.');
@@ -239,8 +265,15 @@ export default class TradingViewDataBase extends PureComponent<Iprops> {
         };
 
         Datafeed.Container.prototype.subscribeBars = (symbolInfo: any, resolution: any, onRealtimeCallback: any, listenerGUID: any, onResetCacheNeededCallback: any) => {
-            this.props.tradingData.map(function (bar: any) {
-                onRealtimeCallback(bar)
+            currentTradeBars.map(function ({ Time = "", Close = 0, Open = 0, High = 0, Low = 0, Value = 0 }) {
+                onRealtimeCallback({
+                    time: new Date(Time).getTime(),
+                    close: Close,
+                    open: Open,
+                    high: High,
+                    low: Low,
+                    volume: Value
+                })
             });
         };
 
@@ -251,8 +284,5 @@ export default class TradingViewDataBase extends PureComponent<Iprops> {
         return new Datafeed.Container;
     }
 
-    render() {
-        return <div id="TradingViewRef" key="key" style={{ height: 400 }}></div>
-    }
-
+    return <div id={symbol} key={symbol} style={{ height: 400, backgroundColor: '#0000001a' }}></div>
 }
