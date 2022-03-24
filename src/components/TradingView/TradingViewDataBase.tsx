@@ -38,6 +38,22 @@ export default (props: Iprops) => {
     }, [TradeBars]);
 
     const createFeed = () => {
+        const marksColors: any = {
+            "0": "red",
+            "1": "green"
+        };
+        const labelText: any = {
+            "0": "+",
+            "1": "-"
+        }
+        const labelFontColors: any = {
+            "0": "#fff",
+            "1": "#fff"
+        };
+        const marksText: any = {
+            "0": "买",
+            "1": "卖"
+        };
         interface Datafeed {
             DataPulseUpdater: any;
         }
@@ -159,9 +175,9 @@ export default (props: Iprops) => {
             this._configuration = {
                 supports_search: false,
                 supports_group_request: false,
-                supported_resolutions: ['1', '3', '5', '15', '30', '60', '120', '240', '360', '720', '1D', '3D', '1W', '1M'],
+                supported_resolutions: ['1', '60', '1D'],
                 supports_marks: true,
-                supports_timescale_marks: false,
+                supports_timescale_marks: true,
                 exchanges: ['myExchange']
             };
 
@@ -224,37 +240,39 @@ export default (props: Iprops) => {
         };
 
         Datafeed.Container.prototype.getMarks = function (symbolInfo: any, from: any, to: any, onDataCallback: any, resolution: any) {
-            // BrokerId: ['1']
-            // ContingentId: 0
-            // CreatedTime: "2021-05-04T04:00:00Z"
-            // Direction: 0
-            // Id: 1
-            // IsMarketable: true
-            // LastFillTime: "2021-05-04T04:00:00Z"
-            // OrderSubmissionData: {BidPrice: 55484.23, AskPrice: 55484.23, LastPrice: 55484.23}
-            // Price: 55484.23
-            // PriceCurrency: "USDT"
-            // Properties: {TimeInForce: {…}}
-            // Quantity: 1.79601
-            // SecurityType: 7
-            // Status: 3
-            // Symbol: {Value: 'BTCUSDT', ID: 'BTCUSDT 18N', Permtick: 'BTCUSDT'}
-            // Time: "2021-05-04T04:00:00Z"
-            // Type: 0
-            // Value: 99650.2319223
+            // 买绿 出红 
+            const marks = Object.values(orders).map((mark: any) => {
+                const { Id = 0, CreatedTime = 0, Type = 0 } = mark;
+                const item = {
+                    id: Id,
+                    time: new Date(CreatedTime).getTime() / 1000,
+                    color: marksColors[Type],
+                    text: marksText[Type],
+                    label: labelText[Type],
+                    labelFontColor: labelFontColors[Type],
+                    minSize: 14,
+                }
+                return item;
+            })
+            onDataCallback(marks);
+        }
 
-            // orders.map((mark: any) => {
-            //     const { Id = 0, Time = 0, } = mark;
-            //     onDataCallback({
-            //         id: Id,
-            //         time: new Date(Time).getTime(),
-            //         color,
-            //         test,
-            //         babel,
-            //         labelFontColor,
-            //         minSize:
-            //     })
-            // })
+        Datafeed.Container.prototype.getTimescaleMarks = function (symbolInfo: any, startDate: any, endDate: any, onDataCallback: any, resolution: any) {
+            const marks = Object.values(orders).map((mark: any) => {
+                const { Id = 0, CreatedTime = 0, Type = 0, } = mark;
+                const item = {
+                    id: Id,
+                    time: new Date(CreatedTime).getTime() / 1000,
+                    color: marksColors[Type],
+                    text: marksText[Type],
+                    label: labelText[Type],
+                    labelFontColor: labelFontColors[Type],
+                    tooltip: [marksText[Type]],
+                    minSize: 14,
+                }
+                return item;
+            })
+            onDataCallback(marks);
         }
 
         Datafeed.Container.prototype.getBars = function (symbolInfo: any, resolution: any, rangeStartDate: number, onHistoryCallback: any, onDataCallback: any, onErrorCallback: any) {
