@@ -240,7 +240,6 @@ export default (props: Iprops) => {
         };
 
         Datafeed.Container.prototype.getMarks = function (symbolInfo: any, from: any, to: any, onDataCallback: any, resolution: any) {
-            // 买绿 出红 
             const marks = Object.values(orders).map((mark: any) => {
                 const { Id = 0, CreatedTime = 0, Type = 0 } = mark;
                 const item = {
