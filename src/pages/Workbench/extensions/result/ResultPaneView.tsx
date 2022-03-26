@@ -7,6 +7,7 @@ import styles from "./ResultPaneView.module.scss";
 import useEngineModel from "@/models/engine";
 import { useReactive } from "ahooks";
 import TradingViewDataBase from "@/components/TradingView/TradingViewDataBase";
+import molecule from "@dtinsight/molecule";
 
 const columns: TableColumnsType<never> | undefined = [
   {
@@ -71,9 +72,18 @@ export default () => {
     TradeBars: [],
     symbol: '',
   });
+
+  useEffect(() => {
+    molecule.layout.onUpdateState((prevState, nextState) => {
+      console.log(prevState, nextState);
+      if (nextState.panel.hidden) {
+        initState()
+      }
+    })
+  }, [])
+
   useEffect(() => {
     const { type = "", content = {} } = model?.results;
-    console.log('---------------------model?.results------------------', model?.results);
     if (type === "backtestresult") {
       const { Orders = {} } = state.oResults = content?.oResults || {};
       state.orders = Orders;
@@ -86,6 +96,17 @@ export default () => {
       state.loading = true;
     }
   }, [model.results]);
+
+  const initState = () => {
+    state.oResults = {};
+    state.loading = true;
+    state.statisticsList = [{ label: "周期统计" }, { label: "订单" }];
+    state.selectItem = 0;
+    state.dateResult = {};
+    state.orders = [];
+    state.TradeBars = [];
+    state.symbol = "";
+  }
 
   const fetchData = () => {
     const datas = Object.keys(state.oResults?.RollingWindow).map((key) => {
