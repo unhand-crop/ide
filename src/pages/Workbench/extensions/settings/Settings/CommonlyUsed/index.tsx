@@ -1,8 +1,8 @@
-// import Checkbox from '@/components/Checkbox';
-// import  Input  from '@/components/Input';
-// import Select from '@/components/Select';
+import Checkbox from "@/components/checkbox";
 import { Form } from "antd";
+import Input from "@/components/input";
 import React from "react";
+import Select from "@/components/select";
 import styles from "./index.module.scss";
 
 function CommonlyUsed() {
@@ -17,7 +17,13 @@ function CommonlyUsed() {
             about autosave <a className={styles.blue_text}>here</a>.
           </p>
           <Form.Item name="autoSave" initialValue="off">
-            {/* <Select style={{ width: 404 }} children={[ { value: "off", label:"OFF" }, { value: "on", label: "ON" }]} /> */}
+            <Select
+              style={{ width: 404 }}
+              children={[
+                { value: "off", label: "OFF" },
+                { value: "on", label: "ON" },
+              ]}
+            />
           </Form.Item>
         </div>
         <div className={styles.item}>
@@ -26,7 +32,7 @@ function CommonlyUsed() {
             Controls the font size in pixels.
           </p>
           <Form.Item name="fontSize" initialValue="12">
-            {/* <Input style={{width: 404}}/> */}
+            <Input style={{ width: 404 }} />
           </Form.Item>
         </div>
         <div className={styles.item}>
@@ -36,7 +42,7 @@ function CommonlyUsed() {
             name="fontFamily"
             initialValue="Menlo Monaco，'Courier New'，Monospace"
           >
-            {/* <Input style={{width: 404}} /> */}
+            <Input style={{ width: 404 }} />
           </Form.Item>
         </div>
         <div className={styles.item}>
@@ -47,7 +53,7 @@ function CommonlyUsed() {
               valuePropName="checked"
               initialValue={false}
             >
-              {/* <Checkbox /> */}
+              <Checkbox />
             </Form.Item>
             <p className={styles.item_introduce}>
               Insert spaces when pressing tab.this setting is overridden based
