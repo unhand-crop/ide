@@ -8,6 +8,7 @@ import { MarketExtension } from "./market";
 import { OneDarkPro } from "./oneDarkPro/index";
 import { ResultExtension } from "./result";
 import { SearchExtension } from "./search";
+import { SettingsExtension } from "./settings";
 import { StatusBarExtension } from "./statusbar";
 
 const extensions: IExtension[] = [
@@ -20,6 +21,7 @@ const extensions: IExtension[] = [
   new StatusBarExtension(),
   new FoldTreeExtension(),
   new ActionExtension(),
+  new SettingsExtension(),
   OneDarkPro,
 ];
 
