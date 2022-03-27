@@ -11,7 +11,7 @@ export class SettingsExtension implements IExtension {
 
   activate(extensionCtx: IExtensionService): void {
     molecule.activityBar.remove("global.menu.settings");
-    molecule.activityBar.add(settingsActivityBar, true);
+    molecule.activityBar.add(settingsActivityBar);
     molecule.activityBar.onClick((id) => {
       if (id === "sidebar.settings") {
         molecule.editor.open({

@@ -1,8 +1,8 @@
-// import Checkbox from '@/components/Checkbox';
-// import  Input  from '@/components/Input';
-// import Select from '@/components/Select';
 import { Form } from "antd";
 import React from "react";
+// import Checkbox from '@/components/Checkbox';
+// import  Input  from '@/components/Input';
+import Select from "@/components/select";
 import styles from "./index.module.scss";
 
 function CommonlyUsed() {
@@ -17,7 +17,13 @@ function CommonlyUsed() {
             about autosave <a className={styles.blue_text}>here</a>.
           </p>
           <Form.Item name="autoSave" initialValue="off">
-            {/* <Select style={{ width: 404 }} children={[ { value: "off", label:"OFF" }, { value: "on", label: "ON" }]} /> */}
+            <Select
+              style={{ width: 404 }}
+              children={[
+                { value: "off", label: "OFF" },
+                { value: "on", label: "ON" },
+              ]}
+            />
           </Form.Item>
         </div>
         <div className={styles.item}>
