@@ -1,7 +1,7 @@
 import { Form } from "antd";
-import React from "react";
 // import Checkbox from '@/components/Checkbox';
-// import  Input  from '@/components/Input';
+import Input from "@/components/input";
+import React from "react";
 import Select from "@/components/select";
 import styles from "./index.module.scss";
 
@@ -32,7 +32,7 @@ function CommonlyUsed() {
             Controls the font size in pixels.
           </p>
           <Form.Item name="fontSize" initialValue="12">
-            {/* <Input style={{width: 404}}/> */}
+            <Input style={{ width: 404 }} />
           </Form.Item>
         </div>
         <div className={styles.item}>
@@ -42,7 +42,7 @@ function CommonlyUsed() {
             name="fontFamily"
             initialValue="Menlo Monaco，'Courier New'，Monospace"
           >
-            {/* <Input style={{width: 404}} /> */}
+            <Input style={{ width: 404 }} />
           </Form.Item>
         </div>
         <div className={styles.item}>
