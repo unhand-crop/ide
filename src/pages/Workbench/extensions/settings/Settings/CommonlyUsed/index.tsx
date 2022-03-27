@@ -1,5 +1,5 @@
+import Checkbox from "@/components/checkbox";
 import { Form } from "antd";
-// import Checkbox from '@/components/Checkbox';
 import Input from "@/components/input";
 import React from "react";
 import Select from "@/components/select";
@@ -53,7 +53,7 @@ function CommonlyUsed() {
               valuePropName="checked"
               initialValue={false}
             >
-              {/* <Checkbox /> */}
+              <Checkbox />
             </Form.Item>
             <p className={styles.item_introduce}>
               Insert spaces when pressing tab.this setting is overridden based

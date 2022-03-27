@@ -1,0 +1,12 @@
+.checkbox {
+    :global(.ant-checkbox-inner) {
+        width: 20px !important;
+        height: 20px !important;
+        background: #44484A !important;
+        border-radius: 2px !important;
+        border: 1px solid #6A6B6D !important;
+    }
+    :global(.ant-checkbox-inner::after ) {
+        left: 30% !important;
+    }
+}
