@@ -17,9 +17,9 @@ const useSettingModel = () => {
       ...(settings ?? {}),
     };
 
-    molecule.settings.onChangeSettings((settings) =>
-      window.api.store.set("settings", settings)
-    );
+    molecule.settings.onChangeSettings((settings) => {
+      window.api.store.set("settings", settings);
+    });
     molecule.settings.applySettings(settings);
   });
 
