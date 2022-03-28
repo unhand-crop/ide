@@ -4,7 +4,8 @@ import { BrowserWindow, ipcMain, ipcRenderer } from "electron";
 import { Logger, runner } from "hygen";
 
 import Docker from "dockerode";
-import { platform } from "os";
+import { status as getWslStatus } from "node-wsl";
+import { isWindows } from "./utils";
 import { store } from "./store";
 
 class Engine {
@@ -18,6 +19,13 @@ class Engine {
     this.docker = new Docker(this.dockerOptions);
     if (!templates) {
       this.templates = path.join(__dirname, "_templates");
+    }
+  }
+
+  async init() {
+    if (isWindows) {
+      const status = await getWslStatus();
+      console.log(status);
     }
   }
 
@@ -107,11 +115,13 @@ class Engine {
 }
 
 const engine = new Engine({
-  socketPath:
-    platform() === "win32" ? "//./pipe/docker_engine" : "/var/run/docker.sock",
+  socketPath: isWindows ? "//./pipe/docker_engine" : "/var/run/docker.sock",
 });
 
 export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
+  ipcMain.handle("engine.init", async () => {
+    await engine.init();
+  });
   ipcMain.handle("engine.create", async (_, args) => {
     const path = args[0];
     const language = args[1] ?? "python";
@@ -157,6 +167,9 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
 
 export const registerEngineInvokes = () => {
   return {
+    async init(...args: any[]) {
+      return await ipcRenderer.invoke("engine.init", args);
+    },
     async create(...args: any[]) {
       return await ipcRenderer.invoke("engine.create", args);
     },
