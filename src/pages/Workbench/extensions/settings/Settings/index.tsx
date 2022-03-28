@@ -1,18 +1,31 @@
 import { Button, Form } from "antd";
+import { useMount, useReactive } from "ahooks";
 
 import CommonlyUsed from "./CommonlyUsed";
+import { IEditorOptions } from "@dtinsight/molecule/esm/model";
 import React from "react";
+import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
-import { useReactive } from "ahooks";
 
 function Settings() {
   const [settingsForm] = Form.useForm();
   const state = useReactive({
     settingsMenus: [
-      { label: "Commonly Used", id: "commonly-used" },
-      { label: "Text Editor", id: "text-editor" },
+      { label: "常用设置", id: "commonly-used" },
+      { label: "文本编辑器", id: "text-editor" },
     ],
     selectedItem: "commonly-used",
+  });
+
+  useMount(async () => {
+    let settings = await window.api.store.get("settings");
+    settingsForm.setFieldsValue({
+      locale: settings.locale,
+      fontSize: settings.editor.fontSize,
+      tabSize: settings.editor.tabSize,
+      colorTheme: "One Dark Pro",
+      // renderWhitespace: settings.editor.renderWhitespace,
+    });
   });
 
   const handleMenusClick = (item: string) => {
@@ -21,7 +34,17 @@ function Settings() {
 
   const handleSave = () => {
     const data = settingsForm.getFieldsValue();
-    console.log(data, "设置表单的值");
+    const settings = {
+      editor: {
+        fontSize: data.fontSize,
+        // renderWhitespace: "none",
+        tabSize: data.tabSize,
+      },
+      colorTheme: "One Dark Pro",
+      locale: data.locale,
+    };
+    window.api.store.set("settings", settings);
+    molecule.settings.applySettings(settings);
   };
 
   return (
@@ -30,9 +53,6 @@ function Settings() {
         保存
       </Button>
       <div className={styles.settings_content}>
-        <div className={styles.search}>
-          <input placeholder="Search settings" />
-        </div>
         <div className={styles.settings_content_body}>
           <div className={styles.left_content}>
             <ul className={styles.menus}>
