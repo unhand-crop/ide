@@ -2,7 +2,6 @@ import { useMount, useReactive } from "ahooks";
 
 import { IpcRendererEvent } from "electron";
 import { createModel } from "hox";
-import { useEffect } from "react";
 
 function useEngineModel() {
   const model = useReactive<{
@@ -14,6 +13,7 @@ function useEngineModel() {
   });
 
   useMount(async () => {
+    await window.api.engine.init();
     window.api.ipc.on("engine-result", (_: IpcRendererEvent, data: any) => {
       model.results = JSON.parse(data);
     });
