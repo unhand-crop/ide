@@ -24,12 +24,19 @@ export class KeybindingAction extends Action2 {
 
   async run(accessor: any, ...args: any[]) {
     const { current } = molecule.editor.getState();
+
     if (current) {
-      const tab = molecule.editor.getTabById<any>(
-        current!.activeTab!,
-        current!.id
-      )!;
-      await window.api.fs.writeFile(tab.id, tab.data.value);
+      if (current.tab.id === "settings") {
+        let settings = await window.api.store.get("settings");
+        window.api.store.set("settings", settings);
+        molecule.settings.applySettings(settings);
+      } else {
+        const tab = molecule.editor.getTabById<any>(
+          current!.activeTab!,
+          current!.id
+        )!;
+        await window.api.fs.writeFile(tab.id, tab.data.value);
+      }
     }
   }
 }
