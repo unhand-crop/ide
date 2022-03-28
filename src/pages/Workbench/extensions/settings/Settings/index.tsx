@@ -1,8 +1,7 @@
-import { Button, Form } from "antd";
 import { useMount, useReactive } from "ahooks";
 
 import CommonlyUsed from "./CommonlyUsed";
-import { IEditorOptions } from "@dtinsight/molecule/esm/model";
+import { Form } from "antd";
 import React from "react";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
@@ -49,9 +48,6 @@ function Settings() {
 
   return (
     <div className={styles.settings}>
-      <Button type="primary" onClick={handleSave}>
-        保存
-      </Button>
       <div className={styles.settings_content}>
         <div className={styles.settings_content_body}>
           <div className={styles.left_content}>
@@ -71,7 +67,9 @@ function Settings() {
           </div>
           <div className={styles.right_content}>
             <Form form={settingsForm}>
-              {state.selectedItem === "commonly-used" && <CommonlyUsed />}
+              {state.selectedItem === "commonly-used" && (
+                <CommonlyUsed handleSave={() => handleSave()} />
+              )}
               {state.selectedItem === "text-editor" && (
                 <span className="text-white">text editor</span>
               )}

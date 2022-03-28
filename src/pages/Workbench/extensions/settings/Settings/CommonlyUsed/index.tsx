@@ -5,7 +5,11 @@ import React from "react";
 import Select from "@/components/select";
 import styles from "./index.module.scss";
 
-function CommonlyUsed() {
+interface CommonlyUsedProps {
+  handleSave: () => void;
+}
+
+function CommonlyUsed({ handleSave }: CommonlyUsedProps) {
   return (
     <div className={styles.commonly_used}>
       <p className={styles.title}>常用设置</p>
@@ -14,6 +18,7 @@ function CommonlyUsed() {
           <div className={styles.item_label}>语言</div>
           <Form.Item name="locale" initialValue="en">
             <Select
+              onSelect={() => handleSave()}
               style={{ width: 404 }}
               children={[
                 { value: "zh-CN", label: "中文" },
@@ -25,14 +30,14 @@ function CommonlyUsed() {
         <div className={styles.item}>
           <div className={styles.item_label}>控制字体大小(像素)。</div>
           <Form.Item name="fontSize" initialValue="11">
-            <Input style={{ width: 404 }} />
+            <Input onBlur={() => handleSave()} style={{ width: 404 }} />
           </Form.Item>
         </div>
         <div className={styles.item}>
           <div className={styles.item_label}>空格</div>
           <p className={styles.item_introduce}>一个制表符等于一个空格数。</p>
           <Form.Item name="tabSize" initialValue="3">
-            <Input style={{ width: 404 }} />
+            <Input onBlur={() => handleSave()} style={{ width: 404 }} />
           </Form.Item>
         </div>
         {/* <div className={styles.item}>
