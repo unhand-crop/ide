@@ -23,8 +23,9 @@ jobs:
 
       - name: Package Electron
         run: |
-          npm i
-          npm run package
+          npm i -g yarn
+          yarn
+          yarn package
         env:
           TARGET_PLATFORMS: darwin
 
@@ -34,5 +35,5 @@ jobs:
           prerelease: true
           files: |
             LICENSE
-            out/*.dmg
+            out/*.app
             out/*.exe
