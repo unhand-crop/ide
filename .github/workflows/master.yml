@@ -26,16 +26,17 @@ jobs:
           npm i -g yarn
           yarn
           yarn package
+          yarn global add appdmg
+          yarn dmg
         env:
           TARGET_PLATFORMS: darwin
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.TOKEN }}"
-          automatic_release_tag: "latest"
-          title: "Unhand Studio"
+          automatic_release_tag: "v1.0.2"
           prerelease: true
           files: |
             LICENSE
-            out/*.app
+            out/Unhand.dmg
             out/*.exe

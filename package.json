@@ -11,7 +11,8 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
-    "icon": "npx iconfont-h5"
+    "icon": "npx iconfont-h5",
+    "dmg":"appdmg ./appdmg.json ./out/Unhand.dmg"
   },
   "keywords": [],
   "author": {
