@@ -1,0 +1,16 @@
+
+{
+    "title": "Unhand Studio",
+    "icon": "./public/image/unhand.icns",
+    "contents": [
+      { "x": 380, "y": 170, "type": "link", "path": "/Applications" },
+      { "x": 200, "y": 170, "type": "file", "path": "./out/Unhand Studio-darwin-x64/Unhand Studio.app" }
+    ],
+    "window": {
+        "size": {
+            "width": 580,
+            "height": 360
+        }
+    },
+    "format": "UDBZ"
+}
