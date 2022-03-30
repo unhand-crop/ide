@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import { Spin, Table, TableColumnsType } from "antd";
 
-import { ResolutionString } from "@/components/TradingView/Chart/datafeed-api";
-import TradingView from "@/components/TradingView";
+import TradingViewDataBase from "@/components/TradingView/TradingViewDataBase";
+import molecule from "@dtinsight/molecule";
 import styles from "./ResultPaneView.module.scss";
 import useEngineModel from "@/models/engine";
 import { useReactive } from "ahooks";
-import TradingViewDataBase from "@/components/TradingView/TradingViewDataBase";
-import molecule from "@dtinsight/molecule";
 
 const columns: TableColumnsType<never> | undefined = [
   {
@@ -70,7 +68,7 @@ export default () => {
     dateResult: {},
     orders: [],
     TradeBars: [],
-    symbol: '',
+    symbol: "",
   });
 
   useEffect(() => {
@@ -80,13 +78,13 @@ export default () => {
         await window.api.engine.remove();
         initState();
       }
-    })
-  }, [])
+    });
+  }, []);
 
   useEffect(() => {
     const { type = "", content = {} } = model?.results;
     if (type === "backtestresult") {
-      const { Orders = {} } = state.oResults = content?.oResults || {};
+      const { Orders = {} } = (state.oResults = content?.oResults || {});
       state.orders = Orders;
       fetchData();
       state.loading = false;
@@ -107,7 +105,7 @@ export default () => {
     state.orders = [];
     state.TradeBars = [];
     state.symbol = "";
-  }
+  };
 
   const fetchData = () => {
     const datas = Object.keys(state.oResults?.RollingWindow).map((key) => {
@@ -154,7 +152,13 @@ export default () => {
                 )}
             </ul>
             <div className={styles.chart}>
-              {state.TradeBars.length > 0 && < TradingViewDataBase TradeBars={state.TradeBars} symbol={state.symbol} orders={state.orders} />}
+              {state.TradeBars.length > 0 && (
+                <TradingViewDataBase
+                  TradeBars={state.TradeBars}
+                  symbol={state.symbol}
+                  orders={state.orders}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -180,35 +184,7 @@ export default () => {
           </div>
         </div>
         <div className={styles.card_container}>
-          {/* <div className={styles.card_header}>
-            <p>Activity</p>
-          </div> */}
           <div style={{ padding: 0 }} className={styles.card_body}>
-            {/* <ul className={styles.row}>
-              <li className={styles.row_item}>
-                <div className={styles.content}>
-                  <div className={styles.title}>Initial Position</div>
-                  <div className={styles.title}>- -</div>
-                  <div className={styles.title}>- -</div>
-                </div>
-              </li>
-              <li className={styles.row_item}>
-                <div className={styles.content}>
-                  <div className={styles.title}>Final Position</div>
-                  <div className={styles.title}>- -</div>
-                  <div className={styles.title}>- -</div>
-                </div>
-              </li>
-              <li className={styles.row_item}>
-                <div className={styles.content}>
-                  <div className={styles.title}>Fees Collected</div>
-                  <div className={styles.title}>- -</div>
-                  <div className={styles.title}>- -</div>
-                </div>
-              </li>
-            </ul> */}
-            {/* <div className={styles.split_line}></div> */}
-
             <div className={styles.statistics}>
               <div className={styles.statistics_header}>
                 <ul className={styles.header_list}>
@@ -216,8 +192,9 @@ export default () => {
                     <li
                       key={index}
                       onClick={() => (state.selectItem = index)}
-                      className={`${styles.header_item} ${state.selectItem === index ? styles.select_item : null
-                        }`}
+                      className={`${styles.header_item} ${
+                        state.selectItem === index ? styles.select_item : null
+                      }`}
                     >
                       <p>{item.label}</p>
                     </li>
