@@ -1,12 +1,11 @@
 import Button from "@/components/button";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
 import useEngineModel from "@/models/engine";
 
 const BackTest = () => {
   const { panel } = molecule.layout.getState();
-  const { folderTree } = molecule.folderTree.getState();
   const { model } = useEngineModel();
 
   //   const state = useReactive({
@@ -14,6 +13,7 @@ const BackTest = () => {
   //     radioValue: 0,
   //   });
   //   const [form] = Form.useForm();
+
   const handleBackTest = async () => {
     // state.visible = true;
     if (panel.hidden) {
@@ -22,6 +22,7 @@ const BackTest = () => {
       }
       molecule.layout.togglePanelVisibility();
     }
+    const { folderTree } = molecule.folderTree.getState();
     if (folderTree?.data[0]?.id) {
       await window.api.engine.backtest(folderTree?.data[0]?.id);
     }
