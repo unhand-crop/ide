@@ -72,10 +72,15 @@ export default () => {
   });
 
   useEffect(() => {
-    molecule.layout.onUpdateState((prevState, nextState) => {
-      console.log(prevState, nextState);
-      if (nextState.panel.hidden) {
-        initState();
+    molecule.layout.onUpdateState(async (prevState, nextState) => {
+      try {
+        if (nextState.panel.hidden) {
+          await window.api.engine.stop();
+          await window.api.engine.remove();
+          initState();
+        }
+      } catch (e) {
+
       }
     });
   }, []);
@@ -191,9 +196,8 @@ export default () => {
                     <li
                       key={index}
                       onClick={() => (state.selectItem = index)}
-                      className={`${styles.header_item} ${
-                        state.selectItem === index ? styles.select_item : null
-                      }`}
+                      className={`${styles.header_item} ${state.selectItem === index ? styles.select_item : null
+                        }`}
                     >
                       <p>{item.label}</p>
                     </li>
