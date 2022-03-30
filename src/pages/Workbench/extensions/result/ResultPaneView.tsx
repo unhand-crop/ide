@@ -74,9 +74,11 @@ export default () => {
   });
 
   useEffect(() => {
-    molecule.layout.onUpdateState((prevState, nextState) => {
+    molecule.layout.onUpdateState(async (prevState, nextState) => {
       if (nextState.panel.hidden) {
-        initState()
+        await window.api.engine.stop();
+        await window.api.engine.remove();
+        initState();
       }
     })
   }, [])
