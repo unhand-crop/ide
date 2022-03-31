@@ -20,6 +20,10 @@ export { default as IconRefresh1 } from './IconRefresh1';
 export { default as IconSearch } from './IconSearch';
 export { default as IconProject } from './IconProject';
 export { default as IconResource } from './IconResource';
+export { default as ProgressReslove } from './ProgressReslove';
+export { default as ProgressReject } from './ProgressReject';
+export { default as ProgressPending } from './ProgressPending';
+export { default as ProgressWait } from './ProgressWait';
 
 interface Props extends Omit<SVGAttributes<SVGElement>, 'color'> {
   name: 'add' | 'no' | 'yes' | 'back' | 'a-Newwallet' | 'a-ImportWallet' | 'logo' | 'logos' | 'preservation' | 'a-Transferin' | 'a-Transferout' | 'close' | 'arrow-right' | 'a-creatnew' | 'a-openproject' | 'Refresh1' | 'search' | 'project' | 'resource';

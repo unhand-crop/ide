@@ -7,15 +7,31 @@ function useEngineModel() {
   const model = useReactive<{
     running: boolean;
     results: any;
+    algorithmstep: any;
+    algorithmstepConfig: any[];
   }>({
     running: false,
     results: {},
+    algorithmstep: {},
+    algorithmstepConfig: ["initconfig", "downloaddata", "algorithmrunning", "responseresult"],
   });
 
   useMount(async () => {
     await window.api.engine.init();
     window.api.ipc.on("engine-result", (_: IpcRendererEvent, data: any) => {
-      model.results = JSON.parse(data);
+      switch (data.type) {
+        case "algorithmstepConfig":
+          model.algorithmstepConfig = data.content || [];
+          break;
+        case "algorithmstep":
+          model.algorithmstep[data.progressType] = data;
+          break;
+        case "backtestresult":
+          model.results = data;
+          break;
+        default:
+          break;
+      }
     });
     window.api.ipc.on(
       "engine-stream-start",
