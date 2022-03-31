@@ -7,6 +7,7 @@ import {
 import Button from "./components/Button";
 import Modal from "@/components/modal";
 import React from "react";
+import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import styles from "./index.module.scss";
 import useEditorModel from "@/models/editor";
 import { useReactive } from "ahooks";
@@ -35,13 +36,13 @@ const Launcher = () => {
         <div className={styles.project_button}>
           <Button
             icon={<IconACreatnew size={32} />}
-            title="新建算法"
+            title={localize("launcher.newAlgorithm", "新建算法")}
             onClick={() => (state.visible = true)}
           />
           <Button
             icon={<IconAOpenproject size={32} />}
             onClick={() => handleOpen()}
-            title="打开算法"
+            title={localize("launcher.openAlgorithm", "打开算法")}
           />
         </div>
       </div>

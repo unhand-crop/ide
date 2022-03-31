@@ -13,7 +13,7 @@ const useSettingModel = () => {
       "editor.renderWhitespace": "none",
       "editor.tabSize": 4,
       "editor.fontSize": 14,
-      locale: "zh-CN",
+      locale: "custom-zh-CN",
       ...(settings ?? {}),
     };
 

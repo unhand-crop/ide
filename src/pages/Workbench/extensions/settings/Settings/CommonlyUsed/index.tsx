@@ -16,13 +16,13 @@ function CommonlyUsed({ handleSave }: CommonlyUsedProps) {
       <div className={styles.commonly_used_body}>
         <div className={styles.item}>
           <div className={styles.item_label}>语言</div>
-          <Form.Item name="locale" initialValue="en">
+          <Form.Item name="locale" initialValue="custom-zh-CN">
             <Select
               onSelect={() => handleSave()}
               style={{ width: 404 }}
               children={[
-                { value: "zh-CN", label: "中文" },
-                { value: "en", label: "英语" },
+                { value: "custom-zh-CN", label: "中文" },
+                { value: "custom-en", label: "英语" },
               ]}
             />
           </Form.Item>
