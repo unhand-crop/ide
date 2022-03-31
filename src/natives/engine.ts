@@ -10,6 +10,7 @@ import { store } from "./store";
 
 class Engine {
   private readonly docker: Docker;
+  engineContainer: any;
 
   constructor(
     private readonly dockerOptions: Docker.DockerOptions,
@@ -17,6 +18,7 @@ class Engine {
     private readonly image: string = "unhand/unhand:latest"
   ) {
     this.docker = new Docker(this.dockerOptions);
+    this.engineContainer = null;
     if (!templates) {
       this.templates = path.join(__dirname, "_templates");
     }
@@ -39,8 +41,8 @@ class Engine {
         const opts =
           body && body.length > 0
             ? {
-                input: body,
-              }
+              input: body,
+            }
             : {};
         return require("execa").shell(action, opts);
       },
@@ -60,15 +62,14 @@ class Engine {
     containerCreateOptions: Docker.ContainerCreateOptions = {},
     outputListener?: (stream: NodeJS.ReadWriteStream) => void
   ) {
-    const engineContainer: Docker.Container = await this.docker.createContainer(
+    const container: Docker.Container = await this.docker.createContainer(
       {
         Image: this.image,
         Tty: true,
         ...containerCreateOptions,
       }
     );
-
-    engineContainer.attach(
+    container.attach(
       { stream: true, stdout: true, stderr: true },
       (err, stream) => {
         if (err) {
@@ -79,10 +80,24 @@ class Engine {
         }
       }
     );
+    await container.start();
+    this.engineContainer = container;
+    const wait = await container.wait();
+    return wait;
+  }
 
-    await engineContainer.start();
+  async stop() {
+    try {
+      return await this.engineContainer?.stop();
+    } catch (e) {
+    }
+  }
 
-    return await engineContainer.wait();
+  async remove() {
+    try {
+      return await this.engineContainer?.remove();
+    } catch (e) {
+    }
   }
 
   async pull() {
@@ -163,6 +178,12 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     );
     return exitInfo;
   });
+  ipcMain.handle("engine.stop", async (_, args) => {
+    return await engine.stop();
+  });
+  ipcMain.handle("engine.remove", async (_, args) => {
+    return await engine.remove();
+  });
 };
 
 export const registerEngineInvokes = () => {
@@ -175,6 +196,12 @@ export const registerEngineInvokes = () => {
     },
     async backtest(...args: any[]) {
       return await ipcRenderer.invoke("engine.backtest", args);
+    },
+    async stop(...args: any[]) {
+      return await ipcRenderer.invoke("engine.stop", args);
+    },
+    async remove(...args: any[]) {
+      return await ipcRenderer.invoke("engine.remove", args);
     },
   };
 };
