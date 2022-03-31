@@ -11,7 +11,7 @@ import useEngineModel from "@/models/engine";
 const App = () => {
   useEngineModel();
   return (
-    <MoleculeProvider extensions={extensions}>
+    <MoleculeProvider extensions={extensions} defaultLocale="custom-zh-CN">
       <Router>
         <Routes>
           <Route path="/" element={<Workbench />} />

@@ -80,7 +80,6 @@ export default () => {
           initState();
         }
       } catch (e) {
-
       }
     });
   }, []);

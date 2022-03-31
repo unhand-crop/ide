@@ -1,5 +1,7 @@
-import Button from "@/components/button";
 import React, { useEffect, useState } from "react";
+
+import Button from "@/components/button";
+import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
 import useEngineModel from "@/models/engine";
@@ -46,14 +48,14 @@ const BackTest = () => {
       <div className={styles.button}>
         <Button
           disabled={model.running}
-          title="回测"
+          title={localize("backtest.backtest", "回测")}
           onClick={() => handleBackTest()}
         />
       </div>
       <div className={styles.button}>
         <Button
           disabled={Object.keys(model.results).length < 1}
-          title="结果"
+          title={localize("backtest.result", "结果")}
           onClick={() => handleResult()}
         />
       </div>
