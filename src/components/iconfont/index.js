@@ -19,6 +19,10 @@ import IconRefresh1 from "./IconRefresh1";
 import IconResource from "./IconResource";
 import IconSearch from "./IconSearch";
 import IconYes from "./IconYes";
+import ProgressReslove from "./ProgressReslove";
+import ProgressReject from "./ProgressReject";
+import ProgressPending from "./ProgressPending";
+import ProgressWait from "./ProgressWait";
 import React from "react";
 export { default as IconAdd } from "./IconAdd";
 export { default as IconNo } from "./IconNo";
@@ -39,6 +43,10 @@ export { default as IconRefresh1 } from "./IconRefresh1";
 export { default as IconSearch } from "./IconSearch";
 export { default as IconProject } from "./IconProject";
 export { default as IconResource } from "./IconResource";
+export { default as ProgressReslove } from "./ProgressReslove";
+export { default as ProgressReject } from "./ProgressReject";
+export { default as ProgressPending } from "./ProgressPending";
+export { default as ProgressWait } from "./ProgressWait";
 
 const IconFont = ({ name, ...rest }) => {
   switch (name) {
@@ -80,6 +88,15 @@ const IconFont = ({ name, ...rest }) => {
       return <IconProject {...rest} />;
     case "resource":
       return <IconResource {...rest} />;
+    case "ProgressReslove":
+      return <ProgressReslove {...rest} />;
+    case "ProgressReject":
+      return <ProgressReject {...rest} />;
+    case "ProgressPending":
+      return <ProgressPending {...rest} />;
+    case "ProgressWait":
+      return <ProgressWait {...rest} />;
+
   }
 
   return null;

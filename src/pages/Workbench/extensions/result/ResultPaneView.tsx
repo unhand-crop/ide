@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { Spin, Table, TableColumnsType } from "antd";
-
+import { Table, TableColumnsType, Progress, Button } from "antd";
 import TradingViewDataBase from "@/components/TradingView/TradingViewDataBase";
 import molecule from "@dtinsight/molecule";
 import styles from "./ResultPaneView.module.scss";
 import useEngineModel from "@/models/engine";
 import { useReactive } from "ahooks";
+import { ProgressReslove, ProgressReject, ProgressPending, ProgressWait } from "@/components/iconfont";
 
 const columns: TableColumnsType<never> | undefined = [
   {
@@ -108,6 +108,7 @@ export default () => {
     state.orders = [];
     state.TradeBars = [];
     state.symbol = "";
+    model.algorithmstep = {};
   };
 
   const fetchData = () => {
@@ -131,8 +132,28 @@ export default () => {
 
   return (
     <div className={styles.container}>
-      <Spin size="large" tip="加载中..." spinning={state.loading}>
-        {state.loading && <div className={styles.occlusion}></div>}
+      <div className={styles.loading_container_body} style={{ display: state.loading ? "flex" : "none" }}>
+        <div className={styles.loading_container_content}>
+          {model.algorithmstepConfig.map((key: any, index) => {
+            const obj = model.algorithmstep[key] || {};
+            const { progress = 0, status = true } = obj;
+            return <div key={index} className={styles.loading_container_item}>
+              <span className={styles.loading_item_title}>{key}</span>
+              <div className={styles.loading_item_content}>
+                <Progress percent={progress} showInfo={false} strokeColor="#2154E0" trailColor="#3C3F41" className={styles.loading_item_progress} />
+                {progress === 0 && <ProgressWait size={29} />}
+                {progress === 100 && <ProgressReslove size={29} />}
+                {progress > 0 && progress < 100 && <ProgressPending size={29} color="rgb(33, 84, 224)" className={styles.transform_rotate_loop} />}
+                {!status && <ProgressReject size={29} />}
+              </div>
+            </div>
+          })}
+          <div className={styles.loading_item_buttonsize}>
+            <Button type="primary" shape="round" size="large" block color="#2154E0" onClick={() => molecule.layout.togglePanelVisibility()}>取消</Button>
+          </div>
+        </div>
+      </div>
+      <div className={styles.all_container} style={{ visibility: state.loading ? "hidden" : "visible" }}>
         <div className={styles.card_container}>
           <div className={styles.card_header}>
             <p>重要指标</p>
@@ -255,7 +276,7 @@ export default () => {
             </div>
           </div>
         </div>
-      </Spin>
+      </div>
     </div>
   );
 };
