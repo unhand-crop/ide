@@ -73,7 +73,6 @@ export default () => {
 
   useEffect(() => {
     molecule.layout.onUpdateState((prevState, nextState) => {
-      console.log(prevState, nextState);
       if (nextState.panel.hidden) {
         initState();
       }
