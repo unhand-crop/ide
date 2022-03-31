@@ -1,0 +1,11 @@
+{
+    "id": "custom-zh-CN",
+    "name": "简体中文",
+	"inherit": "zh-CN",
+    "source": {
+		"backtest.backtest":"回测",
+		"backtest.result":"结果",
+		"launcher.newAlgorithm":"新建算法",
+		"launcher.openAlgorithm":"打开算法"
+    }
+}

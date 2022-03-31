@@ -1,0 +1,11 @@
+{
+    "id": "custom-en",
+    "name": "English",
+	"inherit": "en",
+    "source": {
+		"backtest.backtest":"BackTest",
+		"backtest.result":"Result",
+        "launcher.newAlgorithm":"New algorithm",
+		"launcher.openAlgorithm":"Open algorithm"
+    }
+}

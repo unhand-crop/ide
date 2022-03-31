@@ -1,6 +1,7 @@
 import { AccountExtension } from "./account";
 import { ActionExtension } from "./action";
 import { ExplorerExtension } from "./explorer";
+import { ExtendLocales } from "./i18n";
 import { FoldTreeExtension } from "./folderTree";
 import { IExtension } from "@dtinsight/molecule/esm/model";
 import { LauncherExtension } from "./launcher";
@@ -23,6 +24,7 @@ const extensions: IExtension[] = [
   new ActionExtension(),
   new SettingsExtension(),
   OneDarkPro,
+  ExtendLocales,
 ];
 
 export default extensions;
