@@ -23,6 +23,8 @@ import ProgressReslove from "./ProgressReslove";
 import ProgressReject from "./ProgressReject";
 import ProgressPending from "./ProgressPending";
 import ProgressWait from "./ProgressWait";
+import InfoBacktestButtonIcon from "./InfoBacktestButtonIcon";
+
 import React from "react";
 export { default as IconAdd } from "./IconAdd";
 export { default as IconNo } from "./IconNo";
@@ -47,6 +49,8 @@ export { default as ProgressReslove } from "./ProgressReslove";
 export { default as ProgressReject } from "./ProgressReject";
 export { default as ProgressPending } from "./ProgressPending";
 export { default as ProgressWait } from "./ProgressWait";
+export { default as InfoBacktestButtonIcon } from "./InfoBacktestButtonIcon";
+
 
 const IconFont = ({ name, ...rest }) => {
   switch (name) {
@@ -96,7 +100,8 @@ const IconFont = ({ name, ...rest }) => {
       return <ProgressPending {...rest} />;
     case "ProgressWait":
       return <ProgressWait {...rest} />;
-
+    case "InfoBacktestButtonIcon":
+      return <InfoBacktestButtonIcon {...rest} />;
   }
 
   return null;

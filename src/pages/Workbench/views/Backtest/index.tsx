@@ -5,11 +5,12 @@ import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
 import useEngineModel from "@/models/engine";
+import useTestbackModel from "@/models/testbackModals";
 
 const BackTest = () => {
   const { panel } = molecule.layout.getState();
   const { model } = useEngineModel();
-
+  const { testbackModals } = useTestbackModel();
   //   const state = useReactive({
   //     visible: false,
   //     radioValue: 0,
@@ -22,7 +23,7 @@ const BackTest = () => {
       if (!panel.panelMaximized) {
         molecule.panel.toggleMaximize();
       }
-      molecule.layout.togglePanelVisibility();
+      testbackModals.initTestbackVisible = true;
     }
     const { folderTree } = molecule.folderTree.getState();
     if (folderTree?.data[0]?.id) {

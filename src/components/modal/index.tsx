@@ -5,7 +5,7 @@ import styles from "./index.module.scss";
 
 interface ModalProps {
   visible: boolean;
-  title: string;
+  title?: string;
   width?: number;
   children: ReactNode;
   onCancel: () => void;
