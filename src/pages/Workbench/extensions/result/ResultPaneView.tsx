@@ -142,7 +142,7 @@ export default () => {
               <div className={styles.loading_item_content}>
                 <Progress percent={progress} showInfo={false} strokeColor="#2154E0" trailColor="#3C3F41" className={styles.loading_item_progress} />
                 {progress === 0 && <ProgressWait size={29} />}
-                {progress === 100 && <ProgressReslove size={29} />}
+                {progress >= 100 && <ProgressReslove size={29} />}
                 {progress > 0 && progress < 100 && <ProgressPending size={29} color="rgb(33, 84, 224)" className={styles.transform_rotate_loop} />}
                 {!status && <ProgressReject size={29} />}
               </div>

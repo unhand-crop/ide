@@ -24,6 +24,7 @@ export { default as ProgressReslove } from './ProgressReslove';
 export { default as ProgressReject } from './ProgressReject';
 export { default as ProgressPending } from './ProgressPending';
 export { default as ProgressWait } from './ProgressWait';
+export { default as InfoBacktestButtonIcon } from './InfoBacktestButtonIcon';
 
 interface Props extends Omit<SVGAttributes<SVGElement>, 'color'> {
   name: 'add' | 'no' | 'yes' | 'back' | 'a-Newwallet' | 'a-ImportWallet' | 'logo' | 'logos' | 'preservation' | 'a-Transferin' | 'a-Transferout' | 'close' | 'arrow-right' | 'a-creatnew' | 'a-openproject' | 'Refresh1' | 'search' | 'project' | 'resource';

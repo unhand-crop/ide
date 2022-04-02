@@ -10,7 +10,6 @@ const ProgressReslove = ({ size, color, style: _style, ...rest }) => {
     const style = _style ? { ...DEFAULT_STYLE, ..._style } : DEFAULT_STYLE;
     return (
         <svg
-            class="icon"
             width={`${size}px`}
             height={`${size}px`}
             viewBox="0 0 1024 1024"

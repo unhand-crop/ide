@@ -6,6 +6,16 @@
 		"backtest.backtest":"BackTest",
 		"backtest.result":"Result",
         "launcher.newAlgorithm":"New algorithm",
-		"launcher.openAlgorithm":"Open algorithm"
+		"launcher.openAlgorithm":"Open algorithm",
+        "infoBacktest.WSL": "Is WSL open?",
+        "infoBacktest.notWSL": "WSL not open , WSL needs to be opened",
+        "infoBacktest.docker": "Is docker installed and started?",
+        "infoBacktest.notDocker": "docker not install",
+        "infoBacktest.images": "Is images installed?",
+        "infoBacktest.notImages": "images not install",
+        "infoBacktest.backtestData": "backtest data has been downloaded in advance?",
+        "infoBacktest.notBacktestData": "backtest data is not downloaded in advance",
+        "infoBacktest.referenceDocuments": "Reference documents",
+        "infoBacktest.next": "Next"   
     }
 }

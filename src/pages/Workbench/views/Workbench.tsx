@@ -36,6 +36,8 @@ import { container } from "tsyringe";
 import molecule from "@dtinsight/molecule";
 import useEditorModel from "@/models/editor";
 import useSettingModel from "@/models/setting";
+import useTestbackModal from "@/models/testbackModals";
+import InitTestBack from "@/components/InitTestBack"
 
 const mainBenchClassName = prefixClaName("mainBench");
 const workbenchClassName = prefixClaName("workbench");
@@ -140,7 +142,11 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
       onHorizontalPaneSizeChange?.(sizes);
     }
   };
-
+  const {
+    testbackModals: {
+      initTestbackVisible = false
+    }
+  } = useTestbackModal();
   return (
     <div
       id={ID_APP}
@@ -192,6 +198,9 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
           </div> */}
         </div>
       </div>
+      <Display visible={initTestbackVisible}>
+        <InitTestBack />
+      </Display>
       <Display visible={!statusBar.hidden}>
         <StatusBarView />
       </Display>
