@@ -17,6 +17,10 @@
         "infoBacktest.backtestData": "回测数据是否已经预先下载",
         "infoBacktest.notBacktestData": "回测数据未预先下载，需要下载",
 		"infoBacktest.referenceDocuments": "参考文档",
-		"infoBacktest.next": "下一步"
+		"infoBacktest.next": "下一步",
+        "sidebar.algorithm": "新建算法",
+        "newAlgorithm.selectLanguage": "选择使用的语言",
+        "newAlgorithm.selectTemplate": "选择使用的模版"
+        
     }
 }

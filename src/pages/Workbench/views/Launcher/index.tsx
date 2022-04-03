@@ -5,12 +5,15 @@ import {
 } from "@/components/iconfont";
 
 import Button from "./components/Button";
-import Modal from "@/components/modal";
+
 import React from "react";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import styles from "./index.module.scss";
 import useEditorModel from "@/models/editor";
 import { useReactive } from "ahooks";
+import { LanguageIcon } from "@/components/iconfont";
+import Title from "./components/Title"
+import NewAlgorithmModal from "./components/NewAlgorithmModal"
 
 const Launcher = () => {
   const state = useReactive({
@@ -46,36 +49,7 @@ const Launcher = () => {
           />
         </div>
       </div>
-      <Modal
-        title="新建算法"
-        width={866}
-        visible={state.visible}
-        onCancel={() => (state.visible = false)}
-      >
-        <div className={styles.algorithm_container}>
-          <ul className={styles.algorithm_list}>
-            {/* <li
-              onClick={() => handleBasicTemplate()}
-              className={styles.algorithm_item}
-            >
-              <div className={styles.container}>
-                <img src="./public/image/algorithm_template.png" />
-              </div>
-              <p className={styles.title}>基础模版</p>
-            </li> */}
-            <li
-              onClick={() => handleCreate()}
-              className={styles.algorithm_item}
-            >
-              <div className={styles.container}>
-                {/* <img src="./public/image/algorithm_template.png" /> */}
-                <IconAdd color="#ffffff" size={64} />
-              </div>
-              <p className={styles.title}>新建算法</p>
-            </li>
-          </ul>
-        </div>
-      </Modal>
+      <NewAlgorithmModal visible={state.visible} visibleModal={() => state.visible = !state.visible} />
     </div>
   );
 };
