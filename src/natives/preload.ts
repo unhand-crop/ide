@@ -6,6 +6,8 @@ import { registerLocalInvokes } from "./local";
 import { registerPathInvokes } from "./path";
 import { registerStoreInvokes } from "./store";
 import { registerWatchInvokes } from "./watch";
+import { registerGitInvokes } from "./git";
+
 
 contextBridge.exposeInMainWorld("api", {
   ipc: {
@@ -22,4 +24,5 @@ contextBridge.exposeInMainWorld("api", {
   path: registerPathInvokes(),
   fs: registerFsInvokes(),
   engine: registerEngineInvokes(),
+  gitHttp: registerGitInvokes()
 });

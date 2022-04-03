@@ -10,5 +10,7 @@ declare interface Window {
     watch: any;
     path: any;
     fs: any;
+    process: any;
+    gitHttp: any;
   };
 }

@@ -21,6 +21,7 @@ const NewAlgorithmModal = ({ visible, visibleModal }: NewAlgorithmModalProps) =>
   const [currentTemplateList, upCurrentTemplateList] = useState([]);
   const [currentChangeTemplateIndex, upCurrentChangeTemplateIndex] = useState(0);
   const [templateDetails, upTemplateDetails]: any = useState({});
+  const [fileName, upFileName] = useState("my_algorithm");
   const { setDirPath } = useEditorModel();
 
   const handleOpen = async () => {
@@ -45,13 +46,14 @@ const NewAlgorithmModal = ({ visible, visibleModal }: NewAlgorithmModalProps) =>
   }
   const getTemplateDetails = async (templateList: any, templateIndex: number) => {
     const id = templateList[templateIndex].id || 0;
-    let dtl: any = await requistTemplateDetails(id);
-    upTemplateDetails(dtl);
+    let { data = {} }: any = await requistTemplateDetails(id) || {};
+    upTemplateDetails(data);
   }
 
   useEffect(() => {
-    init()
+    init();
   }, [])
+
   const init = async () => {
     const templateList = await getTemplate({ pageIndex: 1, pageSize: 10, programLanguage: 1 });
     const dtl: any = await getTemplateDetails(templateList, currentChangeTemplateIndex);
@@ -59,6 +61,14 @@ const NewAlgorithmModal = ({ visible, visibleModal }: NewAlgorithmModalProps) =>
 
   const changeTemplate = (templateIndex: number) => {
     upCurrentChangeTemplateIndex(templateIndex);
+  }
+
+  const creactTemplateFile = async () => {
+    const res = await window.api.gitHttp.clone({ gitUrl: templateDetails.gitUrl, fileName: "~/Desktop", gitFileName: templateDetails.gitDir });
+  }
+
+  const cloneTemplateFile = async () => {
+
   }
 
   return (
@@ -101,10 +111,30 @@ const NewAlgorithmModal = ({ visible, visibleModal }: NewAlgorithmModalProps) =>
           </div>
         </div>
         <div className={styles.language_content_body}>
-          {templateDetails.templateName && <div className={styles.language_content_title}>
-            <Input placeholder={templateDetails.templateName} />
-            <Button>立即创建</Button>
-          </div>}
+          {templateDetails.templateName && <div className={styles.language_content_div}>
+            <div className={styles.language_content_title}>
+              <Input
+                className={styles.content_title_input}
+                placeholder={templateDetails.templateName}
+                onChange={(e) => upFileName(e?.target?.value || "")}
+              />
+              <Button
+                className={styles.content_title_button}
+                color="#2154E0"
+                type="primary"
+                onClick={() => creactTemplateFile()}
+              >立即创建</Button>
+            </div>
+            <div className={styles.language_content_describe}>
+              <div className={styles.content_describe_title}>算法描述</div>
+              <div className={styles.content_describe_value}>{templateDetails.description}</div>
+            </div>
+            <div className={styles.language_content_source}>
+              <div className={styles.content_source_title}>源代码</div>
+              {templateDetails.imageUrl.length > 0 && <img className={styles.content_source_image} src={templateDetails.imageUrl} />}
+            </div>
+          </div>
+          }
         </div>
       </div>
     </Modal>
