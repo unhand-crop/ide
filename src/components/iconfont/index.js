@@ -24,6 +24,8 @@ import ProgressReject from "./ProgressReject";
 import ProgressPending from "./ProgressPending";
 import ProgressWait from "./ProgressWait";
 import InfoBacktestButtonIcon from "./InfoBacktestButtonIcon";
+import AlgorithmIcon from "./AlgorithmIcon";
+import LanguageIcon from "./LanguageIcon";
 
 import React from "react";
 export { default as IconAdd } from "./IconAdd";
@@ -50,7 +52,8 @@ export { default as ProgressReject } from "./ProgressReject";
 export { default as ProgressPending } from "./ProgressPending";
 export { default as ProgressWait } from "./ProgressWait";
 export { default as InfoBacktestButtonIcon } from "./InfoBacktestButtonIcon";
-
+export { default as AlgorithmIcon } from "./AlgorithmIcon";
+export { default as LanguageIcon } from "./LanguageIcon";
 
 const IconFont = ({ name, ...rest }) => {
   switch (name) {
@@ -102,6 +105,10 @@ const IconFont = ({ name, ...rest }) => {
       return <ProgressWait {...rest} />;
     case "InfoBacktestButtonIcon":
       return <InfoBacktestButtonIcon {...rest} />;
+    case "AlgorithmIcon":
+      return <AlgorithmIcon {...rest} />;
+    case "LanguageIcon":
+      return <LanguageIcon {...rest} />;
   }
 
   return null;
