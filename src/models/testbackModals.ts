@@ -1,16 +1,16 @@
-import { useReactive } from "ahooks";
 import { createModel } from "hox";
+import { useReactive } from "ahooks";
 
 function useTestbackModel() {
-    const testbackModals = useReactive<{
-        initTestbackVisible: boolean;
-    }>({
-        initTestbackVisible: false,
-    });
+  const testbackModals = useReactive<{
+    initTestbackVisible: boolean;
+  }>({
+    initTestbackVisible: false,
+  });
 
-    return {
-        testbackModals,
-    };
+  return {
+    testbackModals,
+  };
 }
 
 export default createModel(useTestbackModel);

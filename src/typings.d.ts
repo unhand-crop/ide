@@ -10,5 +10,6 @@ declare interface Window {
     watch: any;
     path: any;
     fs: any;
+    env: any;
   };
 }

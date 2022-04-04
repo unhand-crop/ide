@@ -7,8 +7,10 @@ import { MoleculeProvider } from "@dtinsight/molecule";
 import Workbench from "@/pages/Workbench/views/Workbench";
 import extensions from "@/pages/Workbench/extensions";
 import useEngineModel from "@/models/engine";
+import useEnvModel from "@/models/env";
 
 const App = () => {
+  useEnvModel();
   useEngineModel();
   return (
     <MoleculeProvider extensions={extensions} defaultLocale="custom-zh-CN">
