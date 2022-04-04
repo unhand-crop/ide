@@ -25,6 +25,7 @@ import BackTest from "./Backtest";
 import { EditorView } from "@dtinsight/molecule/esm//workbench/editor";
 import { ID_APP } from "@dtinsight/molecule/esm/common/id";
 import { IWorkbench } from "@dtinsight/molecule/esm/model/workbench";
+import InitTestBack from "@/components/InitTestBack";
 import { LayoutService } from "@dtinsight/molecule/esm/services";
 import { MenuBarView } from "@dtinsight/molecule/esm/workbench/menuBar";
 import { PanelView } from "@dtinsight/molecule/esm/workbench/panel";
@@ -36,8 +37,7 @@ import { container } from "tsyringe";
 import molecule from "@dtinsight/molecule";
 import useEditorModel from "@/models/editor";
 import useSettingModel from "@/models/setting";
-import useTestbackModal from "@/models/testbackModals";
-import InitTestBack from "@/components/InitTestBack"
+import useTestbackModal from "@/models/backtest";
 
 const mainBenchClassName = prefixClaName("mainBench");
 const workbenchClassName = prefixClaName("workbench");
@@ -143,9 +143,7 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
     }
   };
   const {
-    testbackModals: {
-      initTestbackVisible = false
-    }
+    model: { visible = false },
   } = useTestbackModal();
   return (
     <div
@@ -198,7 +196,7 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
           </div> */}
         </div>
       </div>
-      <Display visible={initTestbackVisible}>
+      <Display visible={visible}>
         <InitTestBack />
       </Display>
       <Display visible={!statusBar.hidden}>

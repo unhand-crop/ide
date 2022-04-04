@@ -11,5 +11,7 @@ declare interface Window {
     path: any;
     fs: any;
     env: any;
+    process: any;
+    gitHttp: any;
   };
 }

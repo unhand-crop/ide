@@ -4,14 +4,23 @@ import { createModel } from "hox";
 
 function useEnvModel() {
   const model = useReactive<{
-    platform: string;
+    platform: NodeJS.Platform;
+    isShellInstalled: boolean;
+    isContainerInstalled: boolean;
+    isGitInstalled: boolean;
   }>({
-    platform: null,
+    platform: "win32",
+    isShellInstalled: false,
+    isContainerInstalled: false,
+    isGitInstalled: false,
   });
 
   useMount(async () => {
     const result = await window.api.env.load();
-    console.log(result);
+    model.platform = result.platform;
+    model.isShellInstalled = result.isShellInstalled;
+    model.isContainerInstalled = result.isContainerInstalled;
+    model.isGitInstalled = result.isGitInstalled;
   });
 
   return {
