@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
-
 import Button from "@/components/button";
+import React from "react";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
+import useBackTestModel from "@/models/backtest";
 import useEngineModel from "@/models/engine";
-import useTestbackModel from "@/models/testbackModals";
+import useEnvModel from "@/models/env";
 
 const BackTest = () => {
   const { panel } = molecule.layout.getState();
-  const { model } = useEngineModel();
-  const { testbackModals } = useTestbackModel();
+  const { model: engineModel } = useEngineModel();
+  const { model: envModel } = useEnvModel();
+  const { model: backtestModel } = useBackTestModel();
   //   const state = useReactive({
   //     visible: false,
   //     radioValue: 0,
@@ -18,12 +19,15 @@ const BackTest = () => {
   //   const [form] = Form.useForm();
 
   const handleBackTest = async () => {
+    if (!envModel.isShellInstalled || !envModel.isContainerInstalled) {
+      backtestModel.visible = true;
+      return;
+    }
     // state.visible = true;
     if (panel.hidden) {
       if (!panel.panelMaximized) {
         molecule.panel.toggleMaximize();
       }
-      testbackModals.initTestbackVisible = true;
     }
     const { folderTree } = molecule.folderTree.getState();
     if (folderTree?.data[0]?.id) {
@@ -48,14 +52,14 @@ const BackTest = () => {
     <div className={styles.back_test_container}>
       <div className={styles.button}>
         <Button
-          disabled={model.running}
+          disabled={engineModel.running}
           title={localize("backtest.backtest", "回测")}
           onClick={() => handleBackTest()}
         />
       </div>
       <div className={styles.button}>
         <Button
-          disabled={Object.keys(model.results).length < 1}
+          disabled={Object.keys(engineModel.results).length < 1}
           title={localize("backtest.result", "结果")}
           onClick={() => handleResult()}
         />

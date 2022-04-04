@@ -3,11 +3,16 @@ import * as path from "path";
 import { BrowserWindow, ipcMain, ipcRenderer } from "electron";
 import { Logger, runner } from "hygen";
 
+// import { ChildProcess } from "child_process";
 import Docker from "dockerode";
+import VmEnv from "@unhand/vmenv";
 import { status as getWslStatus } from "node-wsl";
 import { isWindows } from "./utils";
 import { store } from "./store";
 
+const CONTAINER_NAME = "nerdctl";
+const ENGINE_IMAGE = "unhand/unhand:latest";
+const vmenv = new VmEnv();
 class Engine {
   private readonly docker: Docker;
   engineContainer: any;
@@ -15,7 +20,7 @@ class Engine {
   constructor(
     private readonly dockerOptions: Docker.DockerOptions,
     private readonly templates?: string,
-    private readonly image: string = "unhand/unhand:latest"
+    private readonly image: string = ENGINE_IMAGE
   ) {
     this.docker = new Docker(this.dockerOptions);
     this.engineContainer = null;
@@ -41,8 +46,8 @@ class Engine {
         const opts =
           body && body.length > 0
             ? {
-              input: body,
-            }
+                input: body,
+              }
             : {};
         return require("execa").shell(action, opts);
       },
@@ -62,13 +67,11 @@ class Engine {
     containerCreateOptions: Docker.ContainerCreateOptions = {},
     outputListener?: (stream: NodeJS.ReadWriteStream) => void
   ) {
-    const container: Docker.Container = await this.docker.createContainer(
-      {
-        Image: this.image,
-        Tty: true,
-        ...containerCreateOptions,
-      }
-    );
+    const container: Docker.Container = await this.docker.createContainer({
+      Image: this.image,
+      Tty: true,
+      ...containerCreateOptions,
+    });
     container.attach(
       { stream: true, stdout: true, stderr: true },
       (err, stream) => {
@@ -89,15 +92,13 @@ class Engine {
   async stop() {
     try {
       return await this.engineContainer?.stop();
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   async remove() {
     try {
       return await this.engineContainer?.remove();
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   async pull() {
@@ -144,6 +145,18 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
   });
   ipcMain.handle("engine.backtest", async (_, args) => {
     const port = await store.get("server-port");
+    // const child = vmenv.run(
+    //   `${CONTAINER_NAME} run ${ENGINE_IMAGE} --rm -v ${args[0]}:/app/custom/algorithm -e LOADREMOTE=true -e DOMAIN=http://host.docker.internal:${port}/`,
+    //   "",
+    //   {
+    //     async: true,
+    //   }
+    // ) as ChildProcess;
+
+    // child.stdout.on("data", (data) => {
+    //   console.log("=>", data);
+    // });
+
     const exitInfo = await engine.backtest(
       {
         HostConfig: {
