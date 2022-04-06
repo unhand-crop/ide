@@ -8,7 +8,7 @@ import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
 import useBackTestModel from "@/models/backtest";
 
-interface InitTestBackProps {
+interface InitBackTestProps {
   icon?: React.ReactNode;
   onClick?: () => void;
 }
@@ -30,7 +30,7 @@ const needCheckArr = [
   },
 ];
 
-const InitTestBack = ({ onClick }: InitTestBackProps) => {
+const InitBackTest = ({ onClick }: InitBackTestProps) => {
   const { model: backtestModel } = useBackTestModel();
   const nextClick = () => {
     molecule.layout.togglePanelVisibility();
@@ -82,4 +82,4 @@ const InitTestBack = ({ onClick }: InitTestBackProps) => {
   );
 };
 
-export default InitTestBack;
+export default InitBackTest;
