@@ -91,10 +91,8 @@ const NewAlgorithmModal = ({
   };
 
   const creactTemplateFile = async () => {
-    // const res = await window.api.gitHttp.clone({ gitUrl: templateDetails.gitUrl, fileName: "~/Desktop", gitFileName: templateDetails.gitDir });
+    await window.api.gitHttp.clone({ gitUrl: templateDetails.gitUrl, fileName: "~/Desktop", gitFileName: templateDetails.gitDir });
   };
-
-  const cloneTemplateFile = async () => {};
 
   return (
     <Modal

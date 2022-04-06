@@ -4,35 +4,18 @@ import http from 'isomorphic-git/http/node';
 import git from 'isomorphic-git';
 import path from 'path';
 import fs from 'fs';
+import unzip from "unzipper";
+import request from "request";
 
 
 export const registerGitHandlers = async (mainWindow: BrowserWindow) => {
     ipcMain.handle("gitHttp.clone", async (_, { fileName, gitUrl, gitFileName }: any) => {
-        const dir = path.join(process.cwd() + "../");
-        await git.init({ fs, dir });
-        await git.addRemote({
-            fs,
-            dir,
-            remote: 'origin',
-            url: gitUrl
-        });
-        await git.setConfig({
-            fs,
-            dir,
-            path: 'core.sparsecheckout',
-            value: 'true'
-        });
-        await fs.writeFileSync(dir + ".git/info/sparse-checkout", gitFileName);
-        await git.pull({
-            fs,
-            http,
-            dir,
-            singleBranch: false,
-            remote: 'origin',
-            ref: 'main',
-            author: {
-                name: "user"
-            }
+
+        const zip = request(gitUrl);
+        const Write = fs.createWriteStream("./a.zip");
+        zip.pipe(Write).on("close", function (err: any) {
+            const Read = fs.createReadStream("./a.zip");
+            Read.pipe(unzip.Extract({ path: './' }));
         });
     });
 };
