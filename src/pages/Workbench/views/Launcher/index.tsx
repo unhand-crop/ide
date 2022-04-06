@@ -3,10 +3,10 @@ import {
   IconAOpenproject,
   IconAdd,
 } from "@/components/iconfont";
+import React, { useEffect } from "react";
 
 import Button from "./components/Button";
 import Modal from "@/components/modal";
-import React from "react";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import styles from "./index.module.scss";
 import useEditorModel from "@/models/editor";
@@ -15,9 +15,13 @@ import { useReactive } from "ahooks";
 const Launcher = () => {
   const state = useReactive({
     visible: false,
+    content: [
+      { title: "demo", dirpath: "/Users/raozhi/Desktop/demo" },
+      { title: "algorithm", dirpath: "/Users/raozhi/Desktop/algorithm" },
+    ],
   });
 
-  const { setDirPath } = useEditorModel();
+  const { setDirPath, model } = useEditorModel();
 
   const handleOpen = async () => {
     await window.api.local.openDirectory();
@@ -27,7 +31,12 @@ const Launcher = () => {
     const path = await window.api.local.getDirectory();
     await window.api.engine.create(path);
     state.visible = false;
+
     setDirPath(path);
+  };
+
+  const handleOpenHistoryItem = (dirpath: string) => {
+    setDirPath(dirpath);
   };
 
   return (
@@ -44,6 +53,20 @@ const Launcher = () => {
             onClick={() => handleOpen()}
             title={localize("launcher.openAlgorithm", "打开算法")}
           />
+        </div>
+        <div className={styles.algorithm_history}>
+          <p className={styles.title}>最近打开</p>
+          <ul className={styles.list}>
+            {state.content.map((item, index) => (
+              <li
+                onClick={() => handleOpenHistoryItem(item.dirpath)}
+                key={index}
+                className={styles.item}
+              >
+                <p className={styles.item_name}>{item.title}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       <Modal
