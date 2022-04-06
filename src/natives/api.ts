@@ -1,6 +1,8 @@
 import { BrowserWindow } from "electron";
 import { registerEngineHandlers } from "./engine";
+import { registerEnvHandlers } from "./env";
 import { registerFsHandlers } from "./fs";
+import { registerGitHandlers } from "./git";
 import { registerLocalHandlers } from "./local";
 import { registerPathHandlers } from "./path";
 import { registerStoreHandlers } from "./store";
@@ -13,4 +15,6 @@ export async function loadApi(mainWindow: BrowserWindow) {
   await registerPathHandlers(mainWindow);
   await registerFsHandlers(mainWindow);
   await registerEngineHandlers(mainWindow);
+  await registerEnvHandlers(mainWindow);
+  await registerGitHandlers(mainWindow);
 }

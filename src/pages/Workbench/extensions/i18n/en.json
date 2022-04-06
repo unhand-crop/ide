@@ -1,12 +1,12 @@
 {
     "id": "custom-en",
     "name": "English",
-	"inherit": "en",
+    "inherit": "en",
     "source": {
-		"backtest.backtest":"BackTest",
-		"backtest.result":"Result",
-        "launcher.newAlgorithm":"New algorithm",
-		"launcher.openAlgorithm":"Open algorithm",
+        "backtest.backtest": "BackTest",
+        "backtest.result": "Result",
+        "launcher.newAlgorithm": "New algorithm",
+        "launcher.openAlgorithm": "Open algorithm",
         "infoBacktest.WSL": "Is WSL open?",
         "infoBacktest.notWSL": "WSL not open , WSL needs to be opened",
         "infoBacktest.docker": "Is docker installed and started?",
@@ -16,6 +16,9 @@
         "infoBacktest.backtestData": "backtest data has been downloaded in advance?",
         "infoBacktest.notBacktestData": "backtest data is not downloaded in advance",
         "infoBacktest.referenceDocuments": "Reference documents",
-        "infoBacktest.next": "Next"   
+        "infoBacktest.next": "Next",
+        "sidebar.algorithm": "New algorithm",
+        "newAlgorithm.selectLanguage": "Select Language",
+        "newAlgorithm.selectTemplate": "Select Template"
     }
 }
