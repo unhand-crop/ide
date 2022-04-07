@@ -19,6 +19,11 @@
         "infoBacktest.next": "Next",
         "sidebar.algorithm": "New algorithm",
         "newAlgorithm.selectLanguage": "Select Language",
-        "newAlgorithm.selectTemplate": "Select Template"
+        "newAlgorithm.selectTemplate": "Select Template",
+        "newAlgorithm.creactNow": "Creat now",
+        "newAlgorithm.algorithmDescribe": "Algorithm describe",
+        "newAlgorithm.sourceCode": "Source code",
+        "newAlgorithm.setDownloadFolder": "Set download folder",
+        "newAlgorithm.selectFolder": "Select folder"
     }
 }

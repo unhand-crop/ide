@@ -8,10 +8,13 @@ export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
       .showOpenDialog({
         properties: ["openDirectory"],
       })
-      .then((res) => (res.canceled ? null : res.filePaths[0]));
+      .then((res) => {
+        return (res.canceled ? null : res.filePaths[0])
+      });
     if (dirPath) {
       mainWindow.webContents.send("open-directory", dirPath);
     }
+    return dirPath;
   });
   ipcMain.handle("open-path", async (...args) => {
     const path = args[1];

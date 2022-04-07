@@ -29,21 +29,15 @@ const NewAlgorithmModal = ({
   visibleModal,
 }: NewAlgorithmModalProps) => {
   const [currentTemplateList, upCurrentTemplateList] = useState([]);
-  const [currentChangeTemplateIndex, upCurrentChangeTemplateIndex] =
-    useState(0);
+  const [currentChangeTemplateIndex, upCurrentChangeTemplateIndex] = useState(0);
   const [templateDetails, upTemplateDetails]: any = useState({});
-  const [fileName, upFileName] = useState("my_algorithm");
+  const [extractUrl, upExtractUrl] = useState(null);
+  const [fileName, upFileName] = useState(null);
   const { setDirPath } = useEditorModel();
 
   const handleOpen = async () => {
-    await window.api.local.openDirectory();
-  };
-
-  const handleCreate = async () => {
-    const path = await window.api.local.getDirectory();
-    await window.api.engine.create(path);
-    visibleModal();
-    setDirPath(path);
+    const url = await window.api.local.openDirectory();
+    upExtractUrl(url);
   };
 
   const getTemplate = async ({
@@ -61,6 +55,7 @@ const NewAlgorithmModal = ({
     upCurrentTemplateList(items || []);
     return items;
   };
+
   const getTemplateDetails = async (
     templateList: any,
     templateIndex: number
@@ -80,7 +75,7 @@ const NewAlgorithmModal = ({
       pageSize: 10,
       programLanguage: 1,
     });
-    const dtl: any = await getTemplateDetails(
+    await getTemplateDetails(
       templateList,
       currentChangeTemplateIndex
     );
@@ -90,12 +85,21 @@ const NewAlgorithmModal = ({
     upCurrentChangeTemplateIndex(templateIndex);
   };
 
-  const creactTemplateFile = async () => {
-    // const res = await window.api.gitHttp.clone({ gitUrl: templateDetails.gitUrl, fileName: "~/Desktop", gitFileName: templateDetails.gitDir });
+  const extractCallback = async (progress: number, path: string) => {
+    if (progress === 100) {
+      await window.api.engine.create(path);
+      visibleModal();
+      setDirPath(path);
+    } else {
+
+    }
   };
 
-  const cloneTemplateFile = async () => {};
+  const creactTemplateFile = async () => {
+    await window.api.gitHttp.clone({ gitUrl: templateDetails.gitUrl, fileName, gitFileName: templateDetails.gitDir, extractUrl, extractCallback: extractCallback });
+  };
 
+  const defaultAlgorithmDir = localize("newAlgorithm.selectFolder", "请选择文件夹");
   return (
     <Modal
       title={localize("launcher.newAlgorithm", "新建算法")}
@@ -131,9 +135,9 @@ const NewAlgorithmModal = ({
             {currentTemplateList.map((item: templateListResponse, index) => {
               const {
                 description = "",
-                id = "4030405953277923328",
-                shortDesc = "测试 空算法",
-                templateName = "空算法",
+                id = "",
+                shortDesc = "",
+                templateName = "",
               } = item;
               const change = currentChangeTemplateIndex === index;
               return (
@@ -155,29 +159,48 @@ const NewAlgorithmModal = ({
         <div className={styles.language_content_body}>
           {templateDetails.templateName && (
             <div className={styles.language_content_div}>
-              <div className={styles.language_content_title}>
-                <Input
-                  className={styles.content_title_input}
-                  placeholder={templateDetails.templateName}
-                  onChange={(e) => upFileName(e?.target?.value || "")}
-                />
-                <Button
-                  className={styles.content_title_button}
-                  color="#2154E0"
-                  type="primary"
-                  onClick={() => creactTemplateFile()}
-                >
-                  立即创建
-                </Button>
+              <div className={styles.language_content_folder}>
+                <div className={styles.folder_title}>{localize("newAlgorithm.setDownloadFolder", "设置存放路径")}</div>
+                <div className={styles.folder_content}>
+                  <div className={styles.folder_input}>{extractUrl || defaultAlgorithmDir}</div>
+                  <Button
+                    className={styles.folder_button}
+                    color="#2154E0"
+                    type="primary"
+                    onClick={() => handleOpen()}
+                  >{localize("newAlgorithm.selectFolder", "选择文件夹")}</Button>
+                </div>
+              </div>
+              <div className={styles.language_content_select}>
+                <div className={styles.select_title}>{localize("newAlgorithm.selectFolder", "请选择文件夹")}</div>
+                <div className={styles.select_content}>
+                  <Input
+                    className={styles.content_input}
+                    placeholder={templateDetails.templateName}
+                    onChange={(res) => {
+                      const reg = /[^\w\u4e00-\u9fa5]/g;
+                      const str = res?.target?.value.toString().replace(reg, "");
+                      upFileName(str);
+                    }}
+                  />
+                  <Button
+                    className={styles.content_button}
+                    color="#2154E0"
+                    type="primary"
+                    onClick={() => creactTemplateFile()}
+                  >
+                    {localize("newAlgorithm.creactNow", "立即创建")}
+                  </Button>
+                </div>
               </div>
               <div className={styles.language_content_describe}>
-                <div className={styles.content_describe_title}>算法描述</div>
+                <div className={styles.content_describe_title}>{localize("newAlgorithm.algorithmDescribe", "算法描述")}</div>
                 <div className={styles.content_describe_value}>
                   {templateDetails.description}
                 </div>
               </div>
               <div className={styles.language_content_source}>
-                <div className={styles.content_source_title}>源代码</div>
+                <div className={styles.content_source_title}>{localize("newAlgorithm.sourceCode", "源代码")}</div>
                 {templateDetails.imageUrl.length > 0 && (
                   <img
                     className={styles.content_source_image}
