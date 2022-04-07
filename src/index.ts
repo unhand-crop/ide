@@ -15,11 +15,6 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
-const server = "https://unhand-server.vercel.app/";
-const url = `${server}/update/${process.platform}/${app.getVersion()}`;
-
-autoUpdater.setFeedURL({ url });
-
 const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
