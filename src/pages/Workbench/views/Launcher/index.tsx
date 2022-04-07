@@ -6,21 +6,21 @@ import {
 import React, { useEffect } from "react";
 
 import Button from "./components/Button";
+import { LanguageIcon } from "@/components/iconfont";
 import Modal from "@/components/modal";
+import NewAlgorithmModal from "./components/NewAlgorithmModal";
+import Title from "./components/Title";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import styles from "./index.module.scss";
 import useEditorModel from "@/models/editor";
 import { useReactive } from "ahooks";
-import { LanguageIcon } from "@/components/iconfont";
-import Title from "./components/Title"
-import NewAlgorithmModal from "./components/NewAlgorithmModal"
 
 const Launcher = () => {
   const state = useReactive({
     visible: false,
     content: [
-      { title: "demo", dirpath: "/Users/raozhi/Desktop/demo" },
-      { title: "algorithm", dirpath: "/Users/raozhi/Desktop/algorithm" },
+      // { title: "demo", dirpath: "/Users/raozhi/Desktop/demo" },
+      // { title: "algorithm", dirpath: "/Users/raozhi/Desktop/algorithm" },
     ],
   });
 
@@ -34,13 +34,28 @@ const Launcher = () => {
     const path = await window.api.local.getDirectory();
     await window.api.engine.create(path);
     state.visible = false;
-
     setDirPath(path);
   };
 
   const handleOpenHistoryItem = (dirpath: string) => {
     setDirPath(dirpath);
   };
+
+  useEffect(() => {
+    (async () => {
+      const data = await window.api.store.get("history-path");
+      const historyList = [];
+      for (let i = 0; i < data.length; i++) {
+        const obj: any = {};
+        obj.dirpath = data[i];
+        const index = obj.dirpath.lastIndexOf("/");
+        const str = obj.dirpath.substring(index + 1, obj.dirpath.length);
+        obj.title = str;
+        historyList.unshift(obj);
+      }
+      state.content = historyList;
+    })();
+  }, [model.dirPath]);
 
   return (
     <div className={styles.launcher}>
@@ -72,7 +87,10 @@ const Launcher = () => {
           </ul>
         </div>
       </div>
-      <NewAlgorithmModal visible={state.visible} visibleModal={() => state.visible = !state.visible} />
+      <NewAlgorithmModal
+        visible={state.visible}
+        visibleModal={() => (state.visible = !state.visible)}
+      />
     </div>
   );
 };
