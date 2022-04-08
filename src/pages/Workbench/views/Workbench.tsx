@@ -26,6 +26,7 @@ import { EditorView } from "@dtinsight/molecule/esm//workbench/editor";
 import { ID_APP } from "@dtinsight/molecule/esm/common/id";
 import { IWorkbench } from "@dtinsight/molecule/esm/model/workbench";
 import InitBacktest from "@/components/InitBacktest";
+import CustomModal from "@/components/CustomModal";
 import { LayoutService } from "@dtinsight/molecule/esm/services";
 import { MenuBarView } from "@dtinsight/molecule/esm/workbench/menuBar";
 import { PanelView } from "@dtinsight/molecule/esm/workbench/panel";
@@ -143,7 +144,7 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
     }
   };
   const {
-    model: { visible = false },
+    model: { visible = false, customVisble = false },
   } = useBacktestModal();
   return (
     <div
@@ -198,6 +199,9 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
       </div>
       <Display visible={visible}>
         <InitBacktest />
+      </Display>
+      <Display visible={customVisble}>
+        <CustomModal />
       </Display>
       <Display visible={!statusBar.hidden}>
         <StatusBarView />
