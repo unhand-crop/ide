@@ -3,11 +3,12 @@ import styles from "./index.module.scss";
 
 interface titleProps {
   title: string;
+  style?: any;
 }
 
-const Title = ({ title }: titleProps) => {
+const Title = ({ title, style }: titleProps) => {
   return (
-    <div className={styles.body}>
+    <div className={styles.body} style={style ?? {}}>
       <span>{title}</span>
     </div>
   );

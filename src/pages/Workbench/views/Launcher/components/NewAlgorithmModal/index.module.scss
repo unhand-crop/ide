@@ -41,7 +41,6 @@
     height: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
     background-color: #252527;
     overflow: hidden;
     .template_select_body {
@@ -94,6 +93,7 @@
       width: 100%;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       .folder_title {
         font-size: 14px;
         font-weight: 400;
