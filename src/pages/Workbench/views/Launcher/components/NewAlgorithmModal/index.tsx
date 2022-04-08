@@ -78,6 +78,7 @@ const NewAlgorithmModal = ({
     if (templateList.length === 0) return;
     const templateDetails = await getTemplateDetails(templateList[0].id);
     upTemplateDetails(templateDetails);
+    upFileName(templateDetails.templateName)
   };
 
   const changeTemplate = async (templateIndex: number) => {

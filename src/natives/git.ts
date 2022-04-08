@@ -6,7 +6,6 @@ import request from "request";
 import path from "path";
 
 export const registerGitHandlers = async (mainWindow: BrowserWindow) => {
-
     ipcMain.handle("gitHttp.clone", async (_, { fileName, gitUrl, gitFileName, extractUrl }: any) => {
         const writeUrl = path.join(extractUrl, gitFileName);
         await new Promise<void>((resolve, reject) => {
@@ -22,9 +21,12 @@ export const registerGitHandlers = async (mainWindow: BrowserWindow) => {
             })
         })
         const oldName = path.join(extractUrl, path.parse(gitFileName).name);
-        const newName = path.join(extractUrl, fileName);
-        fs.renameSync(oldName, newName);
-        return newName;
+        if (fileName) {
+            const newName = path.join(extractUrl, fileName);
+            fs.renameSync(oldName, newName);
+            return newName;
+        }
+        return oldName;
     });
 };
 
