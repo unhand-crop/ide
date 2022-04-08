@@ -12,18 +12,15 @@ const BackTest = () => {
   const { model: engineModel } = useEngineModel();
   const { model: envModel } = useEnvModel();
   const { model: backtestModel } = useBackTestModel();
-  //   const state = useReactive({
-  //     visible: false,
-  //     radioValue: 0,
-  //   });
-  //   const [form] = Form.useForm();
 
   const handleBackTest = async () => {
     if (!envModel.isShellInstalled || !envModel.isContainerInstalled) {
       backtestModel.visible = true;
       return;
+    } else {
+      molecule.layout.togglePanelVisibility();
+      backtestModel.visible = false;
     }
-    // state.visible = true;
     if (panel.hidden) {
       if (!panel.panelMaximized) {
         molecule.panel.toggleMaximize();
