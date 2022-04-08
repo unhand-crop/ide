@@ -103,9 +103,7 @@ const NewAlgorithmModal = ({
     >
       <div className={styles.modal_body}>
         <div className={styles.language_select_body}>
-          <Title
-            title={localize("newAlgorithm.selectLanguage", "选择使用的语言")}
-          />
+          <Title title={localize("newAlgorithm.selectLanguage", "选择使用的语言")} />
           <div className={styles.language_list_body}>
             {languageList.map((item: any, index) => {
               return (
@@ -122,9 +120,7 @@ const NewAlgorithmModal = ({
           </div>
         </div>
         <div className={styles.language_template_body}>
-          <Title
-            title={localize("newAlgorithm.selectTemplate", "选择使用的模版")}
-          />
+          <Title title={localize("newAlgorithm.selectTemplate", "选择使用的模版")} style={{ paddingLeft: "23px" }} />
           <div className={styles.template_select_body}>
             {currentTemplateList.map((item: templateListResponse, index) => {
               const {
@@ -154,9 +150,11 @@ const NewAlgorithmModal = ({
           {templateDetails.templateName && (
             <div className={styles.language_content_div}>
               <div className={styles.language_content_folder}>
-                <div className={styles.folder_title}>{localize("newAlgorithm.setDownloadFolder", "设置存放路径")}</div>
+                <div className={styles.folder_title}>
+                  {!extractUrl && <span style={{ color: "red" }}>*</span>}
+                  {localize("newAlgorithm.setDownloadFolder", "设置存放路径")}</div>
                 <div className={styles.folder_content}>
-                  <div className={styles.folder_input}>{extractUrl || defaultAlgorithmDir}</div>
+                  <div className={styles.folder_input} style={extractUrl ? { color: "#ffffff" } : {}}>{extractUrl || defaultAlgorithmDir}</div>
                   <Button
                     className={styles.folder_button}
                     color="#2154E0"
