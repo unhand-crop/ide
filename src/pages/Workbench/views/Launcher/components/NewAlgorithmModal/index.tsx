@@ -47,14 +47,11 @@ const NewAlgorithmModal = ({
     pageSize = 10,
     programLanguage = 1,
   }) => {
-    let {
-      data: { items = [] },
-    } = (await getTemplateList({ pageIndex, pageSize, programLanguage })) || {};
+    let { data: { items = [] } } = (await getTemplateList({ pageIndex, pageSize, programLanguage })) || {};
     items = items.map((item: any, index: number) => {
       item.change = index === 0;
       return item;
     });
-    upCurrentTemplateList(items || []);
     return items;
   };
 
@@ -62,7 +59,7 @@ const NewAlgorithmModal = ({
     id: string
   ) => {
     let { data = {} }: any = (await requistTemplateDetails(id)) || {};
-    upTemplateDetails(data);
+    return data;
   };
 
   useEffect(() => {
@@ -76,14 +73,17 @@ const NewAlgorithmModal = ({
       programLanguage: 1,
     });
     const defaultExtractUrl = await window.api.store.get("defaultExtractUrl");
+    upCurrentTemplateList(templateList);
     upExtractUrl(defaultExtractUrl);
     if (templateList.length === 0) return;
-    await getTemplateDetails(templateList[0].id);
+    const templateDetails = await getTemplateDetails(templateList[0].id);
+    upTemplateDetails(templateDetails);
   };
 
   const changeTemplate = async (templateIndex: number) => {
     upCurrentChangeTemplateIndex(templateIndex);
-    await getTemplateDetails(currentTemplateList[templateIndex].id);
+    const templateDetails = await getTemplateDetails(currentTemplateList[templateIndex].id);
+    upTemplateDetails(templateDetails);
   };
 
   const creactTemplateFile = async () => {
