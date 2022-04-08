@@ -37,6 +37,8 @@ const NewAlgorithmModal = ({
 
   const handleOpen = async () => {
     const url = await window.api.local.openDirectory();
+    if (!url) return;
+    await window.api.store.set("defaultExtractUrl", url);
     upExtractUrl(url);
   };
 
@@ -57,10 +59,8 @@ const NewAlgorithmModal = ({
   };
 
   const getTemplateDetails = async (
-    templateList: any,
-    templateIndex: number
+    id: string
   ) => {
-    const id = templateList[templateIndex].id || 0;
     let { data = {} }: any = (await requistTemplateDetails(id)) || {};
     upTemplateDetails(data);
   };
@@ -75,28 +75,22 @@ const NewAlgorithmModal = ({
       pageSize: 10,
       programLanguage: 1,
     });
-    await getTemplateDetails(
-      templateList,
-      currentChangeTemplateIndex
-    );
+    const defaultExtractUrl = await window.api.store.get("defaultExtractUrl");
+    upExtractUrl(defaultExtractUrl);
+    if (templateList.length === 0) return;
+    await getTemplateDetails(templateList[0].id);
   };
 
-  const changeTemplate = (templateIndex: number) => {
+  const changeTemplate = async (templateIndex: number) => {
     upCurrentChangeTemplateIndex(templateIndex);
-  };
-
-  const extractCallback = async (progress: number, path: string) => {
-    if (progress === 100) {
-      await window.api.engine.create(path);
-      visibleModal();
-      setDirPath(path);
-    } else {
-
-    }
+    await getTemplateDetails(currentTemplateList[templateIndex].id);
   };
 
   const creactTemplateFile = async () => {
-    await window.api.gitHttp.clone({ gitUrl: templateDetails.gitUrl, fileName, gitFileName: templateDetails.gitDir, extractUrl, extractCallback: extractCallback });
+    const path = await window.api.gitHttp.clone({ gitUrl: templateDetails.gitUrl, fileName, gitFileName: templateDetails.gitDir, extractUrl });
+    await window.api.engine.create(path);
+    visibleModal();
+    setDirPath(path);
   };
 
   const defaultAlgorithmDir = localize("newAlgorithm.selectFolder", "请选择文件夹");
