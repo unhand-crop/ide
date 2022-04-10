@@ -3,14 +3,13 @@ import * as path from "path";
 import { BrowserWindow, ipcMain, ipcRenderer } from "electron";
 import { Logger, runner } from "hygen";
 
-// import { ChildProcess } from "child_process";
+import { ChildProcess } from "child_process";
 import Docker from "dockerode";
 import VmEnv from "@unhand/vmenv";
 import { status as getWslStatus } from "node-wsl";
 import { isWindows } from "./utils";
 import { store } from "./store";
 
-const CONTAINER_NAME = "nerdctl";
 const ENGINE_IMAGE = "unhand/unhand:latest";
 const vmenv = new VmEnv();
 class Engine {
@@ -145,6 +144,41 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
   });
   ipcMain.handle("engine.backtest", async (_, args) => {
     const port = await store.get("server-port");
+
+    const process = vmenv.run(`run -d hello-world`, {
+      async: true,
+      silent: true,
+    }) as ChildProcess;
+
+    let containerId: string = null;
+
+    process.stdout.on("data", (data) => {
+      containerId = data;
+      mainWindow.webContents.send("engine-stream-start", containerId);
+
+      const logProcess = vmenv.run(`logs -f -t ${containerId}`, {
+        async: true,
+        silent: true,
+      }) as ChildProcess;
+
+      logProcess.stdout.on("data", (log) => {
+        mainWindow.webContents.send(
+          "engine-stream-data",
+          Buffer.from(log).toString("utf-8")
+        );
+      });
+    });
+
+    process.stdout.on("close", () => {
+      if (containerId) {
+        vmenv.run(`stop ${containerId}`);
+        mainWindow.webContents.send("engine-stream-end", containerId);
+
+        vmenv.run(`rm ${containerId}`);
+        mainWindow.webContents.send("engine-stream-finish", containerId);
+      }
+    });
+
     // const child = vmenv.run(
     //   `${CONTAINER_NAME} run ${ENGINE_IMAGE} --rm -v ${args[0]}:/app/custom/algorithm -e LOADREMOTE=true -e DOMAIN=http://host.docker.internal:${port}/`,
     //   "",
@@ -157,39 +191,39 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     //   console.log("=>", data);
     // });
 
-    const exitInfo = await engine.backtest(
-      {
-        HostConfig: {
-          AutoRemove: true,
-          Binds: [`${args[0]}:/app/custom/algorithm`],
-        },
-        // LOADREMOTE：是否加载远程engine数据
-        Env: [`LOADREMOTE=true`, `DOMAIN=http://host.docker.internal:${port}/`],
-      },
-      (stream) => {
-        stream.on("start", () => {
-          mainWindow.webContents.send("engine-stream-start");
-        });
-        stream.on("end", () => {
-          mainWindow.webContents.send("engine-stream-end");
-        });
-        stream.on("error", () => {
-          mainWindow.webContents.send("engine-stream-error");
-        });
-        stream.on("finish", () => {
-          mainWindow.webContents.send("engine-stream-finish");
-        });
-        stream.on("data", (data) => {
-          if (data) {
-            mainWindow.webContents.send(
-              "engine-stream-data",
-              Buffer.from(data).toString("utf-8")
-            );
-          }
-        });
-      }
-    );
-    return exitInfo;
+    // const exitInfo = await engine.backtest(
+    //   {
+    //     HostConfig: {
+    //       AutoRemove: true,
+    //       Binds: [`${args[0]}:/app/custom/algorithm`],
+    //     },
+    //     // LOADREMOTE：是否加载远程engine数据
+    //     Env: [`LOADREMOTE=true`, `DOMAIN=http://host.docker.internal:${port}/`],
+    //   },
+    //   (stream) => {
+    //     stream.on("start", () => {
+    //       mainWindow.webContents.send("engine-stream-start");
+    //     });
+    //     stream.on("end", () => {
+    //       mainWindow.webContents.send("engine-stream-end");
+    //     });
+    //     stream.on("error", () => {
+    //       mainWindow.webContents.send("engine-stream-error");
+    //     });
+    //     stream.on("finish", () => {
+    //       mainWindow.webContents.send("engine-stream-finish");
+    //     });
+    //     stream.on("data", (data) => {
+    //       if (data) {
+    //         mainWindow.webContents.send(
+    //           "engine-stream-data",
+    //           Buffer.from(data).toString("utf-8")
+    //         );
+    //       }
+    //     });
+    //   }
+    // );
+    // return exitInfo;
   });
   ipcMain.handle("engine.stop", async (_, args) => {
     return await engine.stop();
