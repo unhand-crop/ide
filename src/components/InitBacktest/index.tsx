@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import { InfoBacktestButtonIcon } from "@/components/iconfont";
+import { IconInfoBacktestButton } from "@/components/iconfont";
 import Modal from "@/components/modal";
 import React from "react";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
@@ -60,7 +60,7 @@ const InitBackTest = ({ onClick }: InitBackTestProps) => {
                     <span className={styles.button_text}>
                       {referenceDocuments}
                     </span>
-                    <InfoBacktestButtonIcon
+                    <IconInfoBacktestButton
                       size={20}
                       className={styles.button_icon}
                     />

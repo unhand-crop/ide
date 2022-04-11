@@ -36,6 +36,9 @@
         "customModal.backtestEndDate": "Please fill in the end date of backtest",
         "customModal.backtestServiceCharge": "Please fill in the backtest service charge",
         "customModal.customAttribute": "Please fill in the custom attribute",
-        "customModal.customValue": "Please fill in the custom value"
+        "customModal.customValue": "Please fill in the custom value",
+        "settings.AboutUs": "About us",
+        "settings.commonlyUsed": "commonly-used",
+        "settings.textEditor": "text-editor"
     }
 }

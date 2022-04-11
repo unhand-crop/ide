@@ -37,6 +37,9 @@
         "customModal.backtestEndDate": "请填写回测结束时间",
         "customModal.backtestServiceCharge": "请填写回测手续费",
         "customModal.customAttribute": "请填写自定义属性",
-        "customModal.customValue": "请填写属性值"
+        "customModal.customValue": "请填写属性值",
+        "settings.AboutUs": "关于我们",
+        "settings.commonlyUsed": "常用设置",
+        "settings.textEditor": "文本编辑器"
     }
 }

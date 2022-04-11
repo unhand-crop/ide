@@ -7,6 +7,6 @@ interface Props extends Omit<SVGAttributes<SVGElement>, 'color'> {
   color?: string | string[];
 }
 
-declare const AlgorithmIcon: FunctionComponent<Props>;
+declare const IconPython: FunctionComponent<Props>;
 
-export default AlgorithmIcon;
+export default IconPython;
