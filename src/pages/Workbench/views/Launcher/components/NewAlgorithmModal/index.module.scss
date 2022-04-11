@@ -46,7 +46,8 @@
     .template_select_body {
       width: 100%;
       height: auto;
-      overflow: scroll;
+      overflow-x: hidden;
+      overflow-y: auto;
       .template_select_item {
         width: 100%;
         height: 102px;
@@ -77,6 +78,20 @@
       .template_select_item:hover {
         background-color: #1e1e1e;
       }
+    }
+    .template_select_body::-webkit-scrollbar {
+      width: 5px;
+      height: 10px;
+    }
+    .template_select_body::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      background-color: black;
+    }
+    .template_select_body::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      background-color: #b5b1b1;
     }
   }
   .language_content_body {
