@@ -33,8 +33,8 @@ const needCheckArr = [
 const InitBackTest = ({ onClick }: InitBackTestProps) => {
   const { model: backtestModel } = useBackTestModel();
   const nextClick = () => {
-    molecule.layout.togglePanelVisibility();
     backtestModel.visible = false;
+    backtestModel.customVisble = true;
   };
 
   return (

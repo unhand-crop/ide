@@ -25,6 +25,18 @@
         "newAlgorithm.algorithmDescribe": "算法描述",
         "newAlgorithm.sourceCode": "源代码",
         "newAlgorithm.setDownloadFolder": "设置下载路径",
-        "newAlgorithm.selectFolder": "选择文件夹"
+        "newAlgorithm.selectFolder": "选择文件夹",
+        "customModal.backtestAttribute": "回测属性",
+        "customModal.backtestDate": "回测时间",
+        "customModal.pleaseSelectDate": "请选择日期",
+        "customModal.custom": "自定义",
+        "customModal.submit": "提交",
+        "customModal.cancel": "取消",
+        "customModal.serviceCharge": "手续费",
+        "customModal.backtestStartDate": "请填写回测开始时间",
+        "customModal.backtestEndDate": "请填写回测结束时间",
+        "customModal.backtestServiceCharge": "请填写回测手续费",
+        "customModal.customAttribute": "请填写自定义属性",
+        "customModal.customValue": "请填写属性值"
     }
 }

@@ -28,10 +28,6 @@ const BackTest = () => {
         molecule.panel.toggleMaximize();
       }
     }
-    const { folderTree } = molecule.folderTree.getState();
-    if (folderTree?.data[0]?.id) {
-      await window.api.engine.backtest(folderTree?.data[0]?.id);
-    }
   };
 
   const handleResult = () => {

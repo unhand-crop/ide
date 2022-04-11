@@ -46,8 +46,8 @@ class Engine {
         const opts =
           body && body.length > 0
             ? {
-                input: body,
-              }
+              input: body,
+            }
             : {};
         return require("execa").shell(action, opts);
       },
@@ -92,13 +92,13 @@ class Engine {
   async stop() {
     try {
       return await this.engineContainer?.stop();
-    } catch (e) {}
+    } catch (e) { }
   }
 
   async remove() {
     try {
       return await this.engineContainer?.remove();
-    } catch (e) {}
+    } catch (e) { }
   }
 
   async pull() {
@@ -156,15 +156,29 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     // child.stdout.on("data", (data) => {
     //   console.log("=>", data);
     // });
-
+    const {
+      id,
+      ENDDATE,
+      STARTDATE,
+      SERVICECHARGE,
+      ATTRIBUTES
+    } = args[0];
+    // LOADREMOTE：是否加载远程engine数据
+    const EnvValue = [
+      `LOADREMOTE=true`,
+      `DOMAIN=http://host.docker.internal:${port}/`,
+      `STARTDATE=${STARTDATE}`,
+      `ENDDATE=${ENDDATE}`,
+      `TRADEFEE=${SERVICECHARGE}`,
+      ...ATTRIBUTES
+    ];
     const exitInfo = await engine.backtest(
       {
         HostConfig: {
           AutoRemove: true,
-          Binds: [`${args[0]}:/app/custom/algorithm`],
+          Binds: [`${id}:/app/custom/algorithm`],
         },
-        // LOADREMOTE：是否加载远程engine数据
-        Env: [`LOADREMOTE=true`, `DOMAIN=http://host.docker.internal:${port}/`],
+        Env: EnvValue
       },
       (stream) => {
         stream.on("start", () => {

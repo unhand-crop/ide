@@ -7,7 +7,7 @@ function useBackTestModel() {
     customVisble: boolean;
   }>({
     visible: false,
-    customVisble: true,
+    customVisble: false,
   });
 
   return {
