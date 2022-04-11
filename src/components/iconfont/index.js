@@ -19,13 +19,13 @@ import IconRefresh1 from "./IconRefresh1";
 import IconResource from "./IconResource";
 import IconSearch from "./IconSearch";
 import IconYes from "./IconYes";
-import ProgressReslove from "./ProgressReslove";
-import ProgressReject from "./ProgressReject";
-import ProgressPending from "./ProgressPending";
-import ProgressWait from "./ProgressWait";
-import InfoBacktestButtonIcon from "./InfoBacktestButtonIcon";
-import AlgorithmIcon from "./AlgorithmIcon";
-import LanguageIcon from "./LanguageIcon";
+import IconProgressReslove from "./IconProgressReslove";
+import IconProgressReject from "./IconProgressReject";
+import IconProgressPending from "./IconProgressPending";
+import IconProgressWait from "./IconProgressWait";
+import IconInfoBacktestButton from "./IconInfoBacktestButton";
+import IconAlgorithm from "./IconAlgorithm";
+import IconLanguage from "./IconLanguage";
 
 import React from "react";
 export { default as IconAdd } from "./IconAdd";
@@ -47,13 +47,13 @@ export { default as IconRefresh1 } from "./IconRefresh1";
 export { default as IconSearch } from "./IconSearch";
 export { default as IconProject } from "./IconProject";
 export { default as IconResource } from "./IconResource";
-export { default as ProgressReslove } from "./ProgressReslove";
-export { default as ProgressReject } from "./ProgressReject";
-export { default as ProgressPending } from "./ProgressPending";
-export { default as ProgressWait } from "./ProgressWait";
-export { default as InfoBacktestButtonIcon } from "./InfoBacktestButtonIcon";
-export { default as AlgorithmIcon } from "./AlgorithmIcon";
-export { default as LanguageIcon } from "./LanguageIcon";
+export { default as IconProgressReslove } from "./IconProgressReslove";
+export { default as IconProgressReject } from "./IconProgressReject";
+export { default as IconProgressPending } from "./IconProgressPending";
+export { default as IconProgressWait } from "./IconProgressWait";
+export { default as IconInfoBacktestButton } from "./IconInfoBacktestButton";
+export { default as IconAlgorithm } from "./IconAlgorithm";
+export { default as IconLanguage } from "./IconLanguage";
 
 const IconFont = ({ name, ...rest }) => {
   switch (name) {
@@ -95,20 +95,20 @@ const IconFont = ({ name, ...rest }) => {
       return <IconProject {...rest} />;
     case "resource":
       return <IconResource {...rest} />;
-    case "ProgressReslove":
-      return <ProgressReslove {...rest} />;
-    case "ProgressReject":
-      return <ProgressReject {...rest} />;
-    case "ProgressPending":
-      return <ProgressPending {...rest} />;
+    case "IconProgressReslove":
+      return <IconProgressReslove {...rest} />;
+    case "IconProgressReject":
+      return <IconProgressReject {...rest} />;
+    case "IconProgressPending":
+      return <IconProgressPending {...rest} />;
     case "ProgressWait":
-      return <ProgressWait {...rest} />;
-    case "InfoBacktestButtonIcon":
-      return <InfoBacktestButtonIcon {...rest} />;
-    case "AlgorithmIcon":
-      return <AlgorithmIcon {...rest} />;
-    case "LanguageIcon":
-      return <LanguageIcon {...rest} />;
+      return <IconProgressWait {...rest} />;
+    case "IconInfoBacktestButton":
+      return <IconInfoBacktestButton {...rest} />;
+    case "IconAlgorithm":
+      return <IconAlgorithm {...rest} />;
+    case "IconLanguage":
+      return <IconLanguage {...rest} />;
   }
 
   return null;

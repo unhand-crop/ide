@@ -6,7 +6,7 @@ const DEFAULT_STYLE = {
     display: 'block',
 };
 
-const ProgressPending = ({ size, color, style: _style, ...rest }) => {
+const IconProgressPending = ({ size, color, style: _style, ...rest }) => {
     const style = _style ? { ...DEFAULT_STYLE, ..._style } : DEFAULT_STYLE;
     return (
         <svg
@@ -23,4 +23,4 @@ const ProgressPending = ({ size, color, style: _style, ...rest }) => {
     );
 };
 
-export default ProgressPending;
+export default IconProgressPending;

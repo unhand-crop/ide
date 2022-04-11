@@ -6,7 +6,7 @@ const DEFAULT_STYLE = {
     display: 'block',
 };
 
-const InfoBacktestButtonIcon = ({ size, color, style: _style, ...rest }) => {
+const IconInfoBacktestButton = ({ size, color, style: _style, ...rest }) => {
     const style = _style ? { ...DEFAULT_STYLE, ..._style } : DEFAULT_STYLE;
     return (
         <svg
@@ -28,4 +28,4 @@ const InfoBacktestButtonIcon = ({ size, color, style: _style, ...rest }) => {
     );
 };
 
-export default InfoBacktestButtonIcon;
+export default IconInfoBacktestButton;

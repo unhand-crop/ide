@@ -7,6 +7,6 @@ interface Props extends Omit<SVGAttributes<SVGElement>, 'color'> {
   color?: string | string[];
 }
 
-declare const ProgressPending: FunctionComponent<Props>;
+declare const IconAlgorithm: FunctionComponent<Props>;
 
-export default ProgressPending;
+export default IconAlgorithm;

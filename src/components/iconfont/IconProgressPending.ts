@@ -4,10 +4,9 @@ import { SVGAttributes, FunctionComponent } from 'react';
 
 interface Props extends Omit<SVGAttributes<SVGElement>, 'color'> {
   size?: number;
-  language?: string;
   color?: string | string[];
 }
 
-declare const LanguageIcon: FunctionComponent<Props>;
+declare const IconProgressPending: FunctionComponent<Props>;
 
-export default LanguageIcon;
+export default IconProgressPending;

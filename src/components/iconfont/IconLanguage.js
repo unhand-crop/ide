@@ -7,7 +7,7 @@ const DEFAULT_STYLE = {
     display: 'block',
 };
 
-const PythonIcon = ({ size, style: _style, ...rest }) => {
+const IconPython = ({ size, style: _style, ...rest }) => {
     return <svg
         t="1648891205889"
         viewBox="0 0 1024 1024"
@@ -27,12 +27,12 @@ const PythonIcon = ({ size, style: _style, ...rest }) => {
 }
 
 
-const LanguageIcon = ({ size, language, style: _style, ...rest }) => {
+const IconLanguage = ({ size, language, style: _style, ...rest }) => {
     const style = _style ? { ...DEFAULT_STYLE, ..._style } : DEFAULT_STYLE;
     if (language === "python") {
-        return <PythonIcon size={size} style={style} {...rest} />
+        return <IconPython size={size} style={style} {...rest} />
     }
-    return <PythonIcon size={size} style={style} {...rest} />
+    return <IconPython size={size} style={style} {...rest} />
 };
 
-export default LanguageIcon;
+export default IconLanguage;

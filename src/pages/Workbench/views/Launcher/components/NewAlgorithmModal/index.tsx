@@ -6,7 +6,7 @@ import {
   templateListResponse,
 } from "@/services/newAlgorithm";
 
-import { LanguageIcon } from "@/components/iconfont";
+import { IconLanguage } from "@/components/iconfont";
 import Modal from "@/components/modal";
 import Title from "../Title";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
@@ -113,7 +113,7 @@ const NewAlgorithmModal = ({
                   key={item.name}
                   style={item.change ? { backgroundColor: "#1e1e1e" } : {}}
                 >
-                  <LanguageIcon size={26} language="python" />
+                  <IconLanguage size={26} language="python" />
                   <span className={styles.language_name}>{item.name}</span>
                 </div>
               );

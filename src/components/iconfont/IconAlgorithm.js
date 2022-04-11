@@ -6,7 +6,7 @@ const DEFAULT_STYLE = {
     display: 'block',
 };
 
-const AlgorithmIcon = ({ size, color, style: _style, ...rest }) => {
+const IconAlgorithm = ({ size, color, style: _style, ...rest }) => {
     const style = _style ? { ...DEFAULT_STYLE, ..._style } : DEFAULT_STYLE;
     return <svg
         t="1648882720210"
@@ -24,4 +24,4 @@ const AlgorithmIcon = ({ size, color, style: _style, ...rest }) => {
     </svg>
 };
 
-export default AlgorithmIcon;
+export default IconAlgorithm;
