@@ -24,6 +24,18 @@
         "newAlgorithm.algorithmDescribe": "Algorithm describe",
         "newAlgorithm.sourceCode": "Source code",
         "newAlgorithm.setDownloadFolder": "Set download folder",
-        "newAlgorithm.selectFolder": "Select folder"
+        "newAlgorithm.selectFolder": "Select folder",
+        "customModal.backtestAttribute": "Backtest Attribute",
+        "customModal.backtestDate": "Backtest date",
+        "customModal.pleaseSelectDate": "Please select date",
+        "customModal.custom": "Custom",
+        "customModal.submit": "Submit",
+        "customModal.cancel": "Cancel",
+        "customModal.serviceCharge": "Service charge",
+        "customModal.backtestStartDate": "Please fill in the start date of backtest",
+        "customModal.backtestEndDate": "Please fill in the end date of backtest",
+        "customModal.backtestServiceCharge": "Please fill in the backtest service charge",
+        "customModal.customAttribute": "Please fill in the custom attribute",
+        "customModal.customValue": "Please fill in the custom value"
     }
 }

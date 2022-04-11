@@ -18,17 +18,15 @@ const BackTest = () => {
       backtestModel.visible = true;
       return;
     } else {
-      molecule.layout.togglePanelVisibility();
-      backtestModel.visible = false;
+      // molecule.layout.togglePanelVisibility();
+      // backtestModel.visible = false;
+
+      backtestModel.customVisble = true;
     }
     if (panel.hidden) {
       if (!panel.panelMaximized) {
         molecule.panel.toggleMaximize();
       }
-    }
-    const { folderTree } = molecule.folderTree.getState();
-    if (folderTree?.data[0]?.id) {
-      await window.api.engine.backtest(folderTree?.data[0]?.id);
     }
   };
 
