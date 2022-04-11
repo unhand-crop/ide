@@ -5,7 +5,7 @@ import molecule from "@dtinsight/molecule";
 import styles from "./ResultPaneView.module.scss";
 import useEngineModel from "@/models/engine";
 import { useReactive } from "ahooks";
-import { IconProgressReslove, IconProgressReject, IconProgressPending, IconProgressWait } from "@/components/iconfont";
+import { IconProgressResolve, IconProgressReject, IconProgressPending, IconProgressWait } from "@/components/iconfont";
 
 const columns: TableColumnsType<never> | undefined = [
   {
@@ -142,7 +142,7 @@ export default () => {
               <div className={styles.loading_item_content}>
                 <Progress percent={progress} showInfo={false} strokeColor="#2154E0" trailColor="#3C3F41" className={styles.loading_item_progress} />
                 {progress === 0 && <IconProgressWait size={29} />}
-                {progress >= 100 && <IconProgressReslove size={29} />}
+                {progress >= 100 && <IconProgressResolve size={29} />}
                 {progress > 0 && progress < 100 && <IconProgressPending size={29} color="rgb(33, 84, 224)" className={styles.transform_rotate_loop} />}
                 {!status && <IconProgressReject size={29} />}
               </div>

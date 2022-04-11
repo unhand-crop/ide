@@ -7,6 +7,6 @@ interface Props extends Omit<SVGAttributes<SVGElement>, 'color'> {
   color?: string | string[];
 }
 
-declare const ProgressReslove: FunctionComponent<Props>;
+declare const IconJiazaizhongCopyCopyCopyCopy: FunctionComponent<Props>;
 
-export default ProgressReslove;
+export default IconJiazaizhongCopyCopyCopyCopy;

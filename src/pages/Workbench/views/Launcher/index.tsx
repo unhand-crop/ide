@@ -6,7 +6,7 @@ import {
 import React, { useEffect } from "react";
 
 import Button from "./components/Button";
-import { IconLanguage } from "@/components/iconfont";
+import { IconPython } from "@/components/iconfont";
 import Modal from "@/components/modal";
 import NewAlgorithmModal from "./components/NewAlgorithmModal";
 import Title from "./components/Title";
