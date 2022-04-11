@@ -1,8 +1,12 @@
-import { GetSymbolsOutput, getPage, getPageInput, getDefaultList } from "@/services/symbol";
+import {
+  GetSymbolsOutput,
+  getDefaultList,
+  getPage,
+  getPageInput,
+} from "@/services/symbol";
 import { IconAdd, IconSearch } from "@/components/iconfont";
 import { Input, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
-import { useMount, useReactive } from "ahooks";
 
 import AddList from "./components/AddList";
 import List from "./components/List";
@@ -10,6 +14,7 @@ import Modal from "@/components/modal";
 import { openCreateDataSourceView } from "./base";
 import styles from "./index.module.scss";
 import useMarketModel from "@/models/market";
+import { useReactive } from "ahooks";
 
 export default () => {
   const { model } = useMarketModel();
@@ -21,6 +26,8 @@ export default () => {
     name: "",
     symbol: "",
   });
+  const [exchangeRate, setExchangeRate] = useState(1);
+  const [auxiliary, setAuxiliary] = useState(1);
   const state = useReactive<{
     commodityList: any;
     selectIndex: number;
@@ -45,13 +52,25 @@ export default () => {
     init();
   }, []);
 
+  useEffect(() => {
+    fetchExchangeRate();
+  }, [auxiliary, exchangeRate]);
+
+  const fetchExchangeRate = async () => {
+    const { converted } = await window.api.store.get("currency-conversion");
+    setExchangeRate(converted);
+    setAuxiliary(auxiliary + 1);
+  };
+
   const init = async () => {
     const defaultList = await getList();
     if (defaultList) {
       model.defaultList = defaultList;
-      model.symbols = defaultList.map((item: GetSymbolsOutput) => item.name + "-USD").join(",");
+      model.symbols = defaultList
+        .map((item: GetSymbolsOutput) => item.name + "-USD")
+        .join(",");
     }
-  }
+  };
 
   const handleSelect = (index: number, name: string) => {
     state.selectIndex = index;
@@ -76,21 +95,23 @@ export default () => {
     const { statusCode, data } = await getDefaultList();
     if (statusCode === 200) return data;
     return [];
-  }
+  };
 
   const setList = async (item: GetSymbolsOutput) => {
     const defaultList = await getList();
     defaultList.push(JSON.parse(JSON.stringify(item)));
     await window.api.store.set("defaultList", defaultList);
     return defaultList;
-  }
+  };
 
   const removeDefaultListItem = async (itemSymbol: string) => {
     const defaultList = await getList();
-    const newDefaultList = defaultList.filter((item: GetSymbolsOutput) => item.symbol !== itemSymbol);
+    const newDefaultList = defaultList.filter(
+      (item: GetSymbolsOutput) => item.symbol !== itemSymbol
+    );
     await window.api.store.set("defaultList", newDefaultList);
     return newDefaultList;
-  }
+  };
 
   const handleAdd = async (item: GetSymbolsOutput) => {
     const defaultList = await setList(item);
@@ -104,8 +125,10 @@ export default () => {
 
   const upModelDefultList = (defaultList: Array<any>) => {
     model.defaultList = defaultList;
-    model.symbols = defaultList.map((item: GetSymbolsOutput) => item.name + "-USD").join(",");
-  }
+    model.symbols = defaultList
+      .map((item: GetSymbolsOutput) => item.name + "-USD")
+      .join(",");
+  };
 
   const handleEnter = (e: any) => {
     setParams({ ...params, name: e.target.defaultValue });
@@ -149,6 +172,7 @@ export default () => {
                 index={index}
                 key={index}
                 item={item}
+                exchangeRate={exchangeRate}
                 selectIndex={state.selectIndex}
                 onClick={() => handleSelect(index, item.enName)}
                 onCanel={() => handleCanel(item.symbol)}
@@ -178,16 +202,22 @@ export default () => {
               <ul className={styles.list}>
                 {state.commodityList.map(
                   (item: GetSymbolsOutput, index: number) => {
-                    const shouldAdd = model.defaultList.some((everyItem: GetSymbolsOutput) => everyItem.symbol === item.symbol);
-                    return <AddList
-                      onClick={(item) => handleAdd(item)}
-                      shouldAdd={!shouldAdd}
-                      existence={state.existence}
-                      index={index}
-                      key={index}
-                      item={item}
-                    />
-                  })}
+                    const shouldAdd = model.defaultList.some(
+                      (everyItem: GetSymbolsOutput) =>
+                        everyItem.symbol === item.symbol
+                    );
+                    return (
+                      <AddList
+                        onClick={(item) => handleAdd(item)}
+                        shouldAdd={!shouldAdd}
+                        existence={state.existence}
+                        index={index}
+                        key={index}
+                        item={item}
+                      />
+                    );
+                  }
+                )}
               </ul>
               <Pagination
                 total={state.totalCount}

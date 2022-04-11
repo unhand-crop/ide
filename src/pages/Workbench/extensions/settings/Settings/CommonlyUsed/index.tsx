@@ -1,8 +1,13 @@
-import Checkbox from "@/components/checkbox";
+import React, { useEffect } from "react";
+import { useMount, useReactive } from "ahooks";
+
 import { Form } from "antd";
 import Input from "@/components/input";
-import React from "react";
+import Modal from "@/components/modal";
 import Select from "@/components/select";
+import { StatusBarExtension } from "../../../statusbar";
+import { getAllCurrencys } from "@/services/currency";
+import { getCurrencyRates } from "@/services/currencyRate";
 import styles from "./index.module.scss";
 
 interface CommonlyUsedProps {
@@ -10,6 +15,57 @@ interface CommonlyUsedProps {
 }
 
 function CommonlyUsed({ handleSave }: CommonlyUsedProps) {
+  const state = useReactive({
+    visible: false,
+    content: [],
+    currency: "",
+  });
+
+  useMount(async () => {
+    const data = await window.api.store.get("currency-conversion");
+    if (data) {
+      state.currency = data.currencyName;
+    } else {
+      state.currency = "USD";
+    }
+  });
+
+  const handleExchangeRate = () => {
+    state.visible = true;
+    getAllCurrencysData();
+  };
+
+  const handleSetExchangeRate = async (fullName: string) => {
+    if (fullName !== "USD") {
+      const { success, data } = await getCurrencyRates({
+        from: "USD",
+        to: fullName,
+      });
+      if (success) {
+        state.currency = fullName;
+        state.visible = false;
+        window.api.store.set("currency-conversion", {
+          currencyName: data.to,
+          converted: data.converted,
+        });
+      }
+    } else {
+      state.currency = fullName;
+      state.visible = false;
+      window.api.store.set("currency-conversion", {
+        currencyName: "USD",
+        converted: 1,
+      });
+    }
+  };
+
+  const getAllCurrencysData = async () => {
+    const { success, data } = await getAllCurrencys();
+    if (success) {
+      state.content = data;
+    }
+  };
+
   return (
     <div className={styles.commonly_used}>
       <p className={styles.title}>常用设置</p>
@@ -40,35 +96,48 @@ function CommonlyUsed({ handleSave }: CommonlyUsedProps) {
             <Input onBlur={() => handleSave()} style={{ width: 404 }} />
           </Form.Item>
         </div>
-        {/* <div className={styles.item}>
-          <div className={styles.item_label}>Editor：Font Family</div>
-          <p className={styles.item_introduce}>控制字体系列。</p>
-          <Form.Item
-            name="fontFamily"
-            initialValue="Menlo Monaco，'Courier New'，Monospace"
-          >
-            <Input style={{ width: 404 }} />
-          </Form.Item>
-        </div> */}
-        {/* <div className={styles.item}>
-          <div className={styles.item_label}>Editor：Insert Spaces</div>
-          <div className={styles.item_flex_introduce}>
-            <Form.Item
-              name="insertSpaces"
-              valuePropName="checked"
-              initialValue={false}
+        <div className={styles.item}>
+          <div className={styles.item_label}>汇率</div>
+          <Form.Item name="exchangeRate" initialValue="3">
+            <p
+              onClick={() => handleExchangeRate()}
+              className={styles.exchange_rate_text}
             >
-              <Checkbox />
-            </Form.Item>
-            <p className={styles.item_introduce}>
-              Insert spaces when pressing tab.this setting is overridden based
-              on the file contents when{" "}
-              <a className={styles.blue_text}>Editor:Detect Indentation </a> is
-              on.
+              {state.currency}
             </p>
-          </div>
-        </div> */}
+          </Form.Item>
+        </div>
       </div>
+      <Modal
+        title="汇率"
+        onCancel={() => (state.visible = false)}
+        visible={state.visible}
+        width={840}
+      >
+        <div className={styles.exchange_rate_container}>
+          <ul className={styles.exchange_rate_list}>
+            {state.content.map((item, index) => {
+              return (
+                <li
+                  onClick={() => handleSetExchangeRate(item.fullName)}
+                  className={styles.exchange_rate_item}
+                  key={index}
+                >
+                  <p
+                    className={`${
+                      state.currency === item.fullName
+                        ? styles.select_fullName
+                        : styles.fullName
+                    }`}
+                  >
+                    {item.fullName}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </Modal>
     </div>
   );
 }

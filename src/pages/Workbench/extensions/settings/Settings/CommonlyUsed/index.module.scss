@@ -40,6 +40,42 @@
           margin-left: 8px;
         }
       }
+      .exchange_rate_text {
+        font-size: 14px;
+        color: #999;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.exchange_rate_container {
+  padding: 0 24px;
+  .exchange_rate_list {
+    display: flex;
+    flex-wrap: wrap;
+    .exchange_rate_item {
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      margin-bottom: 16px;
+      width: 25%;
+      height: 40px;
+      &:hover {
+        cursor: pointer;
+        background-color: #3a3939;
+        border-radius: 4px;
+      }
+      .select_fullName {
+        color: #fff;
+        font-size: 14px;
+      }
+      .fullName {
+        color: #999;
+        font-size: 14px;
+      }
     }
   }
 }
