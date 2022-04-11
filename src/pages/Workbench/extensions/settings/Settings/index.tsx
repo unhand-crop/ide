@@ -5,13 +5,16 @@ import { Form } from "antd";
 import React from "react";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
+import { localize } from "@dtinsight/molecule/esm/i18n/localize";
+
 
 function Settings() {
   const [settingsForm] = Form.useForm();
   const state = useReactive({
     settingsMenus: [
-      { label: "常用设置", id: "commonly-used" },
-      { label: "文本编辑器", id: "text-editor" },
+      { label: localize("settings.commonlyUsed", "常用设置"), id: "commonly-used" },
+      { label: localize("settings.textEditor", "文本编辑器"), id: "text-editor" },
+      { label: localize("settings.AboutUs", "关于我们"), id: "About-us" },
     ],
     selectedItem: "commonly-used",
   });
@@ -55,9 +58,8 @@ function Settings() {
               {state.settingsMenus.map((item) => (
                 <li
                   onClick={() => handleMenusClick(item.id)}
-                  className={`${styles.menus_item} ${
-                    state.selectedItem === item.id ? styles.isActive : ""
-                  }`}
+                  className={`${styles.menus_item} ${state.selectedItem === item.id ? styles.isActive : ""
+                    }`}
                   key={item.id}
                 >
                   {item.label}
@@ -71,6 +73,9 @@ function Settings() {
                 <CommonlyUsed handleSave={() => handleSave()} />
               )}
               {state.selectedItem === "text-editor" && (
+                <span className="text-white">text editor</span>
+              )}
+              {state.selectedItem === "About-us" && (
                 <span className="text-white">text editor</span>
               )}
             </Form>
