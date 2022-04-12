@@ -18,7 +18,6 @@ export async function initServer(mainWindow: BrowserWindow) {
 
   fastify.post("/", (request, reply) => {
     mainWindow.webContents.send("engine-result", request.body);
-    console.log("000---->", request.body);
     reply.send({ success: true, message: "OK" });
   });
 

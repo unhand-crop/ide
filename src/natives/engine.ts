@@ -2,13 +2,14 @@ import { BrowserWindow, ipcMain, ipcRenderer } from "electron";
 
 import { ChildProcess } from "child_process";
 import { factory } from "nerdctl";
+import moment from "moment";
 import os from "os";
 import { store } from "./store";
 
 const arch = os.arch();
 
 const ENGINE_IMAGE =
-  arch === "arm64" ? "unhand/unhand-arm64:v1.0.0" : "unhand/unhand:latest";
+  arch === "arm64" ? "unhand/unhand-arm64:v1.0.1" : "unhand/unhand:latest";
 const CONTAINER_NAME = "unhand-algorithm-engine";
 
 const vm = factory();
@@ -16,6 +17,8 @@ const vm = factory();
 export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("engine.backtest", async (_, args) => {
     mainWindow.webContents.send("engine-stream-start");
+
+    const { id, ENDDATE, STARTDATE, SERVICECHARGE, ATTRIBUTES } = args[0];
 
     const images = await vm.getImages();
 
@@ -36,16 +39,23 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     const container = (await vm.run(ENGINE_IMAGE, {
       name: CONTAINER_NAME,
       rm: true,
-      env: [`LOADREMOTE=true`, `DOMAIN=http://host.lima.internal:${port}/`],
-      volume: [`${args[0]}:/app/custom/algorithm`],
+      env: [
+        `LOADREMOTE=true`,
+        `DOMAIN=http://host.lima.internal:${port}/`,
+        `STARTDATE=${moment(STARTDATE).format("YYYY-MM-DD")}`,
+        `ENDDATE=${moment(ENDDATE).format("YYYY-MM-DD")}`,
+        `TRADEFEE=${SERVICECHARGE}`,
+        ...ATTRIBUTES,
+      ],
+      volume: [`${id}:/app/custom/algorithm`],
     })) as ChildProcess;
 
     container.stdout.on("data", (data) => {
-      console.log("-->", data);
+      console.log("--> stdout", data);
       mainWindow.webContents.send("engine-stream-data", data);
     });
     container.stderr.on("data", (data) => {
-      console.log("-->", data);
+      console.log("--> stderr", data);
       mainWindow.webContents.send("engine-stream-error", data);
     });
     container.stderr.on("close", () => {
