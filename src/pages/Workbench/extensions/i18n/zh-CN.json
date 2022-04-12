@@ -40,6 +40,9 @@
         "customModal.customValue": "请填写属性值",
         "settings.AboutUs": "关于我们",
         "settings.commonlyUsed": "常用设置",
-        "settings.textEditor": "文本编辑器"
+        "settings.textEditor": "文本编辑器",
+        "settingsAboutUs.queryLatest": "查看更新",
+        "settingsAboutUs.downloadLatestVersion": "下载最新版",
+        "settingsAboutUs.alreadyLatest": "已经是最新版"
     }
 }

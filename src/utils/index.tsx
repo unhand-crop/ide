@@ -10,8 +10,8 @@ export function transformToEditorTab(item: IFolderTreeNodeProps): IEditorTab {
   const tabData: IEditorTab = item;
   tabData.breadcrumb = item.location
     ? item.location
-        .split("/")
-        .map((local: string) => ({ id: local, name: local }))
+      .split("/")
+      .map((local: string) => ({ id: local, name: local }))
     : [];
   return tabData;
 }
@@ -62,3 +62,11 @@ export const mapTree = (node: TreeNode, level: number = 0) => {
   node.icon = getFileIcon(node.name);
   return node;
 };
+
+export const isLatestVersion = (currentVersion: string, servicesVersion: string) => {
+  const CV = currentVersion.split(".");
+  const SV = servicesVersion.split(".");
+  return CV.every((item, index) => {
+    return +item >= +SV[index];
+  });
+}

@@ -6,6 +6,7 @@ import React from "react";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
+import AboutUs from "./AboutUs";
 
 
 function Settings() {
@@ -68,17 +69,17 @@ function Settings() {
             </ul>
           </div>
           <div className={styles.right_content}>
-            <Form form={settingsForm}>
-              {state.selectedItem === "commonly-used" && (
+            {state.selectedItem === "commonly-used" && (
+              <Form form={settingsForm}>
                 <CommonlyUsed handleSave={() => handleSave()} />
-              )}
-              {state.selectedItem === "text-editor" && (
-                <span className="text-white">text editor</span>
-              )}
-              {state.selectedItem === "About-us" && (
-                <span className="text-white">text editor</span>
-              )}
-            </Form>
+              </Form>
+            )}
+            {state.selectedItem === "text-editor" && (
+              <span className="text-white">text editor</span>
+            )}
+            {state.selectedItem === "About-us" && (
+              <AboutUs />
+            )}
           </div>
         </div>
       </div>
