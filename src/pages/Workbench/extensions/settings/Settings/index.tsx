@@ -2,6 +2,8 @@ import CommonlyUsed from "./CommonlyUsed";
 import MirrorWarehouse from "./MirrorWarehouse";
 import React from "react";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
+import AboutUs from "./AboutUs";
+
 import styles from "./index.module.scss";
 import { useReactive } from "ahooks";
 
@@ -34,9 +36,8 @@ function Settings() {
               {state.settingsMenus.map((item) => (
                 <li
                   onClick={() => handleMenusClick(item.id)}
-                  className={`${styles.menus_item} ${
-                    state.selectedItem === item.id ? styles.isActive : ""
-                  }`}
+                  className={`${styles.menus_item} ${state.selectedItem === item.id ? styles.isActive : ""
+                    }`}
                   key={item.id}
                 >
                   {item.label}
@@ -45,11 +46,13 @@ function Settings() {
             </ul>
           </div>
           <div className={styles.right_content}>
-            {state.selectedItem === "commonly-used" && <CommonlyUsed />}
-            {state.selectedItem === "text-editor" && <MirrorWarehouse />}
-            {state.selectedItem === "About-us" && (
-              <span className="text-white">text editor</span>
+            {state.selectedItem === "commonly-used" && (
+              <CommonlyUsed />
             )}
+            {state.selectedItem === "text-editor" && (
+              <MirrorWarehouse />
+            )}
+            {state.selectedItem === "About-us" && (<AboutUs />)}
           </div>
         </div>
       </div>

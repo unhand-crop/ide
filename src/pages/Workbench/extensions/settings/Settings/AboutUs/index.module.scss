@@ -1,0 +1,32 @@
+.AboutUs_body {
+  width: 70%;
+  height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .AboutUs_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .AboutUs_name {
+      color: #ffffff;
+      padding: 24px 0 48px 0;
+    }
+    .AboutUs_version {
+      color: #ffffff;
+      padding-bottom: 16px;
+    }
+    .AboutUs_button {
+      width: auto;
+      height: 40px;
+      background: #3c3f41;
+      border-radius: 2px;
+      font-size: 16px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #0082ff;
+      border-color: #3c3f41;
+    }
+  }
+}
