@@ -49,11 +49,11 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
       mainWindow.webContents.send("engine-stream-error", data);
     });
     container.stderr.on("close", () => {
-      console.log("--> close");
+      console.log("--> stderr close");
       mainWindow.webContents.send("engine-stream-finish");
     });
     container.stdout.on("close", () => {
-      console.log("--> close");
+      console.log("--> stdout close");
       mainWindow.webContents.send("engine-stream-finish");
     });
   });
