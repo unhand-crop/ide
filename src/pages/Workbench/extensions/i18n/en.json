@@ -42,6 +42,7 @@
         "settings.textEditor": "text-editor",
         "settingsAboutUs.queryLatest": "Query latest",
         "settingsAboutUs.downloadLatestVersion": "Download latest version",
-        "settingsAboutUs.alreadyLatest": "Already latest"
+        "settingsAboutUs.alreadyLatest": "Already latest",
+        "settings.mirrorWarehouse":"Mirror warehouse management"
     }
 }

@@ -1,53 +1,30 @@
-import { useMount, useReactive } from "ahooks";
-
 import CommonlyUsed from "./CommonlyUsed";
-import { Form } from "antd";
+import MirrorWarehouse from "./MirrorWarehouse";
 import React from "react";
-import molecule from "@dtinsight/molecule";
-import styles from "./index.module.scss";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import AboutUs from "./AboutUs";
 
+import styles from "./index.module.scss";
+import { useReactive } from "ahooks";
 
 function Settings() {
-  const [settingsForm] = Form.useForm();
   const state = useReactive({
     settingsMenus: [
-      { label: localize("settings.commonlyUsed", "常用设置"), id: "commonly-used" },
-      { label: localize("settings.textEditor", "文本编辑器"), id: "text-editor" },
+      {
+        label: localize("settings.commonlyUsed", "常用设置"),
+        id: "commonly-used",
+      },
+      {
+        label: localize("settings.mirrorWarehouse", "镜像仓库管理"),
+        id: "text-editor",
+      },
       { label: localize("settings.AboutUs", "关于我们"), id: "About-us" },
     ],
     selectedItem: "commonly-used",
   });
 
-  useMount(async () => {
-    let settings = await window.api.store.get("settings");
-    settingsForm.setFieldsValue({
-      locale: settings.locale,
-      fontSize: settings.editor.fontSize,
-      tabSize: settings.editor.tabSize,
-      colorTheme: "One Dark Pro",
-      // renderWhitespace: settings.editor.renderWhitespace,
-    });
-  });
-
   const handleMenusClick = (item: string) => {
     state.selectedItem = item;
-  };
-
-  const handleSave = () => {
-    const data = settingsForm.getFieldsValue();
-    const settings = {
-      editor: {
-        fontSize: data.fontSize,
-        // renderWhitespace: "none",
-        tabSize: data.tabSize,
-      },
-      colorTheme: "One Dark Pro",
-      locale: data.locale,
-    };
-    window.api.store.set("settings", settings);
-    molecule.settings.applySettings(settings);
   };
 
   return (
@@ -70,16 +47,12 @@ function Settings() {
           </div>
           <div className={styles.right_content}>
             {state.selectedItem === "commonly-used" && (
-              <Form form={settingsForm}>
-                <CommonlyUsed handleSave={() => handleSave()} />
-              </Form>
+              <CommonlyUsed />
             )}
             {state.selectedItem === "text-editor" && (
-              <span className="text-white">text editor</span>
+              <MirrorWarehouse />
             )}
-            {state.selectedItem === "About-us" && (
-              <AboutUs />
-            )}
+            {state.selectedItem === "About-us" && (<AboutUs />)}
           </div>
         </div>
       </div>

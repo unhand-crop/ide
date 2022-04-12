@@ -8,13 +8,11 @@ import Select from "@/components/select";
 import { StatusBarExtension } from "../../../statusbar";
 import { getAllCurrencys } from "@/services/currency";
 import { getCurrencyRates } from "@/services/currencyRate";
+import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
 
-interface CommonlyUsedProps {
-  handleSave: () => void;
-}
-
-function CommonlyUsed({ handleSave }: CommonlyUsedProps) {
+function CommonlyUsed() {
+  const [settingsForm] = Form.useForm();
   const state = useReactive({
     visible: false,
     content: [],
@@ -29,6 +27,32 @@ function CommonlyUsed({ handleSave }: CommonlyUsedProps) {
       state.currency = "USD";
     }
   });
+
+  useMount(async () => {
+    let settings = await window.api.store.get("settings");
+    settingsForm.setFieldsValue({
+      locale: settings.locale,
+      fontSize: settings.editor.fontSize,
+      tabSize: settings.editor.tabSize,
+      colorTheme: "One Dark Pro",
+      // renderWhitespace: settings.editor.renderWhitespace,
+    });
+  });
+
+  const handleSave = () => {
+    const data = settingsForm.getFieldsValue();
+    const settings = {
+      editor: {
+        fontSize: data.fontSize,
+        // renderWhitespace: "none",
+        tabSize: data.tabSize,
+      },
+      colorTheme: "One Dark Pro",
+      locale: data.locale,
+    };
+    window.api.store.set("settings", settings);
+    molecule.settings.applySettings(settings);
+  };
 
   const handleExchangeRate = () => {
     state.visible = true;
@@ -70,43 +94,43 @@ function CommonlyUsed({ handleSave }: CommonlyUsedProps) {
     <div className={styles.commonly_used}>
       <p className={styles.title}>常用设置</p>
       <div className={styles.commonly_used_body}>
-        <div className={styles.item}>
-          <div className={styles.item_label}>语言</div>
-          <Form.Item name="locale" initialValue="custom-zh-CN">
-            <Select
-              onSelect={() => handleSave()}
-              style={{ width: 404 }}
-              children={[
-                { value: "custom-zh-CN", label: "中文" },
-                { value: "custom-en", label: "英语" },
-              ]}
-            />
-          </Form.Item>
-        </div>
-        <div className={styles.item}>
-          <div className={styles.item_label}>控制字体大小(像素)。</div>
-          <Form.Item name="fontSize" initialValue="11">
-            <Input onBlur={() => handleSave()} style={{ width: 404 }} />
-          </Form.Item>
-        </div>
-        <div className={styles.item}>
-          <div className={styles.item_label}>空格</div>
-          <p className={styles.item_introduce}>一个制表符等于一个空格数。</p>
-          <Form.Item name="tabSize" initialValue="3">
-            <Input onBlur={() => handleSave()} style={{ width: 404 }} />
-          </Form.Item>
-        </div>
-        <div className={styles.item}>
-          <div className={styles.item_label}>汇率</div>
-          <Form.Item name="exchangeRate" initialValue="3">
+        <Form form={settingsForm}>
+          <div className={styles.item}>
+            <div className={styles.item_label}>语言</div>
+            <Form.Item name="locale" initialValue="custom-zh-CN">
+              <Select
+                onSelect={() => handleSave()}
+                style={{ width: 404 }}
+                children={[
+                  { value: "custom-zh-CN", label: "中文" },
+                  { value: "custom-en", label: "英语" },
+                ]}
+              />
+            </Form.Item>
+          </div>
+          <div className={styles.item}>
+            <div className={styles.item_label}>控制字体大小(像素)。</div>
+            <Form.Item name="fontSize" initialValue="11">
+              <Input onBlur={() => handleSave()} style={{ width: 404 }} />
+            </Form.Item>
+          </div>
+          <div className={styles.item}>
+            <div className={styles.item_label}>空格</div>
+            <p className={styles.item_introduce}>一个制表符等于一个空格数。</p>
+            <Form.Item name="tabSize" initialValue="3">
+              <Input onBlur={() => handleSave()} style={{ width: 404 }} />
+            </Form.Item>
+          </div>
+          <div className={styles.item}>
+            <div className={styles.item_label}>汇率</div>
             <p
               onClick={() => handleExchangeRate()}
               className={styles.exchange_rate_text}
             >
               {state.currency}
             </p>
-          </Form.Item>
-        </div>
+          </div>
+        </Form>
       </div>
       <Modal
         title="汇率"
