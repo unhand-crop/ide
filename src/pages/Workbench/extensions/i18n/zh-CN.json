@@ -40,6 +40,6 @@
         "customModal.customValue": "请填写属性值",
         "settings.AboutUs": "关于我们",
         "settings.commonlyUsed": "常用设置",
-        "settings.textEditor": "文本编辑器"
+        "settings.mirrorWarehouse":"镜像仓库管理"
     }
 }
