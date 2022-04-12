@@ -1,46 +1,39 @@
 
 import { BrowserWindow, ipcMain, ipcRenderer } from "electron";
-import http from 'isomorphic-git/http/node';
-import git from 'isomorphic-git';
-import path from 'path';
 import fs from 'fs';
-
+import unzip from "unzipper";
+import request from "request";
+import path from "path";
 
 export const registerGitHandlers = async (mainWindow: BrowserWindow) => {
-    ipcMain.handle("gitHttp.clone", async (_, { fileName, gitUrl, gitFileName }: any) => {
-        const dir = path.join(process.cwd() + "../");
-        await git.init({ fs, dir });
-        await git.addRemote({
-            fs,
-            dir,
-            remote: 'origin',
-            url: gitUrl
-        });
-        await git.setConfig({
-            fs,
-            dir,
-            path: 'core.sparsecheckout',
-            value: 'true'
-        });
-        await fs.writeFileSync(dir + ".git/info/sparse-checkout", gitFileName);
-        await git.pull({
-            fs,
-            http,
-            dir,
-            singleBranch: false,
-            remote: 'origin',
-            ref: 'main',
-            author: {
-                name: "user"
-            }
-        });
+    ipcMain.handle("gitHttp.clone", async (_, { fileName, gitUrl, gitFileName, extractUrl }: any) => {
+        const writeUrl = path.join(extractUrl, gitFileName);
+        await new Promise<void>((resolve, reject) => {
+            request(gitUrl).pipe(fs.createWriteStream(writeUrl)).on("close", function (err: any) {
+                if (err) reject(err);
+                resolve();
+            });
+        })
+        await new Promise<void>((resolve, reject) => {
+            fs.createReadStream(writeUrl).pipe(unzip.Extract({ path: extractUrl })).on("close", (err: any) => {
+                if (err) reject(err);
+                resolve();
+            })
+        })
+        const oldName = path.join(extractUrl, path.parse(gitFileName).name);
+        if (fileName) {
+            const newName = path.join(extractUrl, fileName);
+            fs.renameSync(oldName, newName);
+            return newName;
+        }
+        return oldName;
     });
 };
 
 export const registerGitInvokes = () => {
     return {
-        async clone({ fileName, gitUrl, gitFileName }: any) {
-            return await ipcRenderer.invoke("gitHttp.clone", { fileName, gitUrl, gitFileName });
+        async clone({ fileName, gitUrl, gitFileName, extractUrl }: any) {
+            return await ipcRenderer.invoke("gitHttp.clone", { fileName, gitUrl, gitFileName, extractUrl });
         },
     };
 };
