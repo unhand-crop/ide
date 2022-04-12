@@ -1,0 +1,23 @@
+.file_tree_container {
+  :global(.ant-collapse) {
+    :global(.ant-collapse-item) {
+      :global(.ant-collapse-arrow) {
+        margin-right: 2px !important;
+      }
+      :global(.ant-collapse-content) {
+        color: #d8d8d8;
+      }
+    }
+  }
+
+  .file_tree_header_container {
+    .header_icon {
+      margin-right: 6px;
+      width: 12px;
+      height: 18px;
+    }
+    .header_text {
+      color: #d8d8d8;
+    }
+  }
+}

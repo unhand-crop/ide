@@ -3,20 +3,22 @@ import styles from "./index.module.scss";
 
 interface ButtonProps {
   title: string;
+  type?: "button" | "submit" | "reset";
   onClick?: () => void;
   disabled?: boolean;
 }
 
-const Button = ({ title, onClick, disabled = false }: ButtonProps) => {
+const Button = ({ title, onClick, disabled = false, type }: ButtonProps) => {
   return (
-    <div
+    <button
       onClick={!disabled ? onClick : null}
       className={
         disabled ? styles.component_button_disabled : styles.component_button
       }
+      type={type}
     >
       <p className={styles.title}>{title}</p>
-    </div>
+    </button>
   );
 };
 

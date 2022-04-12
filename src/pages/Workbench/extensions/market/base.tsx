@@ -5,7 +5,7 @@ import {
 } from "@dtinsight/molecule/esm/model";
 
 import MarketSidebarView from "./MarketSidebarView";
-import NewAlgorithmSidebar, { NewalgorithmSidebarIcon } from "./NewAlgorithmSidebar"
+import NewAlgorithmSidebar from "./NewAlgorithmSidebar"
 import React from "react";
 import { ResolutionString } from "@/components/TradingView/Chart/datafeed-api";
 import TradingView from "@/components/TradingView";
@@ -36,14 +36,6 @@ export const algorithmSidebar: ISidebarPane = {
   render: () => {
     return <NewAlgorithmSidebar />;
   },
-};
-
-export const algorithmActivityBar: IActivityBarItem = {
-  id: "sidebar.algorithm",
-  name: "AlgorithmActivityBar",
-  sortIndex: 2,
-  title: "Market Management",
-  icon: <NewalgorithmSidebarIcon />,
 };
 
 

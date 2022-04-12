@@ -7,6 +7,6 @@ interface Props extends Omit<SVGAttributes<SVGElement>, 'color'> {
   color?: string | string[];
 }
 
-declare const ProgressReject: FunctionComponent<Props>;
+declare const IconXinrenqu: FunctionComponent<Props>;
 
-export default ProgressReject;
+export default IconXinrenqu;

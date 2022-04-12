@@ -1,0 +1,61 @@
+.mirror_warehouse {
+  width: 100%;
+  height: 100%;
+  .title {
+    font-size: 18px;
+    line-height: 25px;
+    color: white;
+    font-weight: 600;
+  }
+  &_body {
+    margin-top: 24px;
+    :global(.ant-form) {
+      color: #d8d8d8;
+      .item {
+        .password_input {
+          height: 25px;
+          color: #999 !important;
+          font-size: 12px;
+          background: #3c3f41 !important;
+          border-radius: 2px !important;
+          border: 1px solid #5e5d61 !important;
+          input {
+            color: #999 !important;
+            background: #3c3f41 !important;
+          }
+        }
+        :global(.ant-form-item-explain-error) {
+          font-size: 12px;
+        }
+        &_label {
+          margin-bottom: 8px;
+          font-size: 14px;
+          line-height: 20px;
+          font-weight: 600;
+        }
+        &_introduce {
+          margin-bottom: 8px;
+          font-size: 12px;
+          line-height: 17px;
+          font-weight: 600;
+        }
+        .blue_text {
+          color: #0471d9;
+        }
+        .select {
+          width: 404px;
+          height: 25px;
+          background: #3c3f41;
+          border-radius: 2px;
+          border: 1px solid #5e5d61;
+        }
+        &_flex_introduce {
+          display: flex;
+          p {
+            margin-left: 8px;
+          }
+        }
+      }
+    }
+  }
+}

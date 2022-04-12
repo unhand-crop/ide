@@ -8,7 +8,7 @@ import { store } from "./store";
 const arch = os.arch();
 
 const ENGINE_IMAGE =
-  arch === "arm64" ? "unhand/unhandarm64:v1" : "unhand/unhand:latest";
+  arch === "arm64" ? "unhand/unhand-arm64:v1.0.0" : "unhand/unhand:latest";
 const CONTAINER_NAME = "unhand-algorithm-engine";
 
 const vm = factory();
@@ -19,15 +19,15 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
 
     const images = await vm.getImages();
 
-    // if (
-    //   !images ||
-    //   images.length <= 0 ||
-    //   images.findIndex(
-    //     (img) => `${img.Repository}:${img.Tag} === ${ENGINE_IMAGE}`
-    //   ) < 0
-    // ) {
-    //   await vm.pullImage(ENGINE_IMAGE);
-    // }
+    if (
+      !images ||
+      images.length <= 0 ||
+      images.findIndex(
+        (img) => `${img.Repository}:${img.Tag} === ${ENGINE_IMAGE}`
+      ) < 0
+    ) {
+      await vm.pullImage(ENGINE_IMAGE);
+    }
 
     const port = await store.get("server-port");
 

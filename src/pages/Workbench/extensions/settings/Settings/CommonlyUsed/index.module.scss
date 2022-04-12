@@ -9,36 +9,73 @@
   }
   &_body {
     margin-top: 24px;
-    color: #d8d8d8;
-    .item {
-      margin-bottom: 24px;
-      &_label {
-        margin-bottom: 8px;
-        font-size: 14px;
-        line-height: 20px;
-        font-weight: 600;
-      }
-      &_introduce {
-        margin-bottom: 8px;
-        font-size: 12px;
-        line-height: 17px;
-        font-weight: 600;
-      }
-      .blue_text {
-        color: #0471d9;
-      }
-      .select {
-        width: 404px;
-        height: 25px;
-        background: #3c3f41;
-        border-radius: 2px;
-        border: 1px solid #5e5d61;
-      }
-      &_flex_introduce {
-        display: flex;
-        p {
-          margin-left: 8px;
+    :global(.ant-form) {
+      color: #d8d8d8;
+      .item {
+        &_label {
+          margin-bottom: 8px;
+          font-size: 14px;
+          line-height: 20px;
+          font-weight: 600;
         }
+        &_introduce {
+          margin-bottom: 8px;
+          font-size: 12px;
+          line-height: 17px;
+          font-weight: 600;
+        }
+        .blue_text {
+          color: #0471d9;
+        }
+        .select {
+          width: 404px;
+          height: 25px;
+          background: #3c3f41;
+          border-radius: 2px;
+          border: 1px solid #5e5d61;
+        }
+        &_flex_introduce {
+          display: flex;
+          p {
+            margin-left: 8px;
+          }
+        }
+        .exchange_rate_text {
+          font-size: 14px;
+          color: #999;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+.exchange_rate_container {
+  padding: 0 24px;
+  .exchange_rate_list {
+    display: flex;
+    flex-wrap: wrap;
+    .exchange_rate_item {
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      margin-bottom: 16px;
+      width: 25%;
+      height: 40px;
+      &:hover {
+        cursor: pointer;
+        background-color: #3a3939;
+        border-radius: 4px;
+      }
+      .select_fullName {
+        color: #fff;
+        font-size: 14px;
+      }
+      .fullName {
+        color: #999;
+        font-size: 14px;
       }
     }
   }

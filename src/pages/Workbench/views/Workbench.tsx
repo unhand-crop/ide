@@ -12,6 +12,10 @@ import {
 } from "@dtinsight/molecule/esm/controller/layout";
 import React, { useEffect } from "react";
 import {
+  Sidebar,
+  SidebarView,
+} from "@dtinsight/molecule/esm/workbench/sidebar";
+import {
   classNames,
   getBEMElement,
   getBEMModifier,
@@ -22,6 +26,7 @@ import {
 import { APP_PREFIX } from "@dtinsight/molecule/esm/common/const";
 import { ActivityBarView } from "@dtinsight/molecule/esm/workbench/activityBar";
 import BackTest from "./Backtest";
+import CustomModal from "@/components/CustomModal";
 import { EditorView } from "@dtinsight/molecule/esm//workbench/editor";
 import { ID_APP } from "@dtinsight/molecule/esm/common/id";
 import { IWorkbench } from "@dtinsight/molecule/esm/model/workbench";
@@ -29,15 +34,14 @@ import InitBacktest from "@/components/InitBacktest";
 import { LayoutService } from "@dtinsight/molecule/esm/services";
 import { MenuBarView } from "@dtinsight/molecule/esm/workbench/menuBar";
 import { PanelView } from "@dtinsight/molecule/esm/workbench/panel";
-import { SidebarView } from "@dtinsight/molecule/esm/workbench/sidebar";
-// import { SidePane } from "./SidePane";
+import { SidePane } from "./SidePane";
 import { StatusBarView } from "@dtinsight/molecule/esm/workbench/statusBar";
 import { connect } from "@dtinsight/molecule/esm/react";
 import { container } from "tsyringe";
 import molecule from "@dtinsight/molecule";
+import useBacktestModal from "@/models/backtest";
 import useEditorModel from "@/models/editor";
 import useSettingModel from "@/models/setting";
-import useBacktestModal from "@/models/backtest";
 
 const mainBenchClassName = prefixClaName("mainBench");
 const workbenchClassName = prefixClaName("workbench");
@@ -143,7 +147,7 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
     }
   };
   const {
-    model: { visible = false },
+    model: { visible = false, customVisble = false },
   } = useBacktestModal();
   return (
     <div
@@ -191,13 +195,16 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
               <PanelView />
             </SplitPane>
           </SplitPane>
-          {/* <div style={{ width: 300 }}>
+          {/* <div className="file_Tree_bar">
             <Sidebar current={SidePane.id} panes={[SidePane]} />
           </div> */}
         </div>
       </div>
       <Display visible={visible}>
         <InitBacktest />
+      </Display>
+      <Display visible={customVisble}>
+        <CustomModal />
       </Display>
       <Display visible={!statusBar.hidden}>
         <StatusBarView />

@@ -1,18 +1,27 @@
+import React, { useEffect } from "react";
+
 import { GetSymbolsOutput } from "@/services/symbol";
 import { IconClose } from "@/components/iconfont";
-import React from "react";
 import styles from "./index.module.scss";
 import useMarketModel from "@/models/market";
 
 interface ListProps {
   item: GetSymbolsOutput;
   index: number;
+  exchangeRate: number;
   onClick: (index: number, name: string) => void;
   selectIndex: number;
   onCanel: (item: string) => void;
 }
 
-const List = ({ item, index, onClick, onCanel, selectIndex }: ListProps) => {
+const List = ({
+  item,
+  index,
+  exchangeRate,
+  onClick,
+  onCanel,
+  selectIndex,
+}: ListProps) => {
   const { model } = useMarketModel();
 
   return (
@@ -34,7 +43,11 @@ const List = ({ item, index, onClick, onCanel, selectIndex }: ListProps) => {
       <span className={`${styles.last_column_header} ${styles.column_header}`}>
         <span className={styles.label}>
           <span className={styles.inner}>
-            ${model.prices[item.enName + "-USD"]?.content?.currentPrice ?? 0}
+            $
+            {Number(
+              model.prices[item.enName + "-USD"]?.content?.currentPrice *
+                exchangeRate ?? 0
+            ).toFixed(2)}
           </span>
         </span>
       </span>
