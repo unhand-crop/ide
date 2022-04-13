@@ -25,8 +25,8 @@ interface templateListData {
 export interface templateListResponse {
     description: string;
     enabled: boolean;
-    gitDir: string;
-    gitUrl: string;
+    templateDir: string;
+    templateUrl: string;
     id: string;
     imageUrl: string;
     orderIndex: boolean;
