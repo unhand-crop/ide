@@ -55,7 +55,11 @@ const BackTest = () => {
           onClick={() =>
             (backtestModel.apiDocumentation = !backtestModel.apiDocumentation)
           }
-          title={localize("backtest.APIDocumentation", "API文档")}
+          title={
+            backtestModel.apiDocumentation
+              ? localize("backtest.CloseAPIDocumentation", "关闭API文档")
+              : localize("backtest.OpenAPIDocumentation", "打开API文档")
+          }
         />
       </div>
     </div>
