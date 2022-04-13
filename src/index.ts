@@ -43,7 +43,8 @@ const createWindow = (): void => {
   loadApi(mainWindow);
   initServer(mainWindow);
   updateElectronApp({
-    repo: 'unhand-crop/ide.git',
+    host: "https://github.com/unhand-crop/ide",
+    repo: "unhand-crop/ide.git",
     updateInterval: '1 hour',
   });
 };
