@@ -147,8 +147,9 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
     }
   };
   const {
-    model: { visible = false, customVisble = false },
+    model: { visible = false, customVisble = false, apiDocumentation },
   } = useBacktestModal();
+
   return (
     <div
       id={ID_APP}
@@ -195,9 +196,17 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
               <PanelView />
             </SplitPane>
           </SplitPane>
-          {/* <div className="file_Tree_bar">
+          <div
+            className={`
+              ${
+                apiDocumentation
+                  ? "file_tree_bar_display"
+                  : "file_tree_bar_none"
+              } file_tree_bar
+            `}
+          >
             <Sidebar current={SidePane.id} panes={[SidePane]} />
-          </div> */}
+          </div>
         </div>
       </div>
       <Display visible={visible}>

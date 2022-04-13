@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
+  min-width: 64px;
   height: 32px;
   border-radius: 2px;
   background-color: #0b5aa6;
@@ -23,7 +23,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
+  min-width: 64px;
   height: 32px;
   border: none;
   border-radius: 2px;

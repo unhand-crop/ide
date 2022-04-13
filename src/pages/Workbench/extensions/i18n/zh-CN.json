@@ -5,6 +5,7 @@
     "source": {
         "backtest.backtest": "回测",
         "backtest.result": "结果",
+        "backtest.APIDocumentation":"API文档",
         "launcher.newAlgorithm": "新建算法",
         "launcher.openAlgorithm": "打开算法",
         "infoBacktest.title": "检查环境变量",

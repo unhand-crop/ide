@@ -5,6 +5,7 @@
     "source": {
         "backtest.backtest": "BackTest",
         "backtest.result": "Result",
+        "backtest.APIDocumentation":"API documentation",
         "launcher.newAlgorithm": "New algorithm",
         "launcher.openAlgorithm": "Open algorithm",
         "infoBacktest.WSL": "Is WSL open?",
