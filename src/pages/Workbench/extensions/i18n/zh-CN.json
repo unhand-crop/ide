@@ -45,6 +45,8 @@
         "settingsAboutUs.queryLatest": "查看更新",
         "settingsAboutUs.downloadLatestVersion": "下载最新版",
         "settingsAboutUs.alreadyLatest": "已经是最新版",
-        "settings.mirrorWarehouse":"镜像仓库管理"
+        "settings.mirrorWarehouse":"镜像仓库管理",
+        "sidePane.search":"搜索API",
+        "sidePane.noData":"没有此API"
     }
 }

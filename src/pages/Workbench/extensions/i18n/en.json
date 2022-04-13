@@ -44,6 +44,8 @@
         "settingsAboutUs.queryLatest": "Query latest",
         "settingsAboutUs.downloadLatestVersion": "Download latest version",
         "settingsAboutUs.alreadyLatest": "Already latest",
-        "settings.mirrorWarehouse":"Mirror warehouse management"
+        "settings.mirrorWarehouse":"Mirror warehouse management",
+        "sidePane.search":"Search API",
+        "sidePane.noData":"There is no such API"
     }
 }

@@ -14,6 +14,12 @@
         cursor: pointer;
       }
     }
+    :global(.ant-input-clear-icon) {
+      svg {
+        font-size: 14px;
+        fill: #d8d8d8;
+      }
+    }
   }
   :global(.ant-collapse) {
     :global(.ant-collapse-item) {
@@ -59,5 +65,11 @@
         }
       }
     }
+  }
+  .empty_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+    color: #d8d8d8;
   }
 }

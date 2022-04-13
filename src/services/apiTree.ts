@@ -3,6 +3,7 @@ import request from "@/utils/request";
 
 export interface GetApiTreeMethodsInput {
   code: string;
+  apiName: string;
 }
 export interface ParametersOutput {
   typeName: string;
