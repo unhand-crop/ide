@@ -94,6 +94,7 @@ export default () => {
     } else if (type === "kline") {
       state.symbol = content?.Symbol?.Value || "";
       state.TradeBars = content?.TradeBars || [];
+      console.log('state.symbol, state.TradeBars', state.TradeBars);
     } else {
       state.loading = true;
     }
