@@ -5,9 +5,9 @@ import { Form } from "antd";
 import Input from "@/components/input";
 import Modal from "@/components/modal";
 import Select from "@/components/select";
-import { StatusBarExtension } from "../../../statusbar";
 import { getAllCurrencys } from "@/services/currency";
 import { getCurrencyRates } from "@/services/currencyRate";
+import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
 
@@ -92,37 +92,52 @@ function CommonlyUsed() {
 
   return (
     <div className={styles.commonly_used}>
-      <p className={styles.title}>常用设置</p>
+      <p className={styles.title}>
+        {localize("settings.commonlyUsed", "常用设置")}
+      </p>
       <div className={styles.commonly_used_body}>
         <Form form={settingsForm}>
           <div className={styles.item}>
-            <div className={styles.item_label}>语言</div>
+            <div className={styles.item_label}>
+              {localize("settings.commonlyUsed.language", "语言")}
+            </div>
             <Form.Item name="locale" initialValue="custom-zh-CN">
               <Select
                 onSelect={() => handleSave()}
                 style={{ width: 404 }}
                 children={[
                   { value: "custom-zh-CN", label: "中文" },
-                  { value: "custom-en", label: "英语" },
+                  { value: "custom-en", label: "English" },
                 ]}
               />
             </Form.Item>
           </div>
           <div className={styles.item}>
-            <div className={styles.item_label}>控制字体大小(像素)。</div>
+            <div className={styles.item_label}>
+              {localize("settings.commonlyUsed.fontSize", "控制字体大小(像素)")}
+            </div>
             <Form.Item name="fontSize" initialValue="11">
               <Input onBlur={() => handleSave()} style={{ width: 404 }} />
             </Form.Item>
           </div>
           <div className={styles.item}>
-            <div className={styles.item_label}>空格</div>
-            <p className={styles.item_introduce}>一个制表符等于一个空格数。</p>
+            <div className={styles.item_label}>
+              {localize("settings.commonlyUsed.spaces", "空格")}
+            </div>
+            <p className={styles.item_introduce}>
+              {localize(
+                "settings.commonlyUsed.tab",
+                "一个制表符等于一个空格数"
+              )}
+            </p>
             <Form.Item name="tabSize" initialValue="3">
               <Input onBlur={() => handleSave()} style={{ width: 404 }} />
             </Form.Item>
           </div>
           <div className={styles.item}>
-            <div className={styles.item_label}>汇率</div>
+            <div className={styles.item_label}>
+              {localize("settings.commonlyUsed.exchangeRate", "汇率")}
+            </div>
             <p
               onClick={() => handleExchangeRate()}
               className={styles.exchange_rate_text}
@@ -133,7 +148,7 @@ function CommonlyUsed() {
         </Form>
       </div>
       <Modal
-        title="汇率"
+        title={localize("settings.commonlyUsed.exchangeRate", "汇率")}
         onCancel={() => (state.visible = false)}
         visible={state.visible}
         width={840}
