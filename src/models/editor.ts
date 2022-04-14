@@ -1,3 +1,4 @@
+import { flattenDeep, uniq } from "lodash";
 import { getFileIcon, mapTree } from "@/utils";
 import { useCallback, useEffect } from "react";
 import { useMount, useReactive } from "ahooks";
@@ -7,7 +8,6 @@ import { Position } from "@dtinsight/molecule/esm/monaco";
 import { Stats } from "fs";
 import { TreeNodeModel } from "@dtinsight/molecule/esm/model";
 import { UniqueId } from "@dtinsight/molecule/esm/common/types";
-import _ from "lodash";
 import { createModel } from "hox";
 import molecule from "@dtinsight/molecule";
 
@@ -124,8 +124,8 @@ function useEditorModel() {
     const arrayList = [];
     arrayList.unshift(path);
     arrayList.push(data);
-    const history = _.flattenDeep(arrayList);
-    const historyList = _.uniq(history);
+    const history = flattenDeep(arrayList);
+    const historyList = uniq(history);
     window.api.store.set("history-path", historyList);
   };
 

@@ -6,23 +6,14 @@ import { platform as getPlatform } from "os";
 
 shell.config.execPath = String(shell.which("node"));
 
-const CONTAINER_NAME = "lima";
 const platform = getPlatform();
 const vmenv = new VmEnv();
-
-const checkCommandExists = (command: string) => {
-  if (platform === "linux") {
-    return !!which(command);
-  } else {
-    return !!vmenv.exec(`which ${command}`);
-  }
-};
 
 export const registerEnvHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("env.load", async (_, args) => {
     let isShellInstalled = true;
-    let isContainerInstalled = false;
-    let isGitInstalled = false;
+    let isContainerInstalled = true;
+    let isGitInstalled = true;
 
     if (platform === "win32") {
       isShellInstalled = !!which("wsl");
@@ -30,10 +21,10 @@ export const registerEnvHandlers = async (mainWindow: BrowserWindow) => {
       isShellInstalled = !!which("brew");
     }
 
-    if (isShellInstalled) {
-      isContainerInstalled = checkCommandExists(CONTAINER_NAME);
-      isGitInstalled = checkCommandExists("git");
-    }
+    // if (isShellInstalled) {
+    //   isContainerInstalled = false;
+    //   isGitInstalled = !!which("git");
+    // }
 
     return {
       platform,

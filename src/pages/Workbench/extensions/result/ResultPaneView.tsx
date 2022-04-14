@@ -1,11 +1,17 @@
+import { Button, Progress, Table, TableColumnsType } from "antd";
+import {
+  IconProgressPending,
+  IconProgressReject,
+  IconProgressResolve,
+  IconProgressWait,
+} from "@/components/iconfont";
 import React, { useEffect } from "react";
-import { Table, TableColumnsType, Progress, Button } from "antd";
+
 import TradingViewDataBase from "@/components/TradingView/TradingViewDataBase";
 import molecule from "@dtinsight/molecule";
 import styles from "./ResultPaneView.module.scss";
 import useEngineModel from "@/models/engine";
 import { useReactive } from "ahooks";
-import { IconProgressResolve, IconProgressReject, IconProgressPending, IconProgressWait } from "@/components/iconfont";
 
 const columns: TableColumnsType<never> | undefined = [
   {
@@ -76,11 +82,9 @@ export default () => {
       try {
         if (nextState.panel.hidden) {
           await window.api.engine.stop();
-          await window.api.engine.remove();
           initState();
         }
-      } catch (e) {
-      }
+      } catch (e) {}
     });
   }, []);
 
@@ -133,28 +137,57 @@ export default () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.loading_container_body} style={{ display: state.loading ? "flex" : "none" }}>
+      <div
+        className={styles.loading_container_body}
+        style={{ display: state.loading ? "flex" : "none" }}
+      >
         <div className={styles.loading_container_content}>
           {model.algorithmstepConfig.map((key: any, index) => {
             const obj = model.algorithmstep[key] || {};
             const { progress = 0, status = true } = obj;
-            return <div key={index} className={styles.loading_container_item}>
-              <span className={styles.loading_item_title}>{key}</span>
-              <div className={styles.loading_item_content}>
-                <Progress percent={progress} showInfo={false} strokeColor="#2154E0" trailColor="#3C3F41" className={styles.loading_item_progress} />
-                {progress === 0 && <IconProgressWait size={29} />}
-                {progress >= 100 && <IconProgressResolve size={29} />}
-                {progress > 0 && progress < 100 && <IconProgressPending size={29} color="rgb(33, 84, 224)" className={styles.transform_rotate_loop} />}
-                {!status && <IconProgressReject size={29} />}
+            return (
+              <div key={index} className={styles.loading_container_item}>
+                <span className={styles.loading_item_title}>{key}</span>
+                <div className={styles.loading_item_content}>
+                  <Progress
+                    percent={progress}
+                    showInfo={false}
+                    strokeColor="#2154E0"
+                    trailColor="#3C3F41"
+                    className={styles.loading_item_progress}
+                  />
+                  {progress === 0 && <IconProgressWait size={29} />}
+                  {progress >= 100 && <IconProgressResolve size={29} />}
+                  {progress > 0 && progress < 100 && (
+                    <IconProgressPending
+                      size={29}
+                      color="rgb(33, 84, 224)"
+                      className={styles.transform_rotate_loop}
+                    />
+                  )}
+                  {!status && <IconProgressReject size={29} />}
+                </div>
               </div>
-            </div>
+            );
           })}
           <div className={styles.loading_item_buttonsize}>
-            <Button type="primary" shape="round" size="large" block color="#2154E0" onClick={() => molecule.layout.togglePanelVisibility()}>取消</Button>
+            <Button
+              type="primary"
+              shape="round"
+              size="large"
+              block
+              color="#2154E0"
+              onClick={() => molecule.layout.togglePanelVisibility()}
+            >
+              取消
+            </Button>
           </div>
         </div>
       </div>
-      <div className={styles.all_container} style={{ visibility: state.loading ? "hidden" : "visible" }}>
+      <div
+        className={styles.all_container}
+        style={{ visibility: state.loading ? "hidden" : "visible" }}
+      >
         <div className={styles.card_container}>
           <div className={styles.card_header}>
             <p>重要指标</p>
@@ -217,8 +250,9 @@ export default () => {
                     <li
                       key={index}
                       onClick={() => (state.selectItem = index)}
-                      className={`${styles.header_item} ${state.selectItem === index ? styles.select_item : null
-                        }`}
+                      className={`${styles.header_item} ${
+                        state.selectItem === index ? styles.select_item : null
+                      }`}
                     >
                       <p>{item.label}</p>
                     </li>
