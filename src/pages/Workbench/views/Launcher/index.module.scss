@@ -37,17 +37,16 @@
     .algorithm_history {
       margin-top: 56px;
       .title {
-        width: 64px;
+        min-width: 64px;
         height: 22px;
         font-size: 16px;
         font-weight: 500;
         color: #ffffff;
       }
       .list {
-        margin-top: 32px;
+        margin-top: 24px;
         .item {
           margin-bottom: 12px;
-
           &_name {
             font-size: 16px;
             font-weight: 400;
