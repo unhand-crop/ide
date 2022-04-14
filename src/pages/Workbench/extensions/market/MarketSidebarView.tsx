@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import AddList from "./components/AddList";
 import List from "./components/List";
 import Modal from "@/components/modal";
+import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import { openCreateDataSourceView } from "./base";
 import styles from "./index.module.scss";
 import useMarketModel from "@/models/market";
@@ -138,7 +139,7 @@ export default () => {
     <>
       <div className={styles.coin_container}>
         <div className={styles.header}>
-          <p>列表</p>
+          <p>{localize("market.marketTrends", "市场趋势")}</p>
           <IconAdd
             onClick={() => (state.coinVisible = true)}
             size={18}
@@ -148,22 +149,23 @@ export default () => {
         <div className={styles.table}>
           <div className={styles.table_column}>
             <span className={styles.column_header}>
-              <span className={styles.label}>货币</span>
+              <span className={styles.label}>
+                {localize("market.name", "名称")}
+              </span>
             </span>
             <span
               className={`${styles.last_column_header} ${styles.column_header}`}
             >
-              <span className={styles.label}>最新价</span>
+              <span className={styles.label}>
+                {localize("market.latestPrice", "名称")}
+              </span>
             </span>
-            {/* <span
-            className={`${styles.last_column_header} ${styles.column_header}`}
-          >
-            <span className={styles.label}>涨跌</span>
-          </span> */}
             <span
               className={`${styles.last_column_header} ${styles.column_header}`}
             >
-              <span className={styles.label}>涨跌%</span>
+              <span className={styles.label}>
+                {localize("market.change", "名称")}
+              </span>
             </span>
           </div>
           <div className={styles.table_content}>
@@ -183,7 +185,7 @@ export default () => {
       </div>
       <Modal
         onCancel={() => (state.coinVisible = false)}
-        title="添加货币"
+        title={localize("market.addCurrency", "添加货币")}
         visible={state.coinVisible}
         width={866}
       >
@@ -191,12 +193,16 @@ export default () => {
           <Input
             onPressEnter={(e) => handleEnter(e)}
             prefix={<IconSearch color="#fff" />}
-            placeholder="搜索"
+            placeholder={localize("market.searchCurrency", "搜索货币")}
           />
           <div className={styles.commodity}>
             <div className={styles.commodity_header}>
-              <p className={styles.commodity_code}>货币</p>
-              <p className={styles.explain}>说明</p>
+              <p className={styles.commodity_code}>
+                {localize("market.name", "名称")}
+              </p>
+              <p className={styles.explain}>
+                {localize("market.explain", "说明")}
+              </p>
             </div>
             <div className={styles.commodity_content}>
               <ul className={styles.list}>
@@ -224,7 +230,12 @@ export default () => {
                 defaultPageSize={12}
                 hideOnSinglePage={true}
                 showSizeChanger={false}
-                showTotal={(total, range) => `共有${total}条数据`}
+                showTotal={(total, range) =>
+                  `${localize("market.total", "共有")} ${total} ${localize(
+                    "market.items",
+                    "数据"
+                  )}`
+                }
                 onChange={(page, pageSize) => handleChange(page, pageSize)}
               />
             </div>

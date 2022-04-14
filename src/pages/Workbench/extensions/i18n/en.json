@@ -48,6 +48,15 @@
         "settingsAboutUs.alreadyLatest": "Already latest",
         "settings.mirrorWarehouse":"Mirror warehouse management",
         "sidePane.search":"Search API",
-        "sidePane.noData":"There is no such API"
+        "sidePane.noData":"There is no such API",
+        "market.name":"Name",
+        "market.latestPrice":"Latest price",
+        "market.change":"Change",
+        "market.marketTrends":"Market trends",
+        "market.addCurrency":"Add currency",
+        "market.searchCurrency":"Search currency",
+        "market.explain":"Explain",
+        "market.total":"Total",
+        "market.items":"items"
     }
 }
