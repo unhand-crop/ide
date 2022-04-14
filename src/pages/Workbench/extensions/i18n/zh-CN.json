@@ -5,6 +5,8 @@
     "source": {
         "backtest.backtest": "回测",
         "backtest.result": "结果",
+        "backtest.OpenAPIDocumentation":"打开API文档",
+        "backtest.CloseAPIDocumentation":"关闭API文档",
         "launcher.newAlgorithm": "新建算法",
         "launcher.openAlgorithm": "打开算法",
         "infoBacktest.title": "检查环境变量",
@@ -44,6 +46,8 @@
         "settingsAboutUs.queryLatest": "查看更新",
         "settingsAboutUs.downloadLatestVersion": "下载最新版",
         "settingsAboutUs.alreadyLatest": "已经是最新版",
-        "settings.mirrorWarehouse":"镜像仓库管理"
+        "settings.mirrorWarehouse":"镜像仓库管理",
+        "sidePane.search":"搜索API",
+        "sidePane.noData":"没有此API"
     }
 }

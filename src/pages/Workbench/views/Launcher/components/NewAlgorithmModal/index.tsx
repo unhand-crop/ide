@@ -88,7 +88,7 @@ const NewAlgorithmModal = ({
   };
 
   const creactTemplateFile = async () => {
-    const path = await window.api.gitHttp.clone({ gitUrl: templateDetails.gitUrl, fileName, gitFileName: templateDetails.gitDir, extractUrl });
+    const path = await window.api.gitHttp.clone({ templateUrl: templateDetails.templateUrl, fileName, gitFileName: templateDetails.templateDir, extractUrl });
     await window.api.engine.create(path);
     visibleModal();
     setDirPath(path);

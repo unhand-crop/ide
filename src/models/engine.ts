@@ -23,6 +23,8 @@ function useEngineModel() {
 
   useMount(async () => {
     window.api.ipc.on("engine-result", (_: IpcRendererEvent, data: any) => {
+      console.log(data);
+
       switch (data.type) {
         case "algorithmstepConfig":
           model.algorithmstepConfig = data.content || [];
@@ -31,6 +33,9 @@ function useEngineModel() {
           model.algorithmstep[data.progressType] = data;
           break;
         case "backtestresult":
+          model.results = data;
+          break;
+        case "kline":
           model.results = data;
           break;
         default:

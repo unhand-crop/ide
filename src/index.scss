@@ -29,8 +29,17 @@ dd {
   margin-bottom: 24px;
 }
 
-.file_Tree_bar {
+.file_tree_bar_none {
+  width: 0;
+  transition: width 0.3s;
+}
+
+.file_tree_bar_display {
+  transition: width 0.3s;
   width: 367px;
+}
+
+.file_tree_bar {
   .mo-sidebar {
     overflow-y: auto;
     &::-webkit-scrollbar {

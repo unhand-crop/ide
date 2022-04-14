@@ -6,10 +6,10 @@ import request from "request";
 import path from "path";
 
 export const registerGitHandlers = async (mainWindow: BrowserWindow) => {
-    ipcMain.handle("gitHttp.clone", async (_, { fileName, gitUrl, gitFileName, extractUrl }: any) => {
+    ipcMain.handle("gitHttp.clone", async (_, { fileName, templateUrl, gitFileName, extractUrl }: any) => {
         const writeUrl = path.join(extractUrl, gitFileName);
         await new Promise<void>((resolve, reject) => {
-            request(gitUrl).pipe(fs.createWriteStream(writeUrl)).on("close", function (err: any) {
+            request(templateUrl).pipe(fs.createWriteStream(writeUrl)).on("close", function (err: any) {
                 if (err) reject(err);
                 resolve();
             });
@@ -32,8 +32,8 @@ export const registerGitHandlers = async (mainWindow: BrowserWindow) => {
 
 export const registerGitInvokes = () => {
     return {
-        async clone({ fileName, gitUrl, gitFileName, extractUrl }: any) {
-            return await ipcRenderer.invoke("gitHttp.clone", { fileName, gitUrl, gitFileName, extractUrl });
+        async clone({ fileName, templateUrl, gitFileName, extractUrl }: any) {
+            return await ipcRenderer.invoke("gitHttp.clone", { fileName, templateUrl, gitFileName, extractUrl });
         },
     };
 };

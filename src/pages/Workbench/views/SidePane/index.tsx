@@ -1,38 +1,39 @@
-import React, { useCallback, useEffect } from "react";
+import { CaretRightOutlined, SearchOutlined } from "@ant-design/icons";
+import { ParametersOutput, getApiTreeMethods } from "@/services/apiTree";
+import React, { useEffect } from "react";
 
-import { CaretRightOutlined } from "@ant-design/icons";
 import { Collapse } from "antd";
-import { IActionBarItemProps } from "@dtinsight/molecule/esm/components";
 import { ISidebarPane } from "@dtinsight/molecule/esm/model";
-import { getPythonMethods } from "@/services/apiTree";
+import Input from "@/components/input";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import styles from "./index.module.scss";
-import { useReactive } from "ahooks";
+import { useRequest } from "ahooks";
 
 const { Panel } = Collapse;
 
 export function SidePaneView() {
-  const state = useReactive({
-    fileTree: [],
-  });
-  //   useEffect(() => {
-  //     (async () => {
-  //       const { success, data } = await getPythonMethods();
-  //       if (success) {
-  //         const result = JSON.parse(data);
-  //         state.fileTree = result.methods;
-  //       }
-  //     })();
-  //   }, []);
+  useEffect(() => {
+    run({ code: "algorithm-api", apiName: "" });
+  }, []);
 
-  //   const handleFetchDetail = useCallback((id: number) => {
-  //     if (id) {
-  //       console.log(11111);
-  //     }
-  //   }, []);
+  const { data, run } = useRequest(getApiTreeMethods, {
+    debounceWait: 1000,
+    manual: true,
+  });
 
   return (
     <div className={styles.file_tree_container}>
+      <div className={styles.search_container}>
+        <Input
+          prefix={<SearchOutlined />}
+          style={{ height: 28, width: 301 }}
+          placeholder={localize("sidePane.search", "搜索API")}
+          allowClear={true}
+          onChange={(e) =>
+            run({ code: "algorithm-api", apiName: e.target.value })
+          }
+        />
+      </div>
       <Collapse
         expandIcon={({ isActive }) => (
           <CaretRightOutlined
@@ -43,22 +44,50 @@ export function SidePaneView() {
         ghost={true}
         bordered={false}
       >
-        {/* {state.fileTree.map((item, index) => (
-          <Panel
-            key={index}
-            header={
-              <div
-                onClick={() => handleFetchDetail(item?.children[0]?.typeId)}
-                className={styles.file_tree_header_container}
-              >
-                <img className={styles.header_icon} src={item.icon} />
-                <span className={styles.header_text}>{item.text}</span>
+        {data?.data ? (
+          data?.data.map((item, index) => (
+            <Panel
+              key={index}
+              header={
+                <div className={styles.file_tree_header_container}>
+                  <img className={styles.header_icon} src={item.icon} />
+                  <span className={styles.header_text}>{item.apiName}</span>
+                </div>
+              }
+            >
+              <div className={styles.document_details_container}>
+                <p>{item?.description}</p>
+                <div className={styles.parameter_container}>
+                  <div className={styles.parameter_item}>
+                    <div className={styles.left_container}>
+                      <p>Name</p>
+                    </div>
+                    <div className={styles.right_container}>
+                      <p>Descipiton</p>
+                    </div>
+                  </div>
+                  {item.inParameters.map(
+                    (ite: ParametersOutput, idx: number) => (
+                      <div key={idx} className={styles.parameter_item}>
+                        <div className={styles.left_container}>
+                          <p>{ite.name}</p>
+                          <a>{ite.typeName}</a>
+                        </div>
+                        <div className={styles.right_container}>
+                          <p>{ite.description}</p>
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
               </div>
-            }
-          >
-            1111
-          </Panel>
-        ))} */}
+            </Panel>
+          ))
+        ) : (
+          <div className={styles.empty_container}>
+            <p>{localize("sidePane.noData", "没有此API")}~</p>
+          </div>
+        )}
       </Collapse>
     </div>
   );
