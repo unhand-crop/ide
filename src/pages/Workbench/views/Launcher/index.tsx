@@ -73,7 +73,9 @@ const Launcher = () => {
           />
         </div>
         <div className={styles.algorithm_history}>
-          <p className={styles.title}>最近打开</p>
+          <p className={styles.title}>
+            {localize("launcher.recentlyOpened", "最近打开")}
+          </p>
           <ul className={styles.list}>
             {state.content.map((item, index) => (
               <li

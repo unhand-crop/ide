@@ -9,6 +9,7 @@
         "backtest.CloseAPIDocumentation":"Close API document",
         "launcher.newAlgorithm": "New algorithm",
         "launcher.openAlgorithm": "Open algorithm",
+        "launcher.recentlyOpened":"Recently opened",
         "infoBacktest.WSL": "Is WSL open?",
         "infoBacktest.notWSL": "WSL not open , WSL needs to be opened",
         "infoBacktest.docker": "Is docker installed and started?",
