@@ -49,6 +49,15 @@
         "settingsAboutUs.alreadyLatest": "已经是最新版",
         "settings.mirrorWarehouse":"镜像仓库管理",
         "sidePane.search":"搜索API",
-        "sidePane.noData":"没有此API"
+        "sidePane.noData":"没有此API",
+        "market.name":"名称",
+        "market.latestPrice":"最近价",
+        "market.change":"涨跌",
+        "market.marketTrends":"市场趋势",
+        "market.addCurrency":"添加货币",
+        "market.searchCurrency":"搜索货币",
+        "market.explain":"说明",
+        "market.total":"共有",
+        "market.items":"数据"
     }
 }
