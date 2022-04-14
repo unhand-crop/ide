@@ -18,6 +18,18 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("engine.backtest", async (_, args) => {
     mainWindow.webContents.send("engine-stream-start");
 
+    if (!(await vm.initVM())) {
+      const child = await vm.startVM();
+      child.stdout.on("data", (data) => {
+        console.log("--> stdout", data);
+        mainWindow.webContents.send("engine-stream-data", data);
+      });
+      child.stderr.on("data", (data) => {
+        console.log("--> stderr", data);
+        mainWindow.webContents.send("engine-stream-error", data);
+      });
+    }
+
     const { id, ENDDATE, STARTDATE, SERVICECHARGE, ATTRIBUTES } = args[0];
 
     const images = await vm.getImages();
