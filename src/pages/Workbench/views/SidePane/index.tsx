@@ -79,6 +79,20 @@ export function SidePaneView() {
                       </div>
                     )
                   )}
+                  {item.outParameters.map(
+                    (ite: ParametersOutput, idx: number) => (
+                      <div key={idx} className={styles.parameter_item}>
+                        <div className={styles.left_container}>
+                          <p className={styles.return}>Return</p>
+                          <p>{ite.name}</p>
+                          <a>{ite.typeName}</a>
+                        </div>
+                        <div className={styles.right_container}>
+                          <p>{ite.description}</p>
+                        </div>
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             </Panel>

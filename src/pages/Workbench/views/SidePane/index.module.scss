@@ -43,6 +43,7 @@
     }
     .header_text {
       color: #d8d8d8;
+      line-break: anywhere;
     }
   }
 
@@ -58,10 +59,23 @@
         padding: 10px 0;
         border-bottom: 1px solid #5e5d61;
         .left_container {
+          padding-right: 12px;
           width: 149px;
+          .return {
+            font-weight: 700;
+          }
+          p {
+            white-space: pre-wrap;
+          }
+          a {
+            line-break: anywhere;
+          }
         }
         .right_container {
           width: 178px;
+          P {
+            line-break: anywhere;
+          }
         }
       }
     }
