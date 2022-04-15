@@ -6,6 +6,8 @@ import Icon, { getIconByName } from "@/components/fileIcon";
 
 import React from "react";
 
+export const isDev = process.env.NODE_ENV === "development";
+
 export function transformToEditorTab(item: IFolderTreeNodeProps): IEditorTab {
   const tabData: IEditorTab = item;
   tabData.breadcrumb = item.location

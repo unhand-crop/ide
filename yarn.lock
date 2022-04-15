@@ -4300,11 +4300,6 @@ electron-installer-redhat@^3.2.0:
     word-wrap "^1.2.3"
     yargs "^16.0.2"
 
-electron-is-dev@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.npmjs.org/electron-is-dev/-/electron-is-dev-0.3.0.tgz#14e6fda5c68e9e4ecbeff9ccf037cbd7c05c5afe"
-  integrity sha1-FOb9pcaOnk7L7/nM8DfL18BcWv4=
-
 electron-notarize@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/electron-notarize/-/electron-notarize-1.1.1.tgz"
@@ -5430,13 +5425,6 @@ gitconfiglocal@^1.0.0:
   dependencies:
     ini "^1.3.2"
 
-github-url-to-object@^4.0.4:
-  version "4.0.6"
-  resolved "https://registry.npmjs.org/github-url-to-object/-/github-url-to-object-4.0.6.tgz#5ea8701dc8c336b8d582dc3fa5bf964165c3b365"
-  integrity sha512-NaqbYHMUAlPcmWFdrAB7bcxrNIiiJWJe8s/2+iOc9vlcHlwHqSGrPk+Yi3nu6ebTwgsZEa7igz+NH2vEq3gYwQ==
-  dependencies:
-    is-url "^1.1.0"
-
 glob-parent@^5.1.2, glob-parent@~5.1.2:
   version "5.1.2"
   resolved "https://registry.npmjs.org/glob-parent/-/glob-parent-5.1.2.tgz"
@@ -6283,11 +6271,6 @@ is-unicode-supported@^0.1.0:
   resolved "https://registry.npmjs.org/is-unicode-supported/-/is-unicode-supported-0.1.0.tgz"
   integrity sha512-knxG2q4UC3u8stRGyAVJCOdxFmv5DZiRcdlIaAQXAbSfJya+OhopNotLQrstBhququ4ZpuKbDc/8S6mgXgPFPw==
 
-is-url@^1.1.0, is-url@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.npmjs.org/is-url/-/is-url-1.2.4.tgz#04a4df46d28c4cff3d73d01ff06abeb318a1aa52"
-  integrity sha512-ITvGim8FhRiYe4IQ5uHSkj7pVaPDrCTkNd3yq3cV7iZAcJdHTUMPMEHcqSOy9xZ9qFenQCvi+2wjH9a1nXqHww==
-
 is-utf8@^0.2.1:
   version "0.2.1"
   resolved "https://registry.npmjs.org/is-utf8/-/is-utf8-0.2.1.tgz"
@@ -7120,10 +7103,10 @@ neo-async@^2.6.0, neo-async@^2.6.2:
   resolved "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-nerdctl@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.npmjs.org/nerdctl/-/nerdctl-0.1.4.tgz#079aa244517278df07d2f8129958265a26c6b4b8"
-  integrity sha512-bn61Zn7K/fQ1PTWpIInLzIgn4RnD6iSqqNs97Ul3JtQ+7rPiZv/Da0/wkhd2aVc6MlAvcntx/uWeebgPvFF59w==
+nerdctl@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.npmjs.org/nerdctl/-/nerdctl-0.1.5.tgz#6c6505dd4f97dc2dd63a7455574a68f54557595e"
+  integrity sha512-RsRLgnXI53cn0ywe7qHXiLHBp43zACk4fa6hN1Mq4E+M5U4ANLWgz/Tp6KzVx8+IUtWf66ugsKGOfXGP6e9nyg==
   dependencies:
     change-case "^4.1.2"
     lodash "^4.17.21"
@@ -10239,16 +10222,6 @@ unzipper@^0.10.11:
     listenercount "~1.0.1"
     readable-stream "~2.3.6"
     setimmediate "~1.0.4"
-
-update-electron-app@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.npmjs.org/update-electron-app/-/update-electron-app-2.0.1.tgz#229dbeb4534f51ec949e6a46ae1ac32f68a17eed"
-  integrity sha512-e4xEner89UZZaBGYJbYlMdL1uUrC0VjOsTAL2N4opPjzFtn+j7mdsJJsnyXZzUVeLY+8tuCX4XEsUM98oBHmZg==
-  dependencies:
-    electron-is-dev "^0.3.0"
-    github-url-to-object "^4.0.4"
-    is-url "^1.2.4"
-    ms "^2.1.1"
 
 upper-case-first@^2.0.2:
   version "2.0.2"

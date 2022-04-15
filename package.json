@@ -141,14 +141,13 @@
     "get-port": "^6.1.2",
     "hox": "^1.1.6",
     "lodash": "^4.17.21",
-    "nerdctl": "^0.1.4",
+    "nerdctl": "^0.1.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.2",
     "rimraf": "^3.0.2",
     "shelljs": "^0.8.5",
     "umi-request": "^1.4.0",
-    "unzipper": "^0.10.11",
-    "update-electron-app": "^2.0.1"
+    "unzipper": "^0.10.11"
   }
 }
