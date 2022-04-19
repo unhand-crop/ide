@@ -3,9 +3,10 @@ import {
   IExtension,
   IFolderTreeNodeProps,
 } from "@dtinsight/molecule/esm/model";
-import { getFileIcon, getLanguage } from "@/utils";
+import { getFileIcon, getLanguage, mapTree } from "@/utils";
 
 import { IExtensionService } from "@dtinsight/molecule/esm/services";
+import { getDirectoryTree } from "@/utils/directory-tree";
 import molecule from "@dtinsight/molecule";
 
 export function updateStatusBarLanguage(language: string) {
@@ -26,6 +27,10 @@ export function updateStatusBarLanguage(language: string) {
 }
 
 export function bindingEvents() {
+  molecule.folderTree.onLoadData(async (treeNode, callback) => {
+    treeNode = mapTree(await getDirectoryTree(treeNode.id as string));
+    callback(treeNode);
+  });
   molecule.folderTree.onSelectFile(async (file: IFolderTreeNodeProps) => {
     const { panel } = molecule.layout.getState();
     if (panel.panelMaximized) {

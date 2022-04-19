@@ -5,21 +5,13 @@ import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
 import useBackTestModel from "@/models/backtest";
 import useEngineModel from "@/models/engine";
-import useEnvModel from "@/models/env";
 
 const BackTest = () => {
   const { panel } = molecule.layout.getState();
   const { model: engineModel } = useEngineModel();
-  const { model: envModel } = useEnvModel();
   const { model: backtestModel } = useBackTestModel();
 
   const handleBackTest = async () => {
-    if (!envModel.isShellInstalled || !envModel.isContainerInstalled) {
-      backtestModel.visible = true;
-      return;
-    } else {
-      backtestModel.customVisble = true;
-    }
     if (panel.hidden) {
       if (!panel.panelMaximized) {
         molecule.panel.toggleMaximize();

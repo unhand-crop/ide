@@ -12,8 +12,8 @@ export function transformToEditorTab(item: IFolderTreeNodeProps): IEditorTab {
   const tabData: IEditorTab = item;
   tabData.breadcrumb = item.location
     ? item.location
-      .split("/")
-      .map((local: string) => ({ id: local, name: local }))
+        .split("/")
+        .map((local: string) => ({ id: local, name: local }))
     : [];
   return tabData;
 }
@@ -28,6 +28,8 @@ export const getLanguage = (extension: string) => {
       return "Json";
     case ".py":
       return "Python";
+    case ".log":
+      return "log";
     case ".text":
     default:
       return "Plaintext";
@@ -41,6 +43,7 @@ export const getFileIcon = (name: string) => {
 export interface TreeNode {
   id: string;
   name: string;
+  type: "file" | "directory";
   fileType: "File" | "RootFolder" | "Folder";
   isLeaf?: boolean;
   data?: object;
@@ -51,24 +54,28 @@ export interface TreeNode {
 }
 
 export const mapTree = (node: TreeNode, level: number = 0) => {
-  if (node.children) {
-    node.isLeaf = false;
-    node.children = node.children.map((item: any) => mapTree(item, level + 1));
+  if (node.type === "directory") {
+    node.children = node.children
+      ? node.children.map((item: any) => mapTree(item, level + 1))
+      : [];
     node.fileType = level === 0 ? "RootFolder" : "Folder";
+    node.isLeaf = false;
   } else {
-    (node.fileType = "File"), (node.isLeaf = true);
+    node.fileType = "File";
+    node.isLeaf = true;
   }
   node.id = node.path;
-  node.path = node.path;
-  node.name = node.name;
   node.icon = getFileIcon(node.name);
   return node;
 };
 
-export const isLatestVersion = (currentVersion: string, servicesVersion: string) => {
+export const isLatestVersion = (
+  currentVersion: string,
+  servicesVersion: string
+) => {
   const CV = currentVersion.split(".");
   const SV = servicesVersion.split(".");
   return CV.every((item, index) => {
     return +item >= +SV[index];
   });
-}
+};
