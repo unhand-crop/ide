@@ -1,8 +1,8 @@
-import Launcher from "../../views/Launcher";
-import molecule from "@dtinsight/molecule";
 import { IExtension } from "@dtinsight/molecule/esm/model/extension";
 import { IExtensionService } from "@dtinsight/molecule/esm/services";
+import Launcher from "../../views/Launcher";
 import React from "react";
+import molecule from "@dtinsight/molecule";
 
 export class LauncherExtension implements IExtension {
   id: string = LauncherExtension.name;

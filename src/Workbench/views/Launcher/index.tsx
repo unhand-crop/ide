@@ -1,15 +1,8 @@
-import {
-  IconACreatnew,
-  IconAOpenproject,
-  IconAdd,
-} from "@/components/iconfont";
+import { IconACreatnew, IconAOpenproject } from "@/components/iconfont";
 import React, { useEffect } from "react";
 
 import Button from "./components/Button";
-import { IconPython } from "@/components/iconfont";
-import Modal from "@/components/modal";
 import NewAlgorithmModal from "./components/NewAlgorithmModal";
-import Title from "./components/Title";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import styles from "./index.module.scss";
 import useEditorModel from "@/models/editor";
@@ -30,32 +23,25 @@ const Launcher = () => {
     await window.api.local.openDirectory();
   };
 
-  const handleCreate = async () => {
-    const path = await window.api.local.getDirectory();
-    await window.api.engine.create(path);
-    state.visible = false;
-    setDirPath(path);
-  };
-
   const handleOpenHistoryItem = (dirpath: string) => {
     setDirPath(dirpath);
   };
 
-  useEffect(() => {
-    (async () => {
-      const data = await window.api.store.get("history-path");
-      const historyList = [];
-      for (let i = 0; i < data.length; i++) {
-        const obj: any = {};
-        obj.dirpath = data[i];
-        const index = obj.dirpath.lastIndexOf("/");
-        const str = obj.dirpath.substring(index + 1, obj.dirpath.length);
-        obj.title = str;
-        historyList.unshift(obj);
-      }
-      state.content = historyList;
-    })();
-  }, [model.dirPath]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const data = await window.api.store.get("history-path");
+  //     const historyList = [];
+  //     for (let i = 0; i < data.length; i++) {
+  //       const obj: any = {};
+  //       obj.dirpath = data[i];
+  //       const index = obj.dirpath.lastIndexOf("/");
+  //       const str = obj.dirpath.substring(index + 1, obj.dirpath.length);
+  //       obj.title = str;
+  //       historyList.unshift(obj);
+  //     }
+  //     state.content = historyList;
+  //   })();
+  // }, [model.dirPath]);
 
   return (
     <div className={styles.launcher}>

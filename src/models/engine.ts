@@ -23,8 +23,6 @@ function useEngineModel() {
 
   useMount(async () => {
     window.api.ipc.on("engine-result", (_: IpcRendererEvent, data: any) => {
-      console.log(data);
-
       switch (data.type) {
         case "algorithmstepConfig":
           model.algorithmstepConfig = data.content || [];
