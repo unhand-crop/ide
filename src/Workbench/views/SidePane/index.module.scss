@@ -1,26 +1,6 @@
 .file_tree_container {
   width: 367px;
-  padding: 14px;
-  .search_container {
-    display: flex;
-    align-items: center;
-    :global(.ant-input) {
-      background-color: transparent;
-      color: #d8d8d8;
-    }
-    :global(.anticon-close) {
-      margin-left: 21px;
-      &:hover {
-        cursor: pointer;
-      }
-    }
-    :global(.ant-input-clear-icon) {
-      svg {
-        font-size: 14px;
-        fill: #d8d8d8;
-      }
-    }
-  }
+  padding: 42px 14px 14px 14px;
   :global(.ant-collapse) {
     :global(.ant-collapse-item) {
       :global(.ant-collapse-header) {
@@ -85,5 +65,32 @@
     justify-content: center;
     margin-top: 24px;
     color: #d8d8d8;
+  }
+}
+
+.search_container {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  padding-top: 14px;
+  padding-left: 14px;
+  width: 362px;
+  background-color: #21252b;
+  z-index: 20;
+  :global(.ant-input) {
+    background-color: transparent;
+    color: #d8d8d8;
+  }
+  :global(.anticon-close) {
+    margin-left: 21px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  :global(.ant-input-clear-icon) {
+    svg {
+      font-size: 14px;
+      fill: #d8d8d8;
+    }
   }
 }
