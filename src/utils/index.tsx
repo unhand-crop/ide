@@ -28,8 +28,6 @@ export const getLanguage = (extension: string) => {
       return "Json";
     case ".py":
       return "Python";
-    case ".log":
-      return "log";
     case ".text":
     default:
       return "Plaintext";

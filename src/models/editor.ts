@@ -124,13 +124,13 @@ function useEditorModel() {
       model.positions[tabId] = null;
       model.tabs[tabId] = null;
     });
-    // const dirPath = await window.api.store.get("dir-path");
-    // if (dirPath) {
-    //   const stat = await window.api.fs.stat(dirPath);
-    //   if (stat && stat.isDirectory) {
-    //     model.dirPath = dirPath;
-    //   }
-    // }
+    const dirPath = await window.api.store.get("dir-path");
+    if (dirPath) {
+      const stat = await window.api.fs.stat(dirPath);
+      if (stat && stat.isDirectory) {
+        model.dirPath = dirPath;
+      }
+    }
   });
 
   useEffect(() => {
