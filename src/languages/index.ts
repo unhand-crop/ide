@@ -1,5 +1,5 @@
-import { register as registerUnhandPython } from "./unhand-python";
+import { register as registerPython } from "./python";
 
 export const registerLanguages = async () => {
-  await registerUnhandPython();
+  await registerPython();
 };
