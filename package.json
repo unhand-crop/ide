@@ -6,13 +6,11 @@
   "main": ".webpack/main",
   "homepage": "./",
   "scripts": {
+    "icon": "npx iconfont-h5",
     "start": "cross-env NODE_ENV=development electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx .",
-    "icon": "npx iconfont-h5",
-    "dmg": "appdmg ./appdmg.json ./out/Unhand.dmg"
+    "release": "electron-forge publish"
   },
   "keywords": [],
   "author": {
@@ -34,22 +32,27 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "ide"
+            "name": "Unhand Studio"
           }
         },
         {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "name": "Unhand Studio"
+          }
+        }
+      ],
+      "publishers": [
         {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "unhand-crop",
+              "name": "ide"
+            },
+            "draft": true,
+            "prerelease": true
+          }
         }
       ],
       "plugins": [
@@ -87,10 +90,12 @@
     "@dtinsight/molecule": "^0.9.0-beta.4.2",
     "@electron-forge/cli": "^6.0.0-beta.63",
     "@electron-forge/maker-deb": "^6.0.0-beta.63",
+    "@electron-forge/maker-dmg": "^6.0.0-beta.63",
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
     "@electron-forge/plugin-webpack": "6.0.0-beta.63",
+    "@electron-forge/publisher-github": "^6.0.0-beta.63",
     "@types/dockerode": "^3.3.3",
     "@types/lodash": "^4.14.181",
     "@types/react": "^17.0.39",
