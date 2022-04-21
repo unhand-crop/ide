@@ -23,38 +23,28 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Build mac app
-        if: matrix.os == 'macos-latest'
+      - name: Install dependencies
         run: |
           npm i -g yarn
           yarn
+
+      - name: Build macOS app
+        if: matrix.os == 'macos-latest'
+        run: |
           yarn make
         env:
           TARGET_PLATFORMS: darwin
 
-      - name: Build win app
+      - name: Build windows app
         if: matrix.os == 'windows-latest'
         run: |
-          npm i -g yarn
-          yarn
           yarn make
 
-      - name: Release mac app
-        if: matrix.os == 'macos-latest'
+      - name: Release app
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.TOKEN }}"
           automatic_release_tag: "v1.1.0"
           prerelease: true
           files: |
-            out/**/*.dmg
-
-      - name: Release win app
-        if: matrix.os == 'windows-latest'
-        uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.TOKEN }}"
-          automatic_release_tag: "v1.1.0"
-          prerelease: true
-          files: |
-            out/**/*.exe
+            out/make
