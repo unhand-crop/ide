@@ -31,6 +31,8 @@ const NewAlgorithmModal = ({
   const [currentTemplateList, upCurrentTemplateList] = useState([]);
   const [currentChangeTemplateIndex, upCurrentChangeTemplateIndex] =
     useState(0);
+  const [loading, setLoading] = useState(false);
+  const [isCreate, setIsCreate] = useState(true);
   const [templateDetails, upTemplateDetails]: any = useState({});
   const [extractUrl, upExtractUrl] = useState(null);
   const [fileName, upFileName] = useState(null);
@@ -41,6 +43,7 @@ const NewAlgorithmModal = ({
     if (!url) return;
     await window.api.store.set("defaultExtractUrl", url);
     upExtractUrl(url);
+    setIsCreate(false);
   };
 
   const getTemplate = async ({
@@ -76,6 +79,9 @@ const NewAlgorithmModal = ({
     const defaultExtractUrl = await window.api.store.get("defaultExtractUrl");
     upCurrentTemplateList(templateList);
     upExtractUrl(defaultExtractUrl);
+    if (defaultExtractUrl) {
+      setIsCreate(false)
+    }
     if (templateList.length === 0) return;
     const templateDetails = await getTemplateDetails(templateList[0].id);
     upTemplateDetails(templateDetails);
@@ -87,19 +93,23 @@ const NewAlgorithmModal = ({
     const templateDetails = await getTemplateDetails(
       currentTemplateList[templateIndex].id
     );
+    upFileName(templateDetails.templateName);
     upTemplateDetails(templateDetails);
   };
 
   const creactTemplateFile = async () => {
+    setLoading(true)
     const path = await window.api.gitHttp.clone({
       templateUrl: templateDetails.templateUrl,
-      fileName,
+      fileName: fileName + (new Date().getTime().toString().substr(8)),
       gitFileName: templateDetails.templateDir,
       extractUrl,
     });
     await window.api.engine.create(path);
+    setLoading(false);
     visibleModal();
     setDirPath(path);
+
   };
 
   const defaultAlgorithmDir = localize(
@@ -109,15 +119,15 @@ const NewAlgorithmModal = ({
   return (
     <Modal
       title={localize("launcher.newAlgorithm", "新建算法")}
-      width={900}
+      width={1000}
       visible={visible}
       onCancel={visibleModal}
     >
       <div className={styles.modal_body}>
         <div className={styles.language_select_body}>
-          <Title
+          {/* <Title
             title={localize("newAlgorithm.selectLanguage", "选择使用的语言")}
-          />
+          /> */}
           <div className={styles.language_list_body}>
             {languageList.map((item: any, index) => {
               return (
@@ -126,7 +136,7 @@ const NewAlgorithmModal = ({
                   key={item.name}
                   style={item.change ? { backgroundColor: "#1e1e1e" } : {}}
                 >
-                  <IconPython size={26} />
+                  <IconPython size={28} />
                   <span className={styles.language_name}>{item.name}</span>
                 </div>
               );
@@ -134,10 +144,10 @@ const NewAlgorithmModal = ({
           </div>
         </div>
         <div className={styles.language_template_body}>
-          <Title
+          {/* <Title
             title={localize("newAlgorithm.selectTemplate", "选择使用的模版")}
             style={{ paddingLeft: "23px" }}
-          />
+          /> */}
           <div className={styles.template_select_body}>
             {currentTemplateList.map((item: TemplateListResponse, index) => {
               const {
@@ -188,7 +198,7 @@ const NewAlgorithmModal = ({
                   </Button>
                 </div>
               </div>
-              <div className={styles.language_content_select}>
+              {/* <div className={styles.language_content_select}>
                 <div className={styles.select_title}>
                   {localize("newAlgorithm.selectFolder", "请选择文件夹")}
                 </div>
@@ -213,25 +223,40 @@ const NewAlgorithmModal = ({
                     {localize("newAlgorithm.creactNow", "立即创建")}
                   </Button>
                 </div>
+              </div> */}
+              <div className={styles.language_content_container}>
+                <div className={styles.language_content_describe}>
+                  <div className={styles.content_describe_title}>
+                    {localize("newAlgorithm.algorithmDescribe", "算法描述")}
+                  </div>
+                  <div className={styles.content_describe_value}>
+                    {templateDetails.description}
+                  </div>
+                </div>
+                <div className={styles.language_content_source}>
+                  <div className={styles.content_source_title}>
+                    {localize("newAlgorithm.sourceCode", "源代码")}
+                  </div>
+                  {templateDetails.imageUrl.length > 0 && (
+                    <img
+                      className={styles.content_source_image}
+                      src={templateDetails.imageUrl}
+                    />
+                  )}
+                </div>
               </div>
-              <div className={styles.language_content_describe}>
-                <div className={styles.content_describe_title}>
-                  {localize("newAlgorithm.algorithmDescribe", "算法描述")}
-                </div>
-                <div className={styles.content_describe_value}>
-                  {templateDetails.description}
-                </div>
-              </div>
-              <div className={styles.language_content_source}>
-                <div className={styles.content_source_title}>
-                  {localize("newAlgorithm.sourceCode", "源代码")}
-                </div>
-                {templateDetails.imageUrl.length > 0 && (
-                  <img
-                    className={styles.content_source_image}
-                    src={templateDetails.imageUrl}
-                  />
-                )}
+              <div className={styles.language_operation}>
+                <Button
+                  className={styles.folder_button}
+                  color="#2154E0"
+                  type="primary"
+                  size="small"
+                  disabled={isCreate}
+                  loading={loading}
+                  onClick={() => creactTemplateFile()}
+                >
+                  创建
+                </Button>
               </div>
             </div>
           )}
