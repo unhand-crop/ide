@@ -1,4 +1,5 @@
 import { languages } from "monaco-editor";
+import { GetApiTreeMethodsInfoOutPut } from "@/services/apiTree";
 
 export const conf: languages.LanguageConfiguration = {
   comments: {
@@ -261,64 +262,84 @@ export const language = <languages.IMonarchLanguage>{
   },
 };
 
-export const completionItemProvider = <languages.CompletionItemProvider>{
-  triggerCharacters: ["."],
-  provideCompletionItems: async function (
-    model,
-    position,
-    token,
-    completionContext
-  ) {
-    const word = model.getWordUntilPosition(position);
-
-    const range = {
-      startLineNumber: position.lineNumber,
-      endLineNumber: position.lineNumber,
-      startColumn: word.startColumn,
-      endColumn: word.endColumn,
-    };
-    const suggestions: languages.CompletionItem[] = [];
-
-    const keywords: languages.CompletionItem[] = language.keywords.map(
-      (keyword: string, index: number) => ({
-        label: keyword,
-        kind: languages.CompletionItemKind.Keyword,
-        insertText: keyword,
-        sortText: "10000" + index + keyword,
-        filterText: keyword.toLowerCase(),
-      })
-    );
-
-    const functions: languages.CompletionItem[] = []
-      .concat(language.builtinFunctions)
-      .concat(language.windowsFunctions)
-      .concat(language.innerFunctions)
-      .concat(language.otherFunctions)
-      .filter(Boolean)
-      .map((functionName: string, index: number) => ({
-        label: functionName,
-        kind: languages.CompletionItemKind.Function,
-        insertText: functionName + "($1) ",
-        sortText: "20000" + index + functionName,
-        filterText: functionName.toLowerCase(),
-        range,
-      }));
-
-    const apis: languages.CompletionItem[] = [
-      {
-        label: "self.ABANDS(Symbol symbol, Int32 period)",
-        kind: languages.CompletionItemKind.Function,
-        detail: "这里写方法描述",
-        documentation: "这里写方法文档",
-        insertText: "self.ABANDS(${1:symbol}, ${2:period})",
-        insertTextRules: languages.CompletionItemInsertTextRule.InsertAsSnippet,
-        filterText: "self.ABANDS".toLowerCase(),
-        sortText: "1000" + 1 + "self.ABANDS(Symbol symbol, Int32 period)",
-        range,
-      },
-    ];
+export const getApiSuggestions = (
+  data: GetApiTreeMethodsInfoOutPut[],
+  range: {
+    startLineNumber: number;
+    endLineNumber: number;
+    startColumn: number;
+    endColumn: number;
+  }
+) => {
+  return data.map((item, index) => {
+    const params = item.inParameters
+      .map((param, idx) => "$" + `{${idx + 1}:${param.name}}`)
+      .join(",");
     return {
-      suggestions: suggestions.concat(keywords).concat(functions).concat(apis),
+      label: item.apiName,
+      kind: languages.CompletionItemKind.Function,
+      detail: item.shortApiName,
+      documentation: item.description,
+      filterText: item.shortApiName.toLowerCase(),
+      sortText: "1000" + index + item.apiName,
+      insertText: `${item.shortApiName}(${params})`,
+      insertTextRules: languages.CompletionItemInsertTextRule.InsertAsSnippet,
+      range,
     };
-  },
+  });
 };
+
+export const getCompletionItemProvider = (
+  data: GetApiTreeMethodsInfoOutPut[]
+) =>
+  <languages.CompletionItemProvider>{
+    triggerCharacters: ["."],
+    provideCompletionItems: async function (
+      model,
+      position,
+      token,
+      completionContext
+    ) {
+      const word = model.getWordUntilPosition(position);
+
+      const range = {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: word.startColumn,
+        endColumn: word.endColumn,
+      };
+      const suggestions: languages.CompletionItem[] = [];
+
+      const keywords: languages.CompletionItem[] = language.keywords.map(
+        (keyword: string, index: number) => ({
+          label: keyword,
+          kind: languages.CompletionItemKind.Keyword,
+          insertText: keyword,
+          sortText: "10000" + index + 1 + keyword,
+          filterText: keyword.toLowerCase(),
+        })
+      );
+
+      const functions: languages.CompletionItem[] = []
+        .concat(language.builtinFunctions)
+        .concat(language.windowsFunctions)
+        .concat(language.innerFunctions)
+        .concat(language.otherFunctions)
+        .filter(Boolean)
+        .map((functionName: string, index: number) => ({
+          label: functionName,
+          kind: languages.CompletionItemKind.Function,
+          insertText: functionName + "($1) ",
+          sortText: "20000" + index + functionName,
+          filterText: functionName.toLowerCase(),
+          range,
+        }));
+
+      return {
+        suggestions: suggestions
+          .concat(keywords)
+          .concat(functions)
+          .concat(getApiSuggestions(data, range)),
+      };
+    },
+  };

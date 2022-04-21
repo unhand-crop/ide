@@ -18,6 +18,7 @@ export interface GetApiTreeMethodsInfoOutPut {
   description: string;
   icon: string;
   id: number;
+  shortApiName: string;
   inParameters: ParametersOutput[];
   outParameters: ParametersOutput[];
 }
