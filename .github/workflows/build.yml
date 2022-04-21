@@ -13,11 +13,14 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        os: [macos-latest, windows-latest]
+        # os: [macos-latest, windows-latest]
 
     steps:
+      - id: get_version
+        uses: battila7/get-version-action@v2
+
       - name: test
-        run: echo ${{ github.event.release.tag_name }}
+        run: echo ${{ steps.get_version.outputs.version }}
       # - name: Check out git repository
       #   uses: actions/checkout@v3
 
