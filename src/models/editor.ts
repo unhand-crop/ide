@@ -1,6 +1,6 @@
 import { getFileIcon, mapTree } from "@/utils";
 import { useCallback, useEffect } from "react";
-import { useMount, useReactive } from "ahooks";
+import { useMount, useReactive, useRequest } from "ahooks";
 
 import { IpcRendererEvent } from "electron";
 import { Position } from "@dtinsight/molecule/esm/monaco";
@@ -8,9 +8,11 @@ import { Stats } from "fs";
 import { TreeNodeModel } from "@dtinsight/molecule/esm/model";
 import { UniqueId } from "@dtinsight/molecule/esm/common/types";
 import { createModel } from "hox";
+import { getApiTreeMethods } from "@/services/apiTree";
 import { getDirectoryTree } from "@/utils/directory-tree";
 import molecule from "@dtinsight/molecule";
 import { registerLanguages } from "@/languages";
+import useBackTestModel from "./backtest";
 
 export async function loadFolderTree(path: string) {
   molecule.folderTree.reset();
@@ -54,8 +56,13 @@ function useEditorModel() {
     positions: {},
   });
 
+  const { data } = useBackTestModel();
+  useEffect(() => {
+    if (data) {
+      registerLanguages(data?.data);
+    }
+  }, [data]);
   useMount(async () => {
-    registerLanguages();
     window.api.ipc.on(
       "open-directory",
       (_: IpcRendererEvent, dirPath: string) => {

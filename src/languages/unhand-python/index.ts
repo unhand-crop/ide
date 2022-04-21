@@ -1,12 +1,14 @@
 import * as monaco from "monaco-editor";
 import * as python from "./python";
 
+import { GetApiTreeMethodsInfoOutPut } from "@/services/apiTree";
+
 const ID = "python";
 
 // declare var AMD: any;
 // declare var require: any;
 
-export const register = async () => {
+export const register = async (data: GetApiTreeMethodsInfoOutPut[]) => {
   monaco.languages.register({
     id: ID,
     extensions: [".py", ".rpy", ".pyw", ".cpy", ".gyp", ".gypi"],
@@ -22,6 +24,7 @@ export const register = async () => {
     //   }
     // },
   });
+  python.fetchApiData(data);
   monaco.languages.setMonarchTokensProvider(ID, python.language);
   monaco.languages.registerCompletionItemProvider(
     ID,

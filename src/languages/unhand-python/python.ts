@@ -1,4 +1,5 @@
 import { languages } from "monaco-editor";
+import { GetApiTreeMethodsInfoOutPut } from "@/services/apiTree";
 
 export const conf: languages.LanguageConfiguration = {
   comments: {
@@ -261,6 +262,31 @@ export const language = <languages.IMonarchLanguage>{
   },
 };
 
+let result: languages.CompletionItem[] = [];
+export const fetchApiData = (data: GetApiTreeMethodsInfoOutPut[]) => {
+  for (let i = 0; i < data.length; i++) {
+    const res: any = {};
+    res.label = data[i].apiName;
+    res.kind = languages.CompletionItemKind.Function;
+    res.detail = "这里写方法描述";
+    res.documentation = "这里写方法文档";
+    res.insertTextRules =
+      languages.CompletionItemInsertTextRule.InsertAsSnippet;
+    res.filterText = data[i].shortApiName.toLowerCase();
+    res.sortText = "1000" + i + 1 + data[i].apiName;
+    const datas = data[i].inParameters.reduce((prev, cur, idx) => {
+      return (prev +=
+        "$" +
+        `{${idx}:${cur.name}}${
+          idx === data[i].inParameters.length - 1 ? "" : ","
+        }`);
+    }, "");
+    res.insertText = data[i].shortApiName + `(${datas})`;
+
+    result.push(res);
+  }
+};
+
 export const completionItemProvider = <languages.CompletionItemProvider>{
   triggerCharacters: ["."],
   provideCompletionItems: async function (
@@ -284,7 +310,7 @@ export const completionItemProvider = <languages.CompletionItemProvider>{
         label: keyword,
         kind: languages.CompletionItemKind.Keyword,
         insertText: keyword,
-        sortText: "10000" + index + keyword,
+        sortText: "10000" + index + 1 + keyword,
         filterText: keyword.toLowerCase(),
       })
     );
@@ -304,21 +330,11 @@ export const completionItemProvider = <languages.CompletionItemProvider>{
         range,
       }));
 
-    const apis: languages.CompletionItem[] = [
-      {
-        label: "self.ABANDS(Symbol symbol, Int32 period)",
-        kind: languages.CompletionItemKind.Function,
-        detail: "这里写方法描述",
-        documentation: "这里写方法文档",
-        insertText: "self.ABANDS(${1:symbol}, ${2:period})",
-        insertTextRules: languages.CompletionItemInsertTextRule.InsertAsSnippet,
-        filterText: "self.ABANDS".toLowerCase(),
-        sortText: "1000" + 1 + "self.ABANDS(Symbol symbol, Int32 period)",
-        range,
-      },
-    ];
     return {
-      suggestions: suggestions.concat(keywords).concat(functions).concat(apis),
+      suggestions: suggestions
+        .concat(keywords)
+        .concat(functions)
+        .concat(result),
     };
   },
 };
