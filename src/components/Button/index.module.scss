@@ -1,0 +1,37 @@
+.component_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  height: 32px;
+  border-radius: 2px;
+  background-color: #0b5aa6;
+  border: none;
+  .title {
+    color: #d8d8d8;
+  }
+  &:hover {
+    cursor: pointer;
+    background-color: #017cf1;
+    .title {
+      color: white;
+    }
+  }
+}
+
+.component_button_disabled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  height: 32px;
+  border: none;
+  border-radius: 2px;
+  background-color: #082036;
+  .title {
+    color: #636363;
+  }
+  &:hover {
+    cursor: not-allowed;
+  }
+}

@@ -22,7 +22,7 @@ export const getDefaultList = async (): Promise<
   return request.get("/eapi/v1/symbol/getoptional", {});
 };
 
-export interface getPageInput {
+export interface GetPageInput {
   pageIndex: number;
   pageSize: number;
   order: [];
@@ -43,7 +43,7 @@ export interface GetSymbolsOutputPagedList {
 }
 
 export const getPage = async (
-  data: getPageInput
+  data: GetPageInput
 ): Promise<Response<GetSymbolsOutputPagedList>> => {
-  return request.post("/eapi/v1/symbol/getpage", { data });
+  return request.post("/eapi/v1/symbol/get-page", { data });
 };

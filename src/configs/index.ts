@@ -1,4 +1,4 @@
-const BASE_URL = "http://api.ffff.ink/gapi"; // "http://api.unhand.io";
+const BASE_URL = "http://api.ffff.ink/gapi";
 
 export default {
   baseUrl: BASE_URL,

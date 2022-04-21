@@ -1,0 +1,45 @@
+.settings {
+  position: absolute;
+  padding-left: 24px;
+  height: calc(100% - 56px);
+  width: calc(100% - 48px);
+  z-index: 20;
+  &_content {
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    max-width: 900px;
+
+    &_body {
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 24px;
+      .left_content {
+        width: 120px;
+        .menus {
+          margin-top: 4px;
+          &_item {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #d8d8d8;
+            line-height: 20px;
+            font-weight: 400;
+            &:hover {
+              color: white;
+              cursor: pointer;
+            }
+          }
+          .isActive {
+            color: white;
+            font-weight: 600;
+          }
+        }
+      }
+      .right_content {
+        width: 100%;
+        max-width: 693px;
+      }
+    }
+  }
+}

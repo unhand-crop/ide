@@ -1,12 +1,12 @@
 import { Button } from "antd";
-import { InfoBacktestButtonIcon } from "@/components/iconfont";
-import Modal from "@/components/modal";
+import { IconInfoBacktestButton } from "@/components/Iconfont";
+import Modal from "@/components/Modal";
 import React from "react";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 // import useEngineModel from "@/models/engine";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
-import useBackTestModel from "@/models/backtest";
+import useBackTestModel from "@/models/back-test";
 
 interface InitBackTestProps {
   icon?: React.ReactNode;
@@ -33,8 +33,8 @@ const needCheckArr = [
 const InitBackTest = ({ onClick }: InitBackTestProps) => {
   const { model: backtestModel } = useBackTestModel();
   const nextClick = () => {
-    molecule.layout.togglePanelVisibility();
     backtestModel.visible = false;
+    backtestModel.customVisble = true;
   };
 
   return (
@@ -60,7 +60,7 @@ const InitBackTest = ({ onClick }: InitBackTestProps) => {
                     <span className={styles.button_text}>
                       {referenceDocuments}
                     </span>
-                    <InfoBacktestButtonIcon
+                    <IconInfoBacktestButton
                       size={20}
                       className={styles.button_icon}
                     />

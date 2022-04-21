@@ -1,0 +1,175 @@
+.launcher {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  background-color: #24272d;
+  .project {
+    width: 520px;
+    height: 520px;
+    background-image: url("/public/image/unhand.png");
+    background-size: 100% 100%;
+    &_button {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 4rem;
+      margin-top: 2rem;
+
+      .historical_project {
+        color: white;
+        .project_list {
+          margin: 0;
+          font-size: 12px;
+          color: #d8d8d8;
+          font-weight: 400;
+          line-height: 17px;
+          &:hover {
+            color: white;
+            cursor: pointer;
+          }
+        }
+        .project_list + .project_list {
+          margin-top: 0.75rem;
+        }
+      }
+    }
+    .algorithm_history {
+      margin-top: 56px;
+      .title {
+        min-width: 64px;
+        height: 22px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #ffffff;
+      }
+      .list {
+        margin-top: 24px;
+        .item {
+          margin-bottom: 12px;
+          &_name {
+            font-size: 16px;
+            font-weight: 400;
+            color: #d8d8d8;
+            &:hover {
+              cursor: pointer;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.algorithm_container {
+  padding: 13px;
+  height: 625px;
+  .algorithm_list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    .algorithm_item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 12px 0;
+      &:hover {
+        cursor: pointer;
+      }
+      .container {
+        margin: 0 11px;
+        width: 188px;
+        height: 216px;
+        border-radius: 4px;
+        background-color: #252527;
+        border: 1px solid #252527;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+        &:hover {
+          border: 1px solid #5e5d61;
+          border-radius: 4px;
+        }
+      }
+      .title {
+        margin-top: 8px;
+        font-size: 12px;
+        font-weight: 400;
+        color: #d8d8d8;
+      }
+    }
+    & > :last-child > .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  :global(.ant-pagination) {
+    text-align: end;
+    margin-right: 12px;
+  }
+  :global(.ant-pagination-item-link) {
+    background-color: #81858e;
+    border-color: #81858e;
+  }
+}
+
+.modal_body {
+  width: 100%;
+  height: 100%;
+  min-height: 700px;
+  display: flex;
+  flex-direction: row;
+  background-color: #1e1e1e;
+  .language_select_body {
+    width: 118px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .language_list {
+      padding: 20px 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 400;
+      color: #ffffff;
+    }
+  }
+  .language_template_body {
+    width: 280px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .template_select_item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 24px 0 24px 25px;
+      .item_name {
+        width: 100%;
+        font-size: 16px;
+        font-weight: 500;
+        color: #ffffff;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .item_desc {
+        width: 100%;
+        font-size: 12px;
+        font-weight: 400;
+        color: #d8d8d8;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+  }
+  .language_content_body {
+  }
+}

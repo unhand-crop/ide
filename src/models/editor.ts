@@ -7,19 +7,16 @@ import { Position } from "@dtinsight/molecule/esm/monaco";
 import { Stats } from "fs";
 import { TreeNodeModel } from "@dtinsight/molecule/esm/model";
 import { UniqueId } from "@dtinsight/molecule/esm/common/types";
-import _ from "lodash";
 import { createModel } from "hox";
+import { getDirectoryTree } from "@/utils/directory-tree";
 import molecule from "@dtinsight/molecule";
+import { registerLanguages } from "@/languages";
+import useBackTestModel from "./back-test";
 
-export function loadFolderTree(path: string) {
+export async function loadFolderTree(path: string) {
   molecule.folderTree.reset();
   window.api.watch.change(path);
-  const data = mapTree(
-    window.api.local.directoryTree(path, {
-      attributes: ["extension"],
-      exclude: [/.DS_Store/],
-    })
-  );
+  const data = mapTree(await getDirectoryTree(path));
   molecule.folderTree.add(new TreeNodeModel({ ...data }));
 }
 
@@ -32,16 +29,38 @@ async function syncFileContent(path: UniqueId, position?: Position) {
   molecule.editor.editorInstance.setPosition(position);
 }
 
+async function setHistoryPath(path: string) {
+  const data = await window.api.store.get("history-path");
+  // const arrayList = [];
+  // arrayList.unshift(path);
+  // arrayList.push(data);
+  // const history = flattenDeep(arrayList);
+  // const historyList = uniq(history);
+  // window.api.store.set("history-path", historyList);
+}
+
 function useEditorModel() {
+  const { data } = useBackTestModel();
   const model = useReactive<{
     currentTabId: UniqueId;
+    tabs: Record<
+      UniqueId,
+      molecule.model.IEditorTab<molecule.model.BuiltInEditorTabDataType>
+    >;
     dirPath: string | null;
     positions: Record<UniqueId, Position>;
   }>({
     currentTabId: null,
+    tabs: {},
     dirPath: null,
     positions: {},
   });
+
+  useEffect(() => {
+    if (data) {
+      registerLanguages(data?.data);
+    }
+  }, [data]);
 
   useMount(async () => {
     window.api.ipc.on(
@@ -95,6 +114,7 @@ function useEditorModel() {
     );
     molecule.editor.onOpenTab(async (tab) => {
       model.currentTabId = tab.id;
+      model.tabs[tab.id] = tab;
       await syncFileContent(
         tab.id,
         model.positions[tab.id] ?? new Position(0, 0)
@@ -109,6 +129,7 @@ function useEditorModel() {
     });
     molecule.editor.onCloseTab(async (tabId) => {
       model.positions[tabId] = null;
+      model.tabs[tabId] = null;
     });
     const dirPath = await window.api.store.get("dir-path");
     if (dirPath) {
@@ -119,26 +140,18 @@ function useEditorModel() {
     }
   });
 
-  const loadHistoryPath = async (path: string) => {
-    const data = await window.api.store.get("history-path");
-    const arrayList = [];
-    arrayList.unshift(path);
-    arrayList.push(data);
-    const history = _.flattenDeep(arrayList);
-    const historyList = _.uniq(history);
-    window.api.store.set("history-path", historyList);
-  };
-
   useEffect(() => {
     if (model.dirPath) {
-      loadHistoryPath(model.dirPath);
-      loadFolderTree(model.dirPath);
-      window.api.store.set("dir-path", model.dirPath);
-      molecule.explorer.onPanelToolbarClick((panel, toolbarId) => {
-        if (toolbarId === "refresh") {
-          loadFolderTree(model.dirPath);
-        }
-      });
+      // setHistoryPath(model.dirPath);
+      (async () => {
+        await loadFolderTree(model.dirPath);
+        window.api.store.set("dir-path", model.dirPath);
+        molecule.explorer.onPanelToolbarClick(async (panel, toolbarId) => {
+          if (toolbarId === "refresh") {
+            await loadFolderTree(model.dirPath);
+          }
+        });
+      })();
     }
   }, [model.dirPath]);
 
