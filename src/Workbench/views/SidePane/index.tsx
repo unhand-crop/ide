@@ -1,25 +1,18 @@
 import { CaretRightOutlined, SearchOutlined } from "@ant-design/icons";
-import { ParametersOutput, getApiTreeMethods } from "@/services/apiTree";
 import React, { useEffect } from "react";
 
 import { Collapse } from "antd";
 import { ISidebarPane } from "@dtinsight/molecule/esm/model";
 import Input from "@/components/input";
+import { ParametersOutput } from "@/services/apiTree";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import styles from "./index.module.scss";
-import { useRequest } from "ahooks";
+import useBackTestModel from "@/models/backtest";
 
 const { Panel } = Collapse;
 
 export function SidePaneView() {
-  useEffect(() => {
-    run({ code: "algorithm-api", apiName: "" });
-  }, []);
-
-  const { data, run } = useRequest(getApiTreeMethods, {
-    debounceWait: 1000,
-    manual: true,
-  });
+  const { data, run } = useBackTestModel();
 
   return (
     <>

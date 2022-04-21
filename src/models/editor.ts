@@ -11,6 +11,7 @@ import { createModel } from "hox";
 import { getDirectoryTree } from "@/utils/directory-tree";
 import molecule from "@dtinsight/molecule";
 import { registerLanguages } from "@/languages";
+import useBackTestModel from "./backtest";
 
 export async function loadFolderTree(path: string) {
   molecule.folderTree.reset();
@@ -54,8 +55,13 @@ function useEditorModel() {
     positions: {},
   });
 
+  const { data } = useBackTestModel();
+  useEffect(() => {
+    if (data) {
+      registerLanguages(data?.data);
+    }
+  }, [data]);
   useMount(async () => {
-    registerLanguages();
     window.api.ipc.on(
       "open-directory",
       (_: IpcRendererEvent, dirPath: string) => {
