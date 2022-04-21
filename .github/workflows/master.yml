@@ -27,7 +27,7 @@ jobs:
         run: |
           npm i -g yarn
           yarn
-          yarn package
+          yarn make
         env:
           TARGET_PLATFORMS: darwin
 
@@ -36,7 +36,7 @@ jobs:
         run: |
           npm i -g yarn
           yarn
-          yarn package
+          yarn make
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -45,5 +45,5 @@ jobs:
           prerelease: true
           files: |
             LICENSE
-            out/Unhand.dmg
-            out/*.exe
+            out/make/*.dmg
+            out/make/*.exe
