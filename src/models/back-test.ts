@@ -1,7 +1,7 @@
 import { useMount, useReactive, useRequest } from "ahooks";
 
 import { createModel } from "hox";
-import { getApiTreeMethods } from "@/services/apiTree";
+import { getApiTreeMethods } from "@/services/api-tree";
 
 function useBackTestModel() {
   const model = useReactive<{

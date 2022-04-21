@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { useMount, useReactive } from "ahooks";
 
 import { Form } from "antd";
-import Input from "@/components/input";
-import Modal from "@/components/modal";
-import Select from "@/components/select";
+import Input from "@/components/Input";
+import Modal from "@/components/Modal";
+import Select from "@/components/Select";
 import { getAllCurrencys } from "@/services/currency";
-import { getCurrencyRates } from "@/services/currencyRate";
+import { getCurrencyRates } from "@/services/currency-rate";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";

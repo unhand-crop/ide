@@ -1,7 +1,7 @@
 import * as monaco from "monaco-editor";
 import * as python from "./python";
 
-import { GetApiTreeMethodsInfoOutPut } from "@/services/apiTree";
+import { GetApiTreeMethodsInfoOutPut } from "@/services/api-tree";
 
 const ID = "python";
 

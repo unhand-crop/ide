@@ -11,7 +11,7 @@ import { createModel } from "hox";
 import { getDirectoryTree } from "@/utils/directory-tree";
 import molecule from "@dtinsight/molecule";
 import { registerLanguages } from "@/languages";
-import useBackTestModel from "./backtest";
+import useBackTestModel from "./back-test";
 
 export async function loadFolderTree(path: string) {
   molecule.folderTree.reset();
@@ -40,6 +40,7 @@ async function setHistoryPath(path: string) {
 }
 
 function useEditorModel() {
+  const { data } = useBackTestModel();
   const model = useReactive<{
     currentTabId: UniqueId;
     tabs: Record<
@@ -55,12 +56,12 @@ function useEditorModel() {
     positions: {},
   });
 
-  const { data } = useBackTestModel();
   useEffect(() => {
     if (data) {
       registerLanguages(data?.data);
     }
   }, [data]);
+
   useMount(async () => {
     window.api.ipc.on(
       "open-directory",

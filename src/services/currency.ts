@@ -12,5 +12,5 @@ export interface GetCurrencysOutput {
 export const getAllCurrencys = async (): Promise<
   Response<GetCurrencysOutput[]>
 > => {
-  return request.get("/eapi/v1/currency/getallcurrencys", {});
+  return request.get("/eapi/v1/currency/get-all-currencys", {});
 };

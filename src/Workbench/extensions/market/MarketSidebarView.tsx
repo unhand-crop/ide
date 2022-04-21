@@ -1,16 +1,16 @@
 import {
+  GetPageInput,
   GetSymbolsOutput,
   getDefaultList,
   getPage,
-  getPageInput,
 } from "@/services/symbol";
-import { IconAdd, IconSearch } from "@/components/iconfont";
+import { IconAdd, IconSearch } from "@/components/Iconfont";
 import { Input, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
 
 import AddList from "./components/AddList";
 import List from "./components/List";
-import Modal from "@/components/modal";
+import Modal from "@/components/Modal";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import { openCreateDataSourceView } from "./base";
 import styles from "./index.module.scss";
@@ -19,7 +19,7 @@ import { useReactive } from "ahooks";
 
 export default () => {
   const { model } = useMarketModel();
-  const [params, setParams] = useState<getPageInput>({
+  const [params, setParams] = useState<GetPageInput>({
     pageIndex: 1,
     pageSize: 12,
     order: [],

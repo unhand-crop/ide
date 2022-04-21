@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { GetSymbolsOutput } from "@/services/symbol";
-import { IconClose } from "@/components/iconfont";
+import { IconClose } from "@/components/Iconfont";
 import styles from "./index.module.scss";
 import useMarketModel from "@/models/market";
 

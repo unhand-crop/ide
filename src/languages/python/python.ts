@@ -1,5 +1,5 @@
 import { languages } from "monaco-editor";
-import { GetApiTreeMethodsInfoOutPut } from "@/services/apiTree";
+import { GetApiTreeMethodsInfoOutPut } from "@/services/api-tree";
 
 export const conf: languages.LanguageConfiguration = {
   comments: {
