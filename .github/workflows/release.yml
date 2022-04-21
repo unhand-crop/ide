@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Check out Git repository
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Install Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -39,7 +39,6 @@ jobs:
           yarn
           yarn make
 
-      - name: Release files
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.TOKEN }}"
