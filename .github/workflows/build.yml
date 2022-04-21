@@ -48,9 +48,9 @@ jobs:
         run: |
           yarn make
 
-      - name: Cleanup artifacts
-        run: |
-          rimraf "out/make/!(*.exe|*.dmg)"
+      # - name: Cleanup artifacts
+      #   run: |
+      #     rimraf "out/make/!(*.exe|*.dmg)"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
