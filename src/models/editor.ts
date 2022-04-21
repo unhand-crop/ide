@@ -18,6 +18,11 @@ export async function loadFolderTree(path: string) {
   window.api.watch.change(path);
   const data = mapTree(await getDirectoryTree(path));
   molecule.folderTree.add(new TreeNodeModel({ ...data }));
+  // console.log()
+  // setTimeout(()=>{
+  //   molecule.folderTree.setActive({...data.children[0].id});
+  // })
+ 
 }
 
 async function syncFileContent(path: UniqueId, position?: Position) {
