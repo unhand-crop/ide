@@ -1,9 +1,9 @@
-import Button from "@/components/button";
+import Button from "@/components/Button";
 import React from "react";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
-import useBackTestModel from "@/models/backtest";
+import useBackTestModel from "@/models/back-test";
 import useEngineModel from "@/models/engine";
 
 const BackTest = () => {

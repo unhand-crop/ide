@@ -1,13 +1,13 @@
 import { Button, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import {
+  TemplateListResponse,
   getTemplateList,
   requistTemplateDetails,
-  templateListResponse,
-} from "@/services/newAlgorithm";
+} from "@/services/new-algorithm";
 
-import { IconPython } from "@/components/iconfont";
-import Modal from "@/components/modal";
+import { IconPython } from "@/components/Iconfont";
+import Modal from "@/components/Modal";
 import Title from "../Title";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import styles from "./index.module.scss";
@@ -29,7 +29,8 @@ const NewAlgorithmModal = ({
   visibleModal,
 }: NewAlgorithmModalProps) => {
   const [currentTemplateList, upCurrentTemplateList] = useState([]);
-  const [currentChangeTemplateIndex, upCurrentChangeTemplateIndex] = useState(0);
+  const [currentChangeTemplateIndex, upCurrentChangeTemplateIndex] =
+    useState(0);
   const [templateDetails, upTemplateDetails]: any = useState({});
   const [extractUrl, upExtractUrl] = useState(null);
   const [fileName, upFileName] = useState(null);
@@ -47,7 +48,9 @@ const NewAlgorithmModal = ({
     pageSize = 10,
     programLanguage = 1,
   }) => {
-    let { data: { items = [] } } = (await getTemplateList({ pageIndex, pageSize, programLanguage })) || {};
+    let {
+      data: { items = [] },
+    } = (await getTemplateList({ pageIndex, pageSize, programLanguage })) || {};
     items = items.map((item: any, index: number) => {
       item.change = index === 0;
       return item;
@@ -55,9 +58,7 @@ const NewAlgorithmModal = ({
     return items;
   };
 
-  const getTemplateDetails = async (
-    id: string
-  ) => {
+  const getTemplateDetails = async (id: string) => {
     let { data = {} }: any = (await requistTemplateDetails(id)) || {};
     return data;
   };
@@ -78,23 +79,33 @@ const NewAlgorithmModal = ({
     if (templateList.length === 0) return;
     const templateDetails = await getTemplateDetails(templateList[0].id);
     upTemplateDetails(templateDetails);
-    upFileName(templateDetails.templateName)
+    upFileName(templateDetails.templateName);
   };
 
   const changeTemplate = async (templateIndex: number) => {
     upCurrentChangeTemplateIndex(templateIndex);
-    const templateDetails = await getTemplateDetails(currentTemplateList[templateIndex].id);
+    const templateDetails = await getTemplateDetails(
+      currentTemplateList[templateIndex].id
+    );
     upTemplateDetails(templateDetails);
   };
 
   const creactTemplateFile = async () => {
-    const path = await window.api.gitHttp.clone({ templateUrl: templateDetails.templateUrl, fileName, gitFileName: templateDetails.templateDir, extractUrl });
+    const path = await window.api.gitHttp.clone({
+      templateUrl: templateDetails.templateUrl,
+      fileName,
+      gitFileName: templateDetails.templateDir,
+      extractUrl,
+    });
     await window.api.engine.create(path);
     visibleModal();
     setDirPath(path);
   };
 
-  const defaultAlgorithmDir = localize("newAlgorithm.selectFolder", "请选择文件夹");
+  const defaultAlgorithmDir = localize(
+    "newAlgorithm.selectFolder",
+    "请选择文件夹"
+  );
   return (
     <Modal
       title={localize("launcher.newAlgorithm", "新建算法")}
@@ -104,7 +115,9 @@ const NewAlgorithmModal = ({
     >
       <div className={styles.modal_body}>
         <div className={styles.language_select_body}>
-          <Title title={localize("newAlgorithm.selectLanguage", "选择使用的语言")} />
+          <Title
+            title={localize("newAlgorithm.selectLanguage", "选择使用的语言")}
+          />
           <div className={styles.language_list_body}>
             {languageList.map((item: any, index) => {
               return (
@@ -121,9 +134,12 @@ const NewAlgorithmModal = ({
           </div>
         </div>
         <div className={styles.language_template_body}>
-          <Title title={localize("newAlgorithm.selectTemplate", "选择使用的模版")} style={{ paddingLeft: "23px" }} />
+          <Title
+            title={localize("newAlgorithm.selectTemplate", "选择使用的模版")}
+            style={{ paddingLeft: "23px" }}
+          />
           <div className={styles.template_select_body}>
-            {currentTemplateList.map((item: templateListResponse, index) => {
+            {currentTemplateList.map((item: TemplateListResponse, index) => {
               const {
                 description = "",
                 id = "",
@@ -153,26 +169,38 @@ const NewAlgorithmModal = ({
               <div className={styles.language_content_folder}>
                 <div className={styles.folder_title}>
                   {!extractUrl && <span style={{ color: "red" }}>*</span>}
-                  {localize("newAlgorithm.setDownloadFolder", "设置存放路径")}</div>
+                  {localize("newAlgorithm.setDownloadFolder", "设置存放路径")}
+                </div>
                 <div className={styles.folder_content}>
-                  <div className={styles.folder_input} style={extractUrl ? { color: "#ffffff" } : {}}>{extractUrl || defaultAlgorithmDir}</div>
+                  <div
+                    className={styles.folder_input}
+                    style={extractUrl ? { color: "#ffffff" } : {}}
+                  >
+                    {extractUrl || defaultAlgorithmDir}
+                  </div>
                   <Button
                     className={styles.folder_button}
                     color="#2154E0"
                     type="primary"
                     onClick={() => handleOpen()}
-                  >{localize("newAlgorithm.selectFolder", "选择文件夹")}</Button>
+                  >
+                    {localize("newAlgorithm.selectFolder", "选择文件夹")}
+                  </Button>
                 </div>
               </div>
               <div className={styles.language_content_select}>
-                <div className={styles.select_title}>{localize("newAlgorithm.selectFolder", "请选择文件夹")}</div>
+                <div className={styles.select_title}>
+                  {localize("newAlgorithm.selectFolder", "请选择文件夹")}
+                </div>
                 <div className={styles.select_content}>
                   <Input
                     className={styles.content_input}
                     placeholder={templateDetails.templateName}
                     onChange={(res) => {
                       const reg = /[^\w\u4e00-\u9fa5]/g;
-                      const str = res?.target?.value.toString().replace(reg, "");
+                      const str = res?.target?.value
+                        .toString()
+                        .replace(reg, "");
                       upFileName(str);
                     }}
                   />
@@ -187,13 +215,17 @@ const NewAlgorithmModal = ({
                 </div>
               </div>
               <div className={styles.language_content_describe}>
-                <div className={styles.content_describe_title}>{localize("newAlgorithm.algorithmDescribe", "算法描述")}</div>
+                <div className={styles.content_describe_title}>
+                  {localize("newAlgorithm.algorithmDescribe", "算法描述")}
+                </div>
                 <div className={styles.content_describe_value}>
                   {templateDetails.description}
                 </div>
               </div>
               <div className={styles.language_content_source}>
-                <div className={styles.content_source_title}>{localize("newAlgorithm.sourceCode", "源代码")}</div>
+                <div className={styles.content_source_title}>
+                  {localize("newAlgorithm.sourceCode", "源代码")}
+                </div>
                 {templateDetails.imageUrl.length > 0 && (
                   <img
                     className={styles.content_source_image}

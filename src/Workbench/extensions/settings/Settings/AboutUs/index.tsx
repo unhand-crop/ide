@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { productName, version } from "@/../package.json";
 
 import { Button } from "antd";
-import { IconLogo } from "@/components/iconfont";
+import { IconLogo } from "@/components/Iconfont";
 import { getlatest } from "@/services/settings";
 import { isLatestVersion } from "@/utils/index";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";

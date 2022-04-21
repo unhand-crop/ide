@@ -26,7 +26,7 @@ export interface GetApiTreeMethodsInfoOutPut {
 export const getApiTreeMethods = (
   data: GetApiTreeMethodsInput
 ): Promise<Response<GetApiTreeMethodsInfoOutPut[]>> => {
-  return request.get("/eapi/v1/qcapitree/methods", {
+  return request.get("/eapi/v1/qc-api-tree/methods", {
     params: data,
   });
 };

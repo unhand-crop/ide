@@ -1,11 +1,21 @@
-import { Form, Input, Button, Space, DatePicker, Row, Col, Divider } from 'antd';
-import Modal from "@/components/modal";
+import {
+  Button,
+  Col,
+  DatePicker,
+  Divider,
+  Form,
+  Input,
+  Row,
+  Space,
+} from "antd";
+import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+
+import Modal from "@/components/Modal";
 import React from "react";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
-import useBackTestModel from "@/models/backtest";
-import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import useBackTestModel from "@/models/back-test";
 
 interface ATTRIBUTESItem {
   first: string;
@@ -21,15 +31,15 @@ interface formValue {
 
 const greaterThanNine = (value: number) => {
   return value > 9 ? value : `0${value}`;
-}
+};
 
 const formatDate = (date: any) => {
-  const newDate = new Date(date)
+  const newDate = new Date(date);
   const y = newDate.getFullYear();
   const m = greaterThanNine(newDate.getMonth() + 1);
   const d = greaterThanNine(newDate.getDate());
-  return `${y}-${m}-${d}`
-}
+  return `${y}-${m}-${d}`;
+};
 
 const InitBackTest = () => {
   const { model: backtestModel } = useBackTestModel();
@@ -38,9 +48,10 @@ const InitBackTest = () => {
     const STARTDATE = formatDate(values.STARTDATE);
     const ENDDATE = formatDate(values.ENDDATE);
     const SERVICECHARGE = values.SERVICECHARGE;
-    const ATTRIBUTES = values?.ATTRIBUTES?.map((item: ATTRIBUTESItem) => {
-      return `${item.first}=${item.last}`;
-    }) || [];
+    const ATTRIBUTES =
+      values?.ATTRIBUTES?.map((item: ATTRIBUTESItem) => {
+        return `${item.first}=${item.last}`;
+      }) || [];
     molecule.layout.togglePanelVisibility();
     backtestModel.customVisble = false;
     const { folderTree } = molecule.folderTree.getState();
@@ -69,45 +80,83 @@ const InitBackTest = () => {
           onFinish={onFinish}
           initialValues={{}}
         >
-          <span className={styles.title}>{localize("customModal.backtestAttribute", "回测属性")}</span>
-          <Row style={{ padding: '0 38px' }}>
+          <span className={styles.title}>
+            {localize("customModal.backtestAttribute", "回测属性")}
+          </span>
+          <Row style={{ padding: "0 38px" }}>
             <Col span={11}>
               <Form.Item
                 name="STARTDATE"
                 className={styles.text_color}
                 label={`${localize("customModal.backtestDate", "回测时间")}:`}
-                rules={[{ required: true, message: localize("customModal.backtestStartDate", "请填写回测开始时间") }]}
+                rules={[
+                  {
+                    required: true,
+                    message: localize(
+                      "customModal.backtestStartDate",
+                      "请填写回测开始时间"
+                    ),
+                  },
+                ]}
               >
                 <DatePicker
                   allowClear={false}
-                  placeholder={localize("customModal.pleaseSelectDate", "请选择日期")}
+                  placeholder={localize(
+                    "customModal.pleaseSelectDate",
+                    "请选择日期"
+                  )}
                 />
               </Form.Item>
             </Col>
-            <Col span={1} className={styles.line}> - </Col>
+            <Col span={1} className={styles.line}>
+              {" "}
+              -{" "}
+            </Col>
             <Col span={11} offset={1}>
               <Form.Item
                 className={styles.text_color}
-                label='&nbsp;'
+                label="&nbsp;"
                 name="ENDDATE"
-                rules={[{ required: true, message: localize("customModal.backtestEndDate", "请填写回测结束时间") }]}
+                rules={[
+                  {
+                    required: true,
+                    message: localize(
+                      "customModal.backtestEndDate",
+                      "请填写回测结束时间"
+                    ),
+                  },
+                ]}
               >
                 <DatePicker
                   allowClear={false}
-                  placeholder={localize("customModal.pleaseSelectDate", "请选择日期")}
+                  placeholder={localize(
+                    "customModal.pleaseSelectDate",
+                    "请选择日期"
+                  )}
                 />
               </Form.Item>
             </Col>
           </Row>
-          <Row style={{ padding: '0 38px' }}>
+          <Row style={{ padding: "0 38px" }}>
             <Col span={12}>
               <Row>
                 <Space>
                   <Form.Item
                     name="SERVICECHARGE"
                     className={styles.text_color}
-                    label={`${localize("customModal.serviceCharge", "手续费")}:`}
-                    rules={[{ required: true, message: localize("customModal.backtestServiceCharge", "请填写回测手续费") }]}
+                    label={`${localize(
+                      "customModal.serviceCharge",
+                      "手续费"
+                    )}:`}
+                    rules={[
+                      {
+                        required: true,
+                        message: localize(
+                          "customModal.backtestServiceCharge",
+                          "请填写回测手续费"
+                        ),
+                      },
+                    ]}
                   >
                     <Input type="number" max={100} min={0} />
                   </Form.Item>
@@ -118,13 +167,15 @@ const InitBackTest = () => {
               </Row>
             </Col>
           </Row>
-          <Divider style={{ background: '#5E5D61' }} />
-          <div style={{ position: 'relative' }}>
-            <span className={styles.title}>{localize("customModal.custom", "自定义")}</span>
+          <Divider style={{ background: "#5E5D61" }} />
+          <div style={{ position: "relative" }}>
+            <span className={styles.title}>
+              {localize("customModal.custom", "自定义")}
+            </span>
             <Form.List name="ATTRIBUTES">
               {(fields, { add, remove }) => (
                 <>
-                  <Form.Item style={{ float: 'left' }}>
+                  <Form.Item style={{ float: "left" }}>
                     <Button
                       ghost
                       shape="circle"
@@ -137,22 +188,43 @@ const InitBackTest = () => {
                     {fields.map(({ key, name, ...restField }) => (
                       <Space
                         key={key}
-                        style={{ display: 'flex', marginBottom: 8, padding: '0 38px' }}
-                        align="baseline">
+                        style={{
+                          display: "flex",
+                          marginBottom: 8,
+                          padding: "0 38px",
+                        }}
+                        align="baseline"
+                      >
                         <Form.Item
                           {...restField}
-                          name={[name, 'first']}
+                          name={[name, "first"]}
                           className={styles.text_color_map}
-                          rules={[{ required: true, message: localize("customModal.customAttribute", "请填写自定义属性") }]}
+                          rules={[
+                            {
+                              required: true,
+                              message: localize(
+                                "customModal.customAttribute",
+                                "请填写自定义属性"
+                              ),
+                            },
+                          ]}
                         >
                           <Input />
                         </Form.Item>
-                        <span style={{ color: '#fff' }}>:</span>
+                        <span style={{ color: "#fff" }}>:</span>
                         <Form.Item
                           {...restField}
-                          name={[name, 'last']}
+                          name={[name, "last"]}
                           className={styles.text_color_map}
-                          rules={[{ required: true, message: localize("customModal.customValue", "请填写属性值") }]}
+                          rules={[
+                            {
+                              required: true,
+                              message: localize(
+                                "customModal.customValue",
+                                "请填写属性值"
+                              ),
+                            },
+                          ]}
                         >
                           <Input />
                         </Form.Item>
