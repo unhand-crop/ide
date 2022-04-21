@@ -46,4 +46,4 @@ jobs:
           files: |
             LICENSE
             out/make/*.dmg
-            out/make/*.exe
+            out/make/squirrel.windows/x64/UnhandStudio-1.0.3 Setup.exe
