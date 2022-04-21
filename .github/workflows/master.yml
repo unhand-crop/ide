@@ -28,8 +28,6 @@ jobs:
           npm i -g yarn
           yarn
           yarn package
-          yarn global add appdmg
-          yarn dmg
         env:
           TARGET_PLATFORMS: darwin
 

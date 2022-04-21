@@ -1,8 +1,8 @@
 {
   "name": "ide",
-  "productName": "Unhand Studio",
+  "productName": "UnhandStudio",
   "version": "1.0.3",
-  "description": "My Electron application description",
+  "description": "Unhand Studio",
   "main": ".webpack/main",
   "homepage": "./",
   "scripts": {
@@ -32,13 +32,13 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "Unhand Studio"
+            "name": "UnhandStudio"
           }
         },
         {
           "name": "@electron-forge/maker-dmg",
           "config": {
-            "name": "Unhand Studio"
+            "name": "UnhandStudio"
           }
         }
       ],
