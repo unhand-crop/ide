@@ -13,7 +13,8 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        # os: [macos-latest, windows-latest]
+        os: [macos-latest]
+        #os: [macos-latest, windows-latest]
 
     steps:
       - id: get_version
