@@ -1,4 +1,4 @@
-import Button from "@/components/Button";
+import Button from "@/components/back1";
 import React from "react";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";

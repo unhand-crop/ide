@@ -1,7 +1,7 @@
 import { Input as AntdInput, Form } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
-import Button from "@/components/Button";
+import Button from "@/components/back1";
 import Input from "@/components/Input";
 import React from "react";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";

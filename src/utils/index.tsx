@@ -2,7 +2,7 @@ import {
   IEditorTab,
   IFolderTreeNodeProps,
 } from "@dtinsight/molecule/esm/model";
-import Icon, { getIconByName } from "@/components/FileIcon";
+import Icon, { getIconByName } from "@/components/back3";
 
 import React from "react";
 

@@ -4,7 +4,7 @@ import { useMount, useReactive } from "ahooks";
 import { Form } from "antd";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
-import Select from "@/components/Select";
+import Select from "@/components/back7";
 import { getAllCurrencys } from "@/services/currency";
 import { getCurrencyRates } from "@/services/currency-rate";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
