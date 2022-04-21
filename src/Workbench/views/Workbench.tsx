@@ -39,7 +39,7 @@ import { StatusBarView } from "@dtinsight/molecule/esm/workbench/statusBar";
 import { connect } from "@dtinsight/molecule/esm/react";
 import { container } from "tsyringe";
 import molecule from "@dtinsight/molecule";
-import useBacktestModal from "@/models/backtest";
+import useBacktestModal from "@/models/back-test";
 import useEditorModel from "@/models/editor";
 import useSettingModel from "@/models/setting";
 

@@ -1,4 +1,4 @@
-import { IconACreatnew, IconAOpenproject } from "@/components/iconfont";
+import { IconACreatnew, IconAOpenproject } from "@/components/Iconfont";
 import React, { useEffect } from "react";
 
 import Button from "./components/Button";
