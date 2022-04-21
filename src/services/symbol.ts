@@ -19,7 +19,7 @@ export interface GetSymbolsOutput {
 export const getDefaultList = async (): Promise<
   Response<GetSymbolsOutput[]>
 > => {
-  return request.get("/eapi/v1/symbol/getoptional", {});
+  return request.get("/eapi/v1/symbol/get-optional", {});
 };
 
 export interface GetPageInput {
