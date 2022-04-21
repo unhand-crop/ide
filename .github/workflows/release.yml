@@ -6,7 +6,7 @@ on:
       - release
 
 jobs:
-  build:
+  release:
     runs-on: ${{matrix.os}}
 
     strategy:
@@ -15,14 +15,15 @@ jobs:
         os: [macos-latest, windows-latest]
 
     steps:
+      - name: Check out Git repository
       - uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Install Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: build mac app
+      - name: Build mac app
         if: matrix.os == 'macos-latest'
         run: |
           npm i -g yarn
@@ -31,13 +32,14 @@ jobs:
         env:
           TARGET_PLATFORMS: darwin
 
-      - name: build win app
+      - name: Build win app
         if: matrix.os == 'windows-latest'
         run: |
           npm i -g yarn
           yarn
           yarn make
 
+      - name: Release files
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.TOKEN }}"
@@ -45,5 +47,5 @@ jobs:
           prerelease: true
           files: |
             LICENSE
-            out/make/*.dmg
-            out/make/squirrel.windows/x64/UnhandStudio-1.0.3 Setup.exe
+            out/**/*.dmg
+            out/**/*.exe
