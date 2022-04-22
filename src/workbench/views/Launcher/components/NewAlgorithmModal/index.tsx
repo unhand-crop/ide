@@ -255,7 +255,7 @@ const NewAlgorithmModal = ({
                   loading={loading}
                   onClick={() => creactTemplateFile()}
                 >
-                  创建
+                  {localize("newAlgorithm.create", "创建")}
                 </Button>
               </div>
             </div>

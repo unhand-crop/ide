@@ -29,6 +29,7 @@
         "newAlgorithm.sourceCode": "源代码",
         "newAlgorithm.setDownloadFolder": "设置下载路径",
         "newAlgorithm.selectFolder": "选择文件夹",
+        "newAlgorithm.create": "创建",
         "customModal.backtestAttribute": "回测属性",
         "customModal.backtestDate": "回测时间",
         "customModal.pleaseSelectDate": "请选择日期",

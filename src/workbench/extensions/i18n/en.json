@@ -28,6 +28,7 @@
         "newAlgorithm.sourceCode": "Source code",
         "newAlgorithm.setDownloadFolder": "Set download folder",
         "newAlgorithm.selectFolder": "Select folder",
+        "newAlgorithm.create": "Create",
         "customModal.backtestAttribute": "Backtest Attribute",
         "customModal.backtestDate": "Backtest date",
         "customModal.pleaseSelectDate": "Please select date",
