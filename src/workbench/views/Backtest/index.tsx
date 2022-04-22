@@ -7,19 +7,21 @@ import useBackTestModel from "@/models/back-test";
 import useEngineModel from "@/models/engine";
 
 const BackTest = () => {
-  const { panel } = molecule.layout.getState();
   const { model: engineModel } = useEngineModel();
   const { model: backtestModel } = useBackTestModel();
 
   const handleBackTest = async () => {
+    const { panel } = molecule.layout.getState();
     if (panel.hidden) {
       if (!panel.panelMaximized) {
         molecule.panel.toggleMaximize();
       }
     }
+    backtestModel.customVisble = true;
   };
 
   const handleResult = () => {
+    const { panel } = molecule.layout.getState();
     if (!panel.panelMaximized) {
       molecule.panel.toggleMaximize();
     }
@@ -32,7 +34,9 @@ const BackTest = () => {
         <Button
           disabled={engineModel.running}
           title={localize("backtest.backtest", "回测")}
-          onClick={() => handleBackTest()}
+          onClick={() => {
+            handleBackTest();
+          }}
         />
       </div>
       <div className={styles.button}>
@@ -44,9 +48,9 @@ const BackTest = () => {
       </div>
       <div className={styles.button}>
         <Button
-          onClick={() =>
-            (backtestModel.apiDocumentation = !backtestModel.apiDocumentation)
-          }
+          onClick={() => {
+            backtestModel.apiDocumentation = !backtestModel.apiDocumentation;
+          }}
           title={
             backtestModel.apiDocumentation
               ? localize("backtest.CloseAPIDocumentation", "关闭API文档")

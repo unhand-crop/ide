@@ -80,8 +80,8 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     });
   });
   ipcMain.handle("engine.stop", async (_, args) => {
-    // await vm.rm(CONTAINER_NAME, { force: true });
     mainWindow.webContents.send("engine-stream-finish");
+    await vm.rm(CONTAINER_NAME, { force: true });
   });
 };
 

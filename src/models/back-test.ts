@@ -8,10 +8,12 @@ function useBackTestModel() {
     visible: boolean;
     customVisble: boolean;
     apiDocumentation: boolean;
+    env: {};
   }>({
     visible: false,
     customVisble: false,
     apiDocumentation: false,
+    env: {},
   });
 
   const { data, run } = useRequest(getApiTreeMethods, {
