@@ -15,6 +15,9 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
+const controller = new AbortController();
+const { signal } = controller;
+
 const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -37,7 +40,7 @@ const createWindow = (): void => {
   });
 
   loadApi(mainWindow);
-  initServer(mainWindow);
+  initServer(mainWindow, signal);
 };
 
 // This method will be called when Electron has finished
@@ -49,6 +52,7 @@ app.on("ready", createWindow);
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
+  controller.abort();
   if (process.platform !== "darwin") {
     app.quit();
   }

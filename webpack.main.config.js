@@ -1,4 +1,19 @@
+const path = require("path");
 const rules = require("./webpack.rules");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+
+const resolve = (dir) => path.resolve(__dirname, dir);
+
+const plugins = [
+  new CopyWebpackPlugin({
+    patterns: [
+      {
+        from: resolve("src/scripts"),
+        to: resolve(".webpack/main/scripts"),
+      },
+    ],
+  }),
+];
 
 module.exports = {
   /**
@@ -10,6 +25,7 @@ module.exports = {
   module: {
     rules,
   },
+  plugins,
   resolve: {
     extensions: [".js", ".ts", ".jsx", ".tsx", ".css", ".json"],
   },
