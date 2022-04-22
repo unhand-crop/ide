@@ -1,8 +1,13 @@
 {
   "name": "ide",
-  "productName": "UnhandStudio",
   "version": "1.0.3",
+  "productName": "UnhandStudio",
   "description": "Unhand Studio",
+  "keywords": [],
+  "license": "MIT",
+  "author": {
+    "name": "Unhand"
+  },
   "main": ".webpack/main",
   "homepage": "./",
   "scripts": {
@@ -12,12 +17,6 @@
     "make": "electron-forge make",
     "release": "electron-forge publish"
   },
-  "keywords": [],
-  "author": {
-    "name": "RoyLin",
-    "email": "1002591652@qq.com"
-  },
-  "license": "MIT",
   "config": {
     "husky": {
       "hooks": {

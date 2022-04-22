@@ -1,3 +1,13 @@
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const webpack = require("webpack");
+const fs = require("fs");
 
-module.exports = [new ForkTsCheckerWebpackPlugin()];
+const packageInfo = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
+
+module.exports = [
+  new webpack.DefinePlugin({
+    VERSION: JSON.stringify(packageInfo.version),
+    PRODUCT_NAME: JSON.stringify(packageInfo.productName),
+  }),
+  new ForkTsCheckerWebpackPlugin(),
+];

@@ -4,6 +4,7 @@ import { registerEngineInvokes } from "./engine";
 import { registerFsInvokes } from "./fs";
 import { registerGitInvokes } from "./git";
 import { registerLocalInvokes } from "./local";
+import { registerOsInvokes } from "./os";
 import { registerPathInvokes } from "./path";
 import { registerStoreInvokes } from "./store";
 import { registerWatchInvokes } from "./watch";
@@ -24,4 +25,5 @@ contextBridge.exposeInMainWorld("api", {
   fs: registerFsInvokes(),
   engine: registerEngineInvokes(),
   gitHttp: registerGitInvokes(),
+  os: registerOsInvokes(),
 });

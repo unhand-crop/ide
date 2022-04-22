@@ -3,6 +3,7 @@ import { registerEngineHandlers } from "./engine";
 import { registerFsHandlers } from "./fs";
 import { registerGitHandlers } from "./git";
 import { registerLocalHandlers } from "./local";
+import { registerOsHandlers } from "./os";
 import { registerPathHandlers } from "./path";
 import { registerStoreHandlers } from "./store";
 import { registerWatchHandlers } from "./watch";
@@ -15,4 +16,5 @@ export async function loadApi(mainWindow: BrowserWindow) {
   await registerFsHandlers(mainWindow);
   await registerEngineHandlers(mainWindow);
   await registerGitHandlers(mainWindow);
+  await registerOsHandlers(mainWindow);
 }
