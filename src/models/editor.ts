@@ -1,3 +1,8 @@
+import {
+  EDITOR_DIR_PATH,
+  EDITOR_EVENT_OPEN_DIR,
+  EDITOR_EVENT_WATCH_DIR,
+} from "@/constants/editor";
 import { getFileIcon, mapTree } from "@/utils";
 import { useCallback, useEffect } from "react";
 import { useMount, useReactive } from "ahooks";
@@ -22,7 +27,6 @@ export async function loadFolderTree(path: string) {
   // setTimeout(()=>{
   //   molecule.folderTree.setActive({...data.children[0].id});
   // })
- 
 }
 
 async function syncFileContent(path: UniqueId, position?: Position) {
@@ -69,14 +73,14 @@ function useEditorModel() {
 
   useMount(async () => {
     window.api.ipc.on(
-      "open-directory",
+      EDITOR_EVENT_OPEN_DIR,
       (_: IpcRendererEvent, dirPath: string) => {
-        window.api.store.set("dir-path", null);
+        window.api.store.set(EDITOR_DIR_PATH, null);
         model.dirPath = dirPath;
       }
     );
     window.api.ipc.on(
-      "watch-directory",
+      EDITOR_EVENT_WATCH_DIR,
       async (
         _: IpcRendererEvent,
         eventName: string,
@@ -136,7 +140,7 @@ function useEditorModel() {
       model.positions[tabId] = null;
       model.tabs[tabId] = null;
     });
-    const dirPath = await window.api.store.get("dir-path");
+    const dirPath = await window.api.store.get(EDITOR_DIR_PATH);
     if (dirPath) {
       const stat = await window.api.fs.stat(dirPath);
       if (stat && stat.isDirectory) {
@@ -150,7 +154,7 @@ function useEditorModel() {
       // setHistoryPath(model.dirPath);
       (async () => {
         await loadFolderTree(model.dirPath);
-        window.api.store.set("dir-path", model.dirPath);
+        window.api.store.set(EDITOR_DIR_PATH, model.dirPath);
         molecule.explorer.onPanelToolbarClick(async (panel, toolbarId) => {
           if (toolbarId === "refresh") {
             await loadFolderTree(model.dirPath);
