@@ -40,14 +40,8 @@ function useEngineModel() {
           break;
       }
     });
-    window.api.ipc.on(
-      "engine-stream-start",
-      (_: IpcRendererEvent, data: any) => {
-        model.running = true;
-      }
-    );
-    window.api.ipc.on("engine-stream-end", (_: IpcRendererEvent, data: any) => {
-      model.running = false;
+    window.api.ipc.on("engine-stream-start", (_: IpcRendererEvent) => {
+      model.running = true;
     });
     window.api.ipc.on(
       "engine-stream-error",
