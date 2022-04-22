@@ -26,7 +26,7 @@ export interface GetRealTimeCurrencyConversionOutPut {
 export const getCurrencyRates = async (
   data: GetRealTimeCurrencyConversionInpt
 ): Promise<Response<GetRealTimeCurrencyConversionOutPut>> => {
-  return request.get("/eapi/v1/currencyrate/get-currency-rates", {
+  return request.get("/eapi/v1/currency-rate/get-currency-rates", {
     params: data,
   });
 };

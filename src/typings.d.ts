@@ -1,5 +1,4 @@
 declare module "*.scss";
-
 declare interface Window {
   Datafeeds: any;
   api: {
@@ -10,7 +9,11 @@ declare interface Window {
     watch: any;
     path: any;
     fs: any;
+    os: any;
     process: any;
     gitHttp: any;
   };
 }
+
+declare const VERSION: string;
+declare const PRODUCT_NAME: string;

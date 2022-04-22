@@ -39,11 +39,11 @@ export interface TemplateListResponse {
 export const getTemplateList = async (
   data: TemplateListData
 ): Promise<Response<any>> => {
-  return request.post("/sapi/v1/algorithmtemplates/get-page", { data });
+  return request.post("/sapi/v1/algorithm-templates/get-page", { data });
 };
 
 export const requistTemplateDetails = async (
   id: string
 ): Promise<Response<any>> => {
-  return request.get("/sapi/v1/algorithmtemplates/get-by-id?id=" + id, {});
+  return request.get("/sapi/v1/algorithm-templates/get-by-id?id=" + id, {});
 };

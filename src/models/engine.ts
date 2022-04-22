@@ -23,6 +23,7 @@ function useEngineModel() {
 
   useMount(async () => {
     window.api.ipc.on("engine-result", (_: IpcRendererEvent, data: any) => {
+      console.log("data -->", data);
       switch (data.type) {
         case "algorithmstepConfig":
           model.algorithmstepConfig = data.content || [];
@@ -55,12 +56,12 @@ function useEngineModel() {
         model.running = false;
       }
     );
-    window.api.ipc.on(
-      "engine-stream-data",
-      (_: IpcRendererEvent, data: any) => {
-        console.log(data);
-      }
-    );
+    // window.api.ipc.on(
+    //   "engine-stream-data",
+    //   (_: IpcRendererEvent, data: any) => {
+    //     console.log(data);
+    //   }
+    // );
   });
 
   return {
