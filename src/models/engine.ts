@@ -1,3 +1,9 @@
+import {
+  ENGINE_EVENT_RESULT,
+  ENGINE_EVENT_STREAM_ERROR,
+  ENGINE_EVENT_STREAM_FINISH,
+  ENGINE_EVENT_STREAM_START,
+} from "@/constants/engine";
 import { useMount, useReactive } from "ahooks";
 
 import { IpcRendererEvent } from "electron";
@@ -22,7 +28,7 @@ function useEngineModel() {
   });
 
   useMount(async () => {
-    window.api.ipc.on("engine-result", (_: IpcRendererEvent, data: any) => {
+    window.api.ipc.on(ENGINE_EVENT_RESULT, (_: IpcRendererEvent, data: any) => {
       console.log("data -->", data);
       switch (data.type) {
         case "algorithmstepConfig":
@@ -41,23 +47,23 @@ function useEngineModel() {
           break;
       }
     });
-    window.api.ipc.on("engine-stream-start", (_: IpcRendererEvent) => {
+    window.api.ipc.on(ENGINE_EVENT_STREAM_START, (_: IpcRendererEvent) => {
       model.running = true;
     });
     window.api.ipc.on(
-      "engine-stream-error",
+      ENGINE_EVENT_STREAM_ERROR,
       (_: IpcRendererEvent, data: any) => {
         model.running = false;
       }
     );
     window.api.ipc.on(
-      "engine-stream-finish",
+      ENGINE_EVENT_STREAM_FINISH,
       (_: IpcRendererEvent, data: any) => {
         model.running = false;
       }
     );
     // window.api.ipc.on(
-    //   "engine-stream-data",
+    //   ENGINE_EVENT_STREAM_DATA,
     //   (_: IpcRendererEvent, data: any) => {
     //     console.log(data);
     //   }

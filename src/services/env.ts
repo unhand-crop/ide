@@ -11,7 +11,10 @@ export interface CompareBestImageVersionsOutput {
   version?: string;
 }
 
-export interface CompareEditorVersionOutput {}
+export interface CompareEditorVersionOutput {
+  id: number;
+  bestImageVersion: CompareBestImageVersionsOutput;
+}
 
 export interface CompareInfo {
   isLatest: boolean;

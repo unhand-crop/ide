@@ -1,5 +1,6 @@
 import { BrowserWindow, dialog, ipcMain, ipcRenderer } from "electron";
 
+import { EDITOR_EVENT_OPEN_DIR } from "@/constants/editor";
 import directoryTree from "directory-tree";
 
 export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
@@ -9,17 +10,17 @@ export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
         properties: ["openDirectory"],
       })
       .then((res) => {
-        return (res.canceled ? null : res.filePaths[0])
+        return res.canceled ? null : res.filePaths[0];
       });
     if (dirPath) {
-      mainWindow.webContents.send("open-directory", dirPath);
+      mainWindow.webContents.send(EDITOR_EVENT_OPEN_DIR, dirPath);
     }
     return dirPath;
   });
   ipcMain.handle("open-path", async (...args) => {
     const path = args[1];
     if (path) {
-      mainWindow.webContents.send("open-directory", path);
+      mainWindow.webContents.send(EDITOR_EVENT_OPEN_DIR, path);
     }
   });
   ipcMain.handle("get-directory", async (_) => {
