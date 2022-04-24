@@ -6,10 +6,14 @@ import { createModel } from "hox";
 
 function useEnvModel() {
   const model = useReactive<{
+    initializing: boolean;
+    failureMessage: string;
     platform: string;
     arch: string;
     info: CompareInfo;
   }>({
+    initializing: false,
+    failureMessage: null,
     platform: null,
     arch: null,
     info: null,

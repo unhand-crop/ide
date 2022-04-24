@@ -149,6 +149,7 @@
     "react-router-dom": "^6.2.2",
     "rimraf": "^3.0.2",
     "shelljs": "^0.8.5",
+    "sudo-prompt": "^9.2.1",
     "umi-request": "^1.4.0",
     "unzipper": "^0.10.11"
   }

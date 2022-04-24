@@ -1,9 +1,6 @@
 import { BrowserWindow, ipcMain, ipcRenderer } from "electron";
 import {
   ENGINE_CONTAINER_NAME,
-  ENGINE_EVENT_INIT_VM_DATA,
-  ENGINE_EVENT_INIT_VM_FINISH,
-  ENGINE_EVENT_INIT_VM_START,
   ENGINE_EVENT_PULL_IMAGE_DATA,
   ENGINE_EVENT_PULL_IMAGE_FINISH,
   ENGINE_EVENT_PULL_IMAGE_START,
@@ -32,23 +29,6 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     mainWindow.webContents.send(ENGINE_EVENT_STREAM_START);
 
     const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
-
-    if (!(await vm.initVM())) {
-      mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_START);
-      const child = await vm.startVM();
-      child.stdout.on("data", (data) => {
-        mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_DATA, data);
-      });
-      child.stderr.on("data", (data) => {
-        mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_DATA, data);
-      });
-      child.stderr.on("close", () => {
-        mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_FINISH);
-      });
-      child.stdout.on("close", () => {
-        mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_FINISH);
-      });
-    }
 
     const { id, ENDDATE, STARTDATE, SERVICECHARGE, ATTRIBUTES } = args[0];
 
