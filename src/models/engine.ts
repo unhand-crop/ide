@@ -1,8 +1,10 @@
 import {
   ENGINE_EVENT_RESULT,
+  ENGINE_EVENT_STREAM_DATA,
   ENGINE_EVENT_STREAM_ERROR,
   ENGINE_EVENT_STREAM_FINISH,
   ENGINE_EVENT_STREAM_START,
+  ENGINE_EVENT_STREAM_STOP,
 } from "@/constants/engine";
 import { useMount, useReactive } from "ahooks";
 
@@ -47,27 +49,19 @@ function useEngineModel() {
           break;
       }
     });
-    window.api.ipc.on(ENGINE_EVENT_STREAM_START, (_: IpcRendererEvent) => {
+    window.api.ipc.on(ENGINE_EVENT_STREAM_START, () => {
       model.running = true;
     });
-    window.api.ipc.on(
-      ENGINE_EVENT_STREAM_ERROR,
-      (_: IpcRendererEvent, data: any) => {
-        model.running = false;
-      }
-    );
-    window.api.ipc.on(
-      ENGINE_EVENT_STREAM_FINISH,
-      (_: IpcRendererEvent, data: any) => {
-        model.running = false;
-      }
-    );
-    // window.api.ipc.on(
-    //   ENGINE_EVENT_STREAM_DATA,
-    //   (_: IpcRendererEvent, data: any) => {
-    //     console.log(data);
-    //   }
-    // );
+    window.api.ipc.on(ENGINE_EVENT_STREAM_ERROR, () => {
+      model.running = false;
+    });
+    window.api.ipc.on(ENGINE_EVENT_STREAM_STOP, () => {
+      model.running = false;
+      // model.results = null;
+    });
+    window.api.ipc.on(ENGINE_EVENT_STREAM_FINISH, () => {
+      model.running = false;
+    });
   });
 
   return {

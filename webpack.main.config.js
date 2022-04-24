@@ -27,6 +27,9 @@ module.exports = {
   },
   plugins,
   resolve: {
+    alias: {
+      "@": resolve("src"),
+    },
     extensions: [".js", ".ts", ".jsx", ".tsx", ".css", ".json"],
   },
 };

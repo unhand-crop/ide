@@ -16,6 +16,7 @@ import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
 import useBackTestModel from "@/models/back-test";
+import useEditorModel from "@/models/editor";
 
 interface ATTRIBUTESItem {
   first: string;
@@ -42,6 +43,7 @@ const formatDate = (date: any) => {
 };
 
 const InitBackTest = () => {
+  const { model: editorModel } = useEditorModel();
   const { model: backtestModel } = useBackTestModel();
 
   const onFinish = async (values: formValue) => {
@@ -54,10 +56,9 @@ const InitBackTest = () => {
       }) || [];
     molecule.layout.togglePanelVisibility();
     backtestModel.customVisble = false;
-    const { folderTree } = molecule.folderTree.getState();
-    if (folderTree?.data[0]?.id) {
+    if (editorModel.dirPath) {
       await window.api.engine.backtest({
-        id: folderTree?.data[0]?.id,
+        id: editorModel.dirPath,
         ENDDATE,
         STARTDATE,
         SERVICECHARGE,
