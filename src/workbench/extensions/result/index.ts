@@ -15,7 +15,7 @@ export class ResultExtension implements IExtension {
       },
     });
     molecule.panel.remove("panel.problems.title");
-    molecule.panel.remove("panel.output.title");
+    // molecule.panel.remove("panel.output.title");
     molecule.panel.add(resultPanel);
     molecule.panel.setActive(resultPanel.id);
   }

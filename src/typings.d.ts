@@ -10,10 +10,10 @@ declare interface Window {
     path: any;
     fs: any;
     os: any;
+    env: any;
     process: any;
     gitHttp: any;
   };
 }
 
 declare const VERSION: string;
-declare const PRODUCT_NAME: string;

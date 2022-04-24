@@ -12,9 +12,4 @@ export const ENGINE_EVENT_STREAM_FINISH = "engine-event-stream-finish";
 export const ENGINE_EVENT_STREAM_STOP = "engine-event-stream-stop";
 
 export const ENGINE_EVENT_PULL_IMAGE_START = "engine-event-pull-image-start";
-export const ENGINE_EVENT_PULL_IMAGE_DATA = "engine-event-pull-image-data";
 export const ENGINE_EVENT_PULL_IMAGE_FINISH = "engine-event-pull-image-finish";
-
-export const ENGINE_EVENT_INIT_VM_START = "engine-event-init-vm-start";
-export const ENGINE_EVENT_INIT_VM_DATA = "engine-event-init-vm-data";
-export const ENGINE_EVENT_INIT_VM_FINISH = "engine-event-init-vm-finish";
