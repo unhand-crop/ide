@@ -3,7 +3,7 @@ const Fastify = require("fastify");
 const port = process.argv[2];
 
 const fastify = Fastify({
-  logger: true,
+  logger: false,
 });
 
 fastify.get("/", (request, reply) => {

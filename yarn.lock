@@ -2470,11 +2470,6 @@ ajv@^8.0.0, ajv@^8.1.0, ajv@^8.10.0, ajv@^8.6.2, ajv@^8.6.3, ajv@^8.8.0:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-ansi-colors@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.npmjs.org/ansi-colors/-/ansi-colors-4.1.1.tgz"
-  integrity sha512-JoX0apGbHaUJBNl6yF+p6JAFYZ666/hhCGKN5t9QFjbJQKUU/g8MNbFDbvfrgKXvI1QpZplPOnwIo99lX/AAmA==
-
 ansi-escapes@^3.2.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/ansi-escapes/-/ansi-escapes-3.2.0.tgz"
@@ -4648,13 +4643,6 @@ enhanced-resolve@^5.0.0, enhanced-resolve@^5.9.2:
   dependencies:
     graceful-fs "^4.2.4"
     tapable "^2.2.0"
-
-enquirer@^2.3.6:
-  version "2.3.6"
-  resolved "https://registry.npmjs.org/enquirer/-/enquirer-2.3.6.tgz"
-  integrity sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==
-  dependencies:
-    ansi-colors "^4.1.1"
 
 entities@^2.0.0:
   version "2.2.0"
@@ -7408,10 +7396,10 @@ neo-async@^2.6.0, neo-async@^2.6.2:
   resolved "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-nerdctl@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.npmjs.org/nerdctl/-/nerdctl-0.1.5.tgz#6c6505dd4f97dc2dd63a7455574a68f54557595e"
-  integrity sha512-RsRLgnXI53cn0ywe7qHXiLHBp43zACk4fa6hN1Mq4E+M5U4ANLWgz/Tp6KzVx8+IUtWf66ugsKGOfXGP6e9nyg==
+nerdctl@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.npmjs.org/nerdctl/-/nerdctl-0.1.8.tgz#1a9ef2f7766c5750b1dac54456923e803d1fa1a6"
+  integrity sha512-IyRgT4LBN4DIEDuHwdHdjt88ag+zKL/Jto7D/JbFEnQl/J81kgAuoR9yepwRbjxBp6WTkHZYXXA9jqco4x3QKw==
   dependencies:
     change-case "^4.1.2"
     lodash "^4.17.21"
