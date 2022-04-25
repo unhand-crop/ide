@@ -4,6 +4,7 @@ import { registerEnvHandlers } from "./env";
 import { registerFsHandlers } from "./fs";
 import { registerGitHandlers } from "./git";
 import { registerLocalHandlers } from "./local";
+import { registerMenus } from "./menu";
 import { registerOsHandlers } from "./os";
 import { registerPathHandlers } from "./path";
 import { registerStoreHandlers } from "./store";
@@ -19,4 +20,5 @@ export async function loadApi(mainWindow: BrowserWindow) {
   await registerGitHandlers(mainWindow);
   await registerOsHandlers(mainWindow);
   await registerEnvHandlers(mainWindow);
+  await registerMenus(mainWindow);
 }

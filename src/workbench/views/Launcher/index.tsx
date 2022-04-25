@@ -1,12 +1,13 @@
 import { IconACreatnew, IconAOpenproject } from "@/components/Iconfont";
 import React, { useEffect } from "react";
+import { useMount, useReactive } from "ahooks";
 
 import Button from "./components/Button";
+import { EDITOR_EVENT_NEW_ALGO } from "@/constants/editor";
 import NewAlgorithmModal from "./components/NewAlgorithmModal";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import styles from "./index.module.scss";
 import useEditorModel from "@/models/editor";
-import { useReactive } from "ahooks";
 
 const Launcher = () => {
   const state = useReactive({
@@ -18,6 +19,12 @@ const Launcher = () => {
   });
 
   const { setDirPath, model } = useEditorModel();
+
+  useMount(() => {
+    window.api.ipc.on(EDITOR_EVENT_NEW_ALGO, () => {
+      state.visible = true;
+    });
+  });
 
   const handleOpen = async () => {
     await window.api.local.openDirectory();
