@@ -1,9 +1,5 @@
 import { CompareInfo, getByVersion } from "@/services/env";
-import {
-  ENV_EVENT_INIT_DATA,
-  ENV_EVENT_INIT_FINISH,
-  ENV_EVENT_INIT_START,
-} from "@/constants/env";
+import { ENV_EVENT_INIT_DATA, ENV_EVENT_INIT_START } from "@/constants/env";
 import { useMount, useReactive } from "ahooks";
 
 import { ENGINE_IMAGE_NAME } from "@/constants/engine";
@@ -31,7 +27,6 @@ function useEnvModel() {
   useMount(async () => {
     window.api.ipc.on(ENV_EVENT_INIT_START, () => {
       molecule.panel.cleanOutput();
-      molecule.notification.toggleNotification();
     });
     window.api.ipc.on(
       ENV_EVENT_INIT_DATA,
@@ -41,16 +36,15 @@ function useEnvModel() {
             id: uniqueId("env-init"),
             value: msg.data,
           };
+          const state = molecule.notification.getState();
+          if (!state.showNotifications) {
+            molecule.notification.setState({ showNotifications: true });
+          }
           molecule.notification.add([notification]);
         }
         molecule.panel.appendOutput(msg.data);
       }
     );
-    window.api.ipc.on(ENV_EVENT_INIT_FINISH, () => {
-      setTimeout(() => {
-        molecule.notification.toggleNotification();
-      }, 10000);
-    });
 
     model.platform = await window.api.os.platform();
     model.arch = await window.api.os.arch();
@@ -60,7 +54,6 @@ function useEnvModel() {
       ENGINE_IMAGE_NAME,
       model.info.currentEditVersionInfo.bestImageVersion.fullName
     );
-
     await window.api.env.init();
   });
 
