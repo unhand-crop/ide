@@ -1,6 +1,5 @@
 import { BrowserWindow, ipcMain, ipcRenderer } from "electron";
 import {
-  ENGINE_EVENT_PULL_IMAGE_FINISH,
   ENGINE_EVENT_PULL_IMAGE_START,
   ENGINE_IMAGE_NAME,
 } from "@/constants/engine";
@@ -21,7 +20,7 @@ export const registerEnvHandlers = async (mainWindow: BrowserWindow) => {
     try {
       if (isWindows) {
       } else {
-        if (!!(await vm.initVM())) {
+        if (!(await vm.initVM())) {
           mainWindow.webContents.send(ENV_EVENT_INIT_DATA, {
             type: "notification",
             data: "正在安装虚拟机",
@@ -40,16 +39,18 @@ export const registerEnvHandlers = async (mainWindow: BrowserWindow) => {
                 data,
               });
             });
-            child.stderr.on("error", (err) => {
-              reject(err);
-            });
             child.stdout.on("error", (err) => {
+              mainWindow.webContents.send(ENV_EVENT_INIT_DATA, {
+                type: "notification",
+                data: "虚拟机安装失败",
+              });
               reject(err);
-            });
-            child.stderr.on("close", () => {
-              resolve(true);
             });
             child.stdout.on("close", () => {
+              mainWindow.webContents.send(ENV_EVENT_INIT_DATA, {
+                type: "notification",
+                data: "虚拟机安装成功",
+              });
               resolve(true);
             });
           });
@@ -72,30 +73,42 @@ export const registerEnvHandlers = async (mainWindow: BrowserWindow) => {
           });
           mainWindow.webContents.send(ENGINE_EVENT_PULL_IMAGE_START);
           const child = await vm.pullImage(imageName);
-
-          child.stdout.on("data", (data) => {
-            mainWindow.webContents.send(ENV_EVENT_INIT_DATA, {
-              type: "output",
-              data,
+          await new Promise((resolve, reject) => {
+            child.stdout.on("data", (data) => {
+              mainWindow.webContents.send(ENV_EVENT_INIT_DATA, {
+                type: "output",
+                data,
+              });
             });
-          });
-          child.stderr.on("data", (data) => {
-            mainWindow.webContents.send(ENV_EVENT_INIT_DATA, {
-              type: "output",
-              data,
+            child.stderr.on("data", (data) => {
+              mainWindow.webContents.send(ENV_EVENT_INIT_DATA, {
+                type: "output",
+                data,
+              });
             });
-          });
-          child.stderr.on("close", () => {
-            mainWindow.webContents.send(ENGINE_EVENT_PULL_IMAGE_FINISH);
-          });
-          child.stdout.on("close", () => {
-            mainWindow.webContents.send(ENGINE_EVENT_PULL_IMAGE_FINISH);
+            child.stderr.on("error", (err) => {
+              mainWindow.webContents.send(ENV_EVENT_INIT_DATA, {
+                type: "notification",
+                data: "算法引擎镜像拉取失败",
+              });
+              reject(err);
+            });
+            child.stderr.on("close", () => {
+              mainWindow.webContents.send(ENV_EVENT_INIT_DATA, {
+                type: "notification",
+                data: "算法引擎镜像拉取成功",
+              });
+              resolve(true);
+            });
           });
         }
       }
       mainWindow.webContents.send(ENV_EVENT_INIT_FINISH);
     } catch (err) {
-      console.error(err);
+      mainWindow.webContents.send(ENV_EVENT_INIT_DATA, {
+        type: "notification",
+        data: "环境初始化失败",
+      });
       mainWindow.webContents.send(ENV_EVENT_INIT_ERROR, "初始化失败");
     }
   });
