@@ -1,3 +1,5 @@
+import "moment/locale/zh-cn";
+
 import {
   Button,
   Col,
@@ -12,11 +14,17 @@ import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 
 import Modal from "@/components/Modal";
 import React from "react";
+import locale from "antd/es/date-picker/locale/zh_CN";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
+import moment from "moment";
 import styles from "./index.module.scss";
 import useBackTestModel from "@/models/back-test";
 import useEditorModel from "@/models/editor";
+
+moment.locale("zh-cn");
+
+const { RangePicker } = DatePicker;
 
 interface ATTRIBUTESItem {
   first: string;
@@ -24,31 +32,18 @@ interface ATTRIBUTESItem {
 }
 
 interface formValue {
-  ENDDATE: string;
-  STARTDATE: string;
+  DATE: string;
   SERVICECHARGE: string;
   ATTRIBUTES: any;
 }
-
-const greaterThanNine = (value: number) => {
-  return value > 9 ? value : `0${value}`;
-};
-
-const formatDate = (date: any) => {
-  const newDate = new Date(date);
-  const y = newDate.getFullYear();
-  const m = greaterThanNine(newDate.getMonth() + 1);
-  const d = greaterThanNine(newDate.getDate());
-  return `${y}-${m}-${d}`;
-};
 
 const InitBackTest = () => {
   const { model: editorModel } = useEditorModel();
   const { model: backtestModel } = useBackTestModel();
 
   const onFinish = async (values: formValue) => {
-    const STARTDATE = formatDate(values.STARTDATE);
-    const ENDDATE = formatDate(values.ENDDATE);
+    const STARTDATE = moment(values.DATE[0]).format("YYYY-MM-DD");
+    const ENDDATE = moment(values.DATE[1]).format("YYYY-MM-DD");
     const SERVICECHARGE = values.SERVICECHARGE;
     const ATTRIBUTES =
       values?.ATTRIBUTES?.map((item: ATTRIBUTESItem) => {
@@ -84,89 +79,51 @@ const InitBackTest = () => {
           <span className={styles.title}>
             {localize("customModal.backtestAttribute", "回测属性")}
           </span>
-          <Row style={{ padding: "0 38px" }}>
-            <Col span={11}>
+          <Form.Item
+            name="DATE"
+            className={styles.text_color}
+            label={`${localize("customModal.backtestDate", "回测时间")}:`}
+            rules={[
+              {
+                required: true,
+                message: localize(
+                  "customModal.backtestStartDate",
+                  "请填写回测时间"
+                ),
+              },
+            ]}
+          >
+            <RangePicker
+              locale={locale}
+              disabledDate={(current) => {
+                return current && current > moment().endOf("day");
+              }}
+              allowClear={false}
+            />
+          </Form.Item>
+          <Row>
+            <Space>
               <Form.Item
-                name="STARTDATE"
+                name="SERVICECHARGE"
                 className={styles.text_color}
-                label={`${localize("customModal.backtestDate", "回测时间")}:`}
+                label={`${localize("customModal.serviceCharge", "手续费")}:`}
+                initialValue={0.1}
                 rules={[
                   {
                     required: true,
                     message: localize(
-                      "customModal.backtestStartDate",
-                      "请填写回测开始时间"
+                      "customModal.backtestServiceCharge",
+                      "请填写回测手续费"
                     ),
                   },
                 ]}
               >
-                <DatePicker
-                  allowClear={false}
-                  placeholder={localize(
-                    "customModal.pleaseSelectDate",
-                    "请选择日期"
-                  )}
-                />
+                <Input type="number" max={100} min={0} />
               </Form.Item>
-            </Col>
-            <Col span={1} className={styles.line}>
-              {" "}
-              -{" "}
-            </Col>
-            <Col span={11} offset={1}>
-              <Form.Item
-                className={styles.text_color}
-                label="&nbsp;"
-                name="ENDDATE"
-                rules={[
-                  {
-                    required: true,
-                    message: localize(
-                      "customModal.backtestEndDate",
-                      "请填写回测结束时间"
-                    ),
-                  },
-                ]}
-              >
-                <DatePicker
-                  allowClear={false}
-                  placeholder={localize(
-                    "customModal.pleaseSelectDate",
-                    "请选择日期"
-                  )}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row style={{ padding: "0 38px" }}>
-            <Col span={12}>
-              <Row>
-                <Space>
-                  <Form.Item
-                    name="SERVICECHARGE"
-                    className={styles.text_color}
-                    label={`${localize(
-                      "customModal.serviceCharge",
-                      "手续费"
-                    )}:`}
-                    rules={[
-                      {
-                        required: true,
-                        message: localize(
-                          "customModal.backtestServiceCharge",
-                          "请填写回测手续费"
-                        ),
-                      },
-                    ]}
-                  >
-                    <Input type="number" max={100} min={0} />
-                  </Form.Item>
-                </Space>
-                <div className={styles.service_charge_name}>
-                  <span className={styles.text}>%</span>
-                </div>
-              </Row>
-            </Col>
+            </Space>
+            <div className={styles.service_charge_name}>
+              <span className={styles.text}>%</span>
+            </div>
           </Row>
           <Divider style={{ background: "#5E5D61" }} />
           <div style={{ position: "relative" }}>
@@ -192,7 +149,6 @@ const InitBackTest = () => {
                         style={{
                           display: "flex",
                           marginBottom: 8,
-                          padding: "0 38px",
                         }}
                         align="baseline"
                       >
