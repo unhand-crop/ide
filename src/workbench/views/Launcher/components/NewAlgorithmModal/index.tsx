@@ -1,4 +1,3 @@
-import { Button, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import {
   TemplateListResponse,
@@ -6,9 +5,9 @@ import {
   requistTemplateDetails,
 } from "@/services/new-algorithm";
 
+import { Button } from "antd";
 import { IconPython } from "@/components/Iconfont";
 import Modal from "@/components/Modal";
-import Title from "../Title";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import styles from "./index.module.scss";
 import useEditorModel from "@/models/editor";
@@ -80,7 +79,7 @@ const NewAlgorithmModal = ({
     upCurrentTemplateList(templateList);
     upExtractUrl(defaultExtractUrl);
     if (defaultExtractUrl) {
-      setIsCreate(false)
+      setIsCreate(false);
     }
     if (templateList.length === 0) return;
     const templateDetails = await getTemplateDetails(templateList[0].id);
@@ -98,10 +97,10 @@ const NewAlgorithmModal = ({
   };
 
   const creactTemplateFile = async () => {
-    setLoading(true)
+    setLoading(true);
     const path = await window.api.gitHttp.clone({
       templateUrl: templateDetails.templateUrl,
-      fileName: fileName + (new Date().getTime().toString().substr(8)),
+      fileName: fileName + new Date().getTime().toString().substr(8),
       gitFileName: templateDetails.templateDir,
       extractUrl,
     });
@@ -109,7 +108,6 @@ const NewAlgorithmModal = ({
     setLoading(false);
     visibleModal();
     setDirPath(path);
-
   };
 
   const defaultAlgorithmDir = localize(
