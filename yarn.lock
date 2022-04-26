@@ -1814,6 +1814,13 @@
     "@types/docker-modem" "*"
     "@types/node" "*"
 
+"@types/electron-is-dev@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/@types/electron-is-dev/-/electron-is-dev-1.1.1.tgz#b48cb249b4615915b16477891160414b57b9a8c5"
+  integrity sha512-axJ7z6N/FfXHf0Q6MO75Sl7gXCqAeIJMxxYd8n80FNmGev8GPHMcva31zQQX+i4B7aBUzdyVY1UfQeFxph3xVQ==
+  dependencies:
+    electron-is-dev "*"
+
 "@types/eslint-scope@^3.7.3":
   version "3.7.3"
   resolved "https://registry.npmjs.org/@types/eslint-scope/-/eslint-scope-3.7.3.tgz"
@@ -4492,6 +4499,11 @@ electron-installer-redhat@^3.2.0:
     lodash "^4.17.15"
     word-wrap "^1.2.3"
     yargs "^16.0.2"
+
+electron-is-dev@*, electron-is-dev@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/electron-is-dev/-/electron-is-dev-2.0.0.tgz#833487a069b8dad21425c67a19847d9064ab19bd"
+  integrity sha512-3X99K852Yoqu9AcW50qz3ibYBWY79/pBhlMCab8ToEWS48R0T9tyxRiQhwylE7zQdXrMnx2JKqUJyMPmt5FBqA==
 
 electron-notarize@^1.1.1:
   version "1.1.1"
