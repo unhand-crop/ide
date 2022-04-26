@@ -1,5 +1,4 @@
 .text_color {
-  margin: 0;
   label {
     color: #ffffff;
   }
@@ -7,7 +6,7 @@
     .ant-picker {
       background-color: #3c3f41;
       border: 1px solid #5e5d61;
-      width: 148px;
+      // width: 148px;
     }
     input {
       color: #fff;
@@ -15,7 +14,7 @@
     .ant-input {
       background-color: #3c3f41;
       border: 1px solid #5e5d61;
-      width: 132px;
+      width: 264px;
     }
   }
 }
@@ -37,15 +36,18 @@
 }
 .content_body {
   width: 476px;
-  height: 548px;
+  height: 557px;
   min-height: 270px;
   background: #1e1e1e;
   border-radius: 4px;
   border: 1px solid #5e5d61;
-  padding: 27px 24px 32px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  :global(.ant-form) > :nth-child(3) {
+    align-items: center;
+  }
   .title {
     color: #ffffff;
     font-size: 14px;
@@ -114,11 +116,12 @@
   .center {
     text-align: center;
     margin-top: 48px;
+    margin-bottom: 0;
   }
   .service_charge_name {
     display: flex;
     flex-direction: column;
     justify-content: end;
-    line-height: 32px;
+    height: 28px;
   }
 }
