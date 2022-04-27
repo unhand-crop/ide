@@ -120,7 +120,7 @@ const NewAlgorithmModal = ({
 
   const handlCancel = () => {
     setLoading(false);
-    visibleModal();
+    // visibleModal();
   };
   return (
     <Modal
@@ -130,11 +130,15 @@ const NewAlgorithmModal = ({
       onCancel={visibleModal}
       maskClosable={false}
     >
-      <Spin
-        tip={<Button onClick={() => handlCancel()} title="取消" />}
-        className={styles.spin_loading}
-        spinning={loading}
-      />
+      {loading &&
+        createPortal(
+          <Spin
+            tip={<Button onClick={() => handlCancel()} title="取消" />}
+            className={styles.spin_loading}
+            spinning={loading}
+          />,
+          document.body
+        )}
       <div id="modal" className={styles.modal_body}>
         <div className={styles.language_select_body}>
           {/* <Title
