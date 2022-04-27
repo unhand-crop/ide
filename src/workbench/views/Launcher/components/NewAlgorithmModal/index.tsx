@@ -1,3 +1,4 @@
+import { Button as AntButton, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import {
   TemplateListResponse,
@@ -5,9 +6,10 @@ import {
   requistTemplateDetails,
 } from "@/services/new-algorithm";
 
-import { Button } from "antd";
+import Button from "@/components/Button";
 import { IconPython } from "@/components/Iconfont";
 import Modal from "@/components/Modal";
+import { createPortal } from "react-dom";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import styles from "./index.module.scss";
 import useEditorModel from "@/models/editor";
@@ -98,30 +100,42 @@ const NewAlgorithmModal = ({
 
   const creactTemplateFile = async () => {
     setLoading(true);
-    const path = await window.api.gitHttp.clone({
-      templateUrl: templateDetails.templateUrl,
-      fileName: fileName + new Date().getTime().toString().substr(8),
-      gitFileName: templateDetails.templateDir,
-      extractUrl,
-    });
-    await window.api.engine.create(path);
-    setLoading(false);
-    visibleModal();
-    setDirPath(path);
+
+    // const path = await window.api.gitHttp.clone({
+    //   templateUrl: templateDetails.templateUrl,
+    //   fileName: fileName + new Date().getTime().toString().substr(8),
+    //   gitFileName: templateDetails.templateDir,
+    //   extractUrl,
+    // });
+    // await window.api.engine.create(path);
+    // setLoading(false);
+    // visibleModal();
+    // setDirPath(path);
   };
 
   const defaultAlgorithmDir = localize(
     "newAlgorithm.selectFolder",
     "请选择文件夹"
   );
+
+  const handlCancel = () => {
+    setLoading(false);
+    visibleModal();
+  };
   return (
     <Modal
       title={localize("launcher.newAlgorithm", "新建算法")}
       width={1000}
       visible={visible}
       onCancel={visibleModal}
+      maskClosable={false}
     >
-      <div className={styles.modal_body}>
+      <Spin
+        tip={<Button onClick={() => handlCancel()} title="取消" />}
+        className={styles.spin_loading}
+        spinning={loading}
+      />
+      <div id="modal" className={styles.modal_body}>
         <div className={styles.language_select_body}>
           {/* <Title
             title={localize("newAlgorithm.selectLanguage", "选择使用的语言")}
@@ -186,14 +200,14 @@ const NewAlgorithmModal = ({
                   >
                     {extractUrl || defaultAlgorithmDir}
                   </div>
-                  <Button
+                  <AntButton
                     className={styles.folder_button}
                     color="#2154E0"
                     type="primary"
                     onClick={() => handleOpen()}
                   >
                     {localize("newAlgorithm.selectFolder", "选择文件夹")}
-                  </Button>
+                  </AntButton>
                 </div>
               </div>
               {/* <div className={styles.language_content_select}>
@@ -245,16 +259,10 @@ const NewAlgorithmModal = ({
               </div>
               <div className={styles.language_operation}>
                 <Button
-                  className={styles.folder_button}
-                  color="#2154E0"
-                  type="primary"
-                  size="small"
                   disabled={isCreate}
-                  loading={loading}
                   onClick={() => creactTemplateFile()}
-                >
-                  {localize("newAlgorithm.create", "创建")}
-                </Button>
+                  title={localize("newAlgorithm.create", "创建")}
+                />
               </div>
             </div>
           )}

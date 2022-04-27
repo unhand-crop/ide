@@ -7,16 +7,25 @@ interface ModalProps {
   visible: boolean;
   title?: string;
   width?: number;
+  maskClosable?: boolean;
   children: ReactNode;
   onCancel: () => void;
 }
 
-const Modal = ({ visible, title, children, onCancel, width }: ModalProps) => {
+const Modal = ({
+  visible,
+  title,
+  children,
+  onCancel,
+  width,
+  maskClosable = true,
+}: ModalProps) => {
   return (
     <ModalCom
       visible={visible}
       title={title}
       footer={false}
+      maskClosable={maskClosable}
       centered={true}
       width={width}
       onCancel={() => onCancel()}
