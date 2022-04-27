@@ -7408,10 +7408,10 @@ neo-async@^2.6.0, neo-async@^2.6.2:
   resolved "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-nerdctl@^0.1.8:
-  version "0.1.8"
-  resolved "https://registry.npmjs.org/nerdctl/-/nerdctl-0.1.8.tgz#1a9ef2f7766c5750b1dac54456923e803d1fa1a6"
-  integrity sha512-IyRgT4LBN4DIEDuHwdHdjt88ag+zKL/Jto7D/JbFEnQl/J81kgAuoR9yepwRbjxBp6WTkHZYXXA9jqco4x3QKw==
+nerdctl@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/nerdctl/-/nerdctl-0.1.9.tgz#5bd3ba78257529017c04f5e0aa43177916aa09b8"
+  integrity sha512-DDssei67w3IOUyMCCK56d09udCpuEVRe9UcM054whv7Pd5XFdFgRGZ/jws8p5G9qKzyNPKDJ8MjN5I9eeQQJMA==
   dependencies:
     change-case "^4.1.2"
     lodash "^4.17.21"
