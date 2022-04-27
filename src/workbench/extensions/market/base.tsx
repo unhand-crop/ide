@@ -1,18 +1,12 @@
-import {
-  IActivityBarItem,
-  IEditorTab,
-  ISidebarPane,
-} from "@dtinsight/molecule/esm/model";
+import { IActivityBarItem, ISidebarPane } from "@dtinsight/molecule/esm/model";
 
 import MarketSidebarView from "./MarketSidebarView";
-import NewAlgorithmSidebar from "./NewAlgorithmSidebar"
+import NewAlgorithmSidebar from "./NewAlgorithmSidebar";
 import React from "react";
 import { ResolutionString } from "@/components/TradingView/Chart/datafeed-api";
 import TradingView from "@/components/TradingView";
-import molecule from "@dtinsight/molecule";
 import configs from "@/configs";
-
-
+import molecule from "@dtinsight/molecule";
 
 export const marketActivityBar: IActivityBarItem = {
   id: "sidebar.market",
@@ -38,11 +32,10 @@ export const algorithmSidebar: ISidebarPane = {
   },
 };
 
-
-
 export function openCreateDataSourceView(name: string) {
+  const id = `market-symbol-${name}`;
   molecule.editor.open({
-    id: name,
+    id,
     name,
     renderPane: () => {
       return (
@@ -58,7 +51,7 @@ export function openCreateDataSourceView(name: string) {
             locale: "zh",
             theme: "Dark",
             height: 400,
-            key: name,
+            key: id,
           }}
         />
       );
