@@ -2,11 +2,11 @@ import "moment/locale/zh-cn";
 
 import {
   Button,
-  Col,
   DatePicker,
   Divider,
   Form,
   Input,
+  InputNumber,
   Row,
   Space,
 } from "antd";
@@ -118,7 +118,7 @@ const InitBackTest = () => {
                   },
                 ]}
               >
-                <Input type="number" max={100} min={0} />
+                <InputNumber precision={1} max={100} min={0} />
               </Form.Item>
             </Space>
             <div className={styles.service_charge_name}>
