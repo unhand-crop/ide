@@ -3,7 +3,7 @@ import {
   IExtension,
   IFolderTreeNodeProps,
 } from "@dtinsight/molecule/esm/model";
-import { getFileIcon, getLanguage, mapTree } from "@/utils";
+import { getFileIcon, getLanguage } from "@/utils";
 
 import { IExtensionService } from "@dtinsight/molecule/esm/services";
 import { getDirectoryTree } from "@/utils/directory-tree";
@@ -28,7 +28,7 @@ export function updateStatusBarLanguage(language: string) {
 
 export function bindingEvents() {
   molecule.folderTree.onLoadData(async (treeNode, callback) => {
-    treeNode = mapTree(await getDirectoryTree(treeNode.id as string));
+    treeNode = await getDirectoryTree(treeNode.id as string);
     callback(treeNode);
   });
   molecule.folderTree.onSelectFile(async (file: IFolderTreeNodeProps) => {
@@ -45,21 +45,6 @@ export function bindingEvents() {
       },
     });
     updateStatusBarLanguage(getLanguage(file.extension));
-  });
-  molecule.folderTree.onCreate((type, id) => {
-    if (type !== "RootFolder") {
-      molecule.folderTree.add(
-        {
-          id: "input",
-          name: "",
-          fileType: type,
-          isLeaf: type === "File",
-          isEditable: true,
-          path: id,
-        },
-        id
-      );
-    }
   });
   molecule.folderTree.onRemove(async (id) => {
     await window.api.fs.unlink(id);
