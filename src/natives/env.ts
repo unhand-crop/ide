@@ -28,6 +28,7 @@ export const registerEnvHandlers = async (mainWindow: BrowserWindow) => {
           const child = await vm.startVM();
           await new Promise((resolve, reject) => {
             child.stdout.on("data", (data) => {
+              console.log(data);
               mainWindow.webContents.send(ENV_EVENT_INIT_DATA, {
                 type: "output",
                 data,

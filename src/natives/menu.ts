@@ -5,12 +5,17 @@ import {
 } from "@/constants/editor";
 
 import configs from "@/configs";
+import { isWindows } from "./utils";
 
 export const registerMenus = async (mainWindow: BrowserWindow) => {
   const template = [
-    {
-      label: configs.appName,
-    },
+    ...(isWindows
+      ? []
+      : [
+          {
+            label: configs.appName,
+          },
+        ]),
     {
       label: "算法",
       submenu: [
