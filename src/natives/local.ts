@@ -1,7 +1,7 @@
 import { BrowserWindow, dialog, ipcMain, ipcRenderer } from "electron";
 
 import { EDITOR_EVENT_OPEN_DIR } from "@/constants/editor";
-import directoryTree from "directory-tree";
+import directoryTree from "./directory-tree";
 
 export const registerLocalHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("open-directory", async (_) => {

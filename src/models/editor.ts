@@ -3,7 +3,6 @@ import {
   EDITOR_EVENT_OPEN_DIR,
   EDITOR_EVENT_WATCH_DIR,
 } from "@/constants/editor";
-import { getFileIcon, mapTree } from "@/utils";
 import { useCallback, useEffect } from "react";
 import { useMount, useReactive } from "ahooks";
 
@@ -14,19 +13,16 @@ import { TreeNodeModel } from "@dtinsight/molecule/esm/model";
 import { UniqueId } from "@dtinsight/molecule/esm/common/types";
 import { createModel } from "hox";
 import { getDirectoryTree } from "@/utils/directory-tree";
+import { getFileIcon } from "@/utils";
 import molecule from "@dtinsight/molecule";
 import { registerLanguages } from "@/languages";
 import useBackTestModel from "./back-test";
 
 export async function loadFolderTree(path: string) {
+  const data = await getDirectoryTree(path);
   molecule.folderTree.reset();
+  molecule.folderTree.add(new TreeNodeModel(data));
   window.api.watch.change(path);
-  const data = mapTree(await getDirectoryTree(path));
-  molecule.folderTree.add(new TreeNodeModel({ ...data }));
-  // console.log()
-  // setTimeout(()=>{
-  //   molecule.folderTree.setActive({...data.children[0].id});
-  // })
 }
 
 async function syncFileContent(path: UniqueId, position?: Position) {
@@ -75,8 +71,8 @@ function useEditorModel() {
     window.api.ipc.on(
       EDITOR_EVENT_OPEN_DIR,
       (_: IpcRendererEvent, dirPath: string) => {
-        window.api.store.set(EDITOR_DIR_PATH, null);
         model.dirPath = dirPath;
+        window.api.store.set(EDITOR_DIR_PATH, null);
       }
     );
     window.api.ipc.on(
@@ -89,8 +85,8 @@ function useEditorModel() {
       ) => {
         if (!model.dirPath) return;
         if (eventName === "add" || eventName === "addDir") {
-          const node = molecule.folderTree.get(path);
-          if (node) return;
+          const node = await molecule.folderTree.get(path);
+          if (!!node) return;
           const fileName = await window.api.path.basename(path);
           const dirName = await window.api.path.dirname(path);
           const isDir = eventName === "addDir";
@@ -121,6 +117,21 @@ function useEditorModel() {
         }
       }
     );
+    molecule.folderTree.onCreate((type, id) => {
+      if (type !== "RootFolder") {
+        molecule.folderTree.add(
+          {
+            id: "input",
+            name: "",
+            fileType: type,
+            isLeaf: type === "File",
+            isEditable: true,
+            path: id,
+          },
+          id
+        );
+      }
+    });
     molecule.editor.onOpenTab(async (tab) => {
       model.currentTabId = tab.id;
       model.tabs[tab.id] = tab;

@@ -49,22 +49,6 @@ export interface TreeNode {
   children?: TreeNode[];
 }
 
-export const mapTree = (node: TreeNode, level: number = 0) => {
-  if (node.type === "directory") {
-    node.children = node.children
-      ? node.children.map((item: any) => mapTree(item, level + 1))
-      : [];
-    node.fileType = level === 0 ? "RootFolder" : "Folder";
-    node.isLeaf = false;
-  } else {
-    node.fileType = "File";
-    node.isLeaf = true;
-  }
-  node.id = node.path;
-  node.icon = getFileIcon(node.name);
-  return node;
-};
-
 export const isLatestVersion = (
   currentVersion: string,
   servicesVersion: string

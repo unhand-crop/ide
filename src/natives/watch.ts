@@ -8,6 +8,7 @@ let watcher: FSWatcher = null;
 export const registerWatchHandlers = async (mainWindow: BrowserWindow) => {
   ipcMain.handle("watch.change", async (_, path) => {
     if (watcher) {
+      watcher.unwatch(path);
       await watcher.close();
     }
     watcher = watch(path, {
@@ -15,6 +16,7 @@ export const registerWatchHandlers = async (mainWindow: BrowserWindow) => {
         if (p.endsWith(".DS_Store")) return true;
         return false;
       },
+      ignoreInitial: true,
     });
     watcher.on("all", (eventName, path, stats) => {
       mainWindow.webContents.send(
