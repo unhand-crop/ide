@@ -11,6 +11,7 @@ import { IconPython } from "@/components/Iconfont";
 import Modal from "@/components/Modal";
 import { createPortal } from "react-dom";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
+import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
 import useEditorModel from "@/models/editor";
 
@@ -100,17 +101,20 @@ const NewAlgorithmModal = ({
 
   const creactTemplateFile = async () => {
     setLoading(true);
-
-    // const path = await window.api.gitHttp.clone({
-    //   templateUrl: templateDetails.templateUrl,
-    //   fileName: fileName + new Date().getTime().toString().substr(8),
-    //   gitFileName: templateDetails.templateDir,
-    //   extractUrl,
-    // });
-    // await window.api.engine.create(path);
-    // setLoading(false);
-    // visibleModal();
-    // setDirPath(path);
+    const path = await window.api.gitHttp.clone({
+      templateUrl: templateDetails.templateUrl,
+      fileName: fileName + new Date().getTime().toString().substr(8),
+      gitFileName: templateDetails.templateDir,
+      extractUrl,
+    });
+    if (path) {
+      await window.api.fs.unlink(
+        extractUrl + "/" + templateDetails.templateDir
+      );
+      setLoading(false);
+      visibleModal();
+      setDirPath(path);
+    }
   };
 
   const defaultAlgorithmDir = localize(
@@ -118,9 +122,8 @@ const NewAlgorithmModal = ({
     "请选择文件夹"
   );
 
-  const handlCancel = () => {
+  const handlCancel = async () => {
     setLoading(false);
-    // visibleModal();
   };
   return (
     <Modal
@@ -133,7 +136,7 @@ const NewAlgorithmModal = ({
       {loading &&
         createPortal(
           <Spin
-            tip={<Button onClick={() => handlCancel()} title="取消" />}
+            tip={<Button onClick={() => handlCancel()} title="取消创建" />}
             className={styles.spin_loading}
             spinning={loading}
           />,
