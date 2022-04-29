@@ -10,6 +10,7 @@ import { useMount, useReactive } from "ahooks";
 
 import { IpcRendererEvent } from "electron";
 import { createModel } from "hox";
+import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 
 function useEngineModel() {
@@ -22,12 +23,7 @@ function useEngineModel() {
     running: false,
     results: {},
     algorithmstep: {},
-    algorithmstepConfig: [
-      "initconfig",
-      "downloaddata",
-      "algorithmrunning",
-      "responseresult",
-    ],
+    algorithmstepConfig: [],
   });
 
   useMount(async () => {

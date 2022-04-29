@@ -8,6 +8,7 @@ import {
 import React, { useEffect } from "react";
 
 import TradingViewDataBase from "@/components/TradingView/TradingViewDataBase";
+import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 import styles from "./ResultPaneView.module.scss";
 import useEngineModel from "@/models/engine";
@@ -66,6 +67,7 @@ export default () => {
     orders: readonly object[];
     TradeBars?: any;
     symbol?: string;
+    algorithmstepConfig: string[];
   }>({
     oResults: {},
     loading: false,
@@ -75,6 +77,12 @@ export default () => {
     orders: [],
     TradeBars: [],
     symbol: "",
+    algorithmstepConfig: [
+      localize("backtest.initConfig", "初始化配置"),
+      localize("backtest.downloadData", "下载数据"),
+      localize("backtest.algorithmRunning", "算法运行"),
+      localize("backtest.responseResult", "相应结果"),
+    ],
   });
 
   useEffect(() => {
@@ -142,7 +150,7 @@ export default () => {
         style={{ display: state.loading ? "flex" : "none" }}
       >
         <div className={styles.loading_container_content}>
-          {model.algorithmstepConfig.map((key: any, index) => {
+          {state.algorithmstepConfig.map((key: any, index) => {
             const obj = model.algorithmstep[key] || {};
             const { progress = 0, status = true } = obj;
             return (
