@@ -6,7 +6,7 @@ export const resultPanel: IPanelItem = {
   id: "panel.result",
   name: "Results",
   title: "Results",
-  sortIndex: 1,
+  sortIndex: 2,
   closable: false,
   renderPane: () => {
     return <ResultPaneView />;

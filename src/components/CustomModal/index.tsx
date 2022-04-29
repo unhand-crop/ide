@@ -16,7 +16,6 @@ import Modal from "@/components/Modal";
 import React from "react";
 import locale from "antd/es/date-picker/locale/zh_CN";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
-import molecule from "@dtinsight/molecule";
 import moment from "moment";
 import styles from "./index.module.scss";
 import useBackTestModel from "@/models/back-test";
@@ -37,7 +36,7 @@ interface formValue {
   ATTRIBUTES: any;
 }
 
-const InitBackTest = () => {
+const CustomBackTest = () => {
   const { model: editorModel } = useEditorModel();
   const { model: backtestModel } = useBackTestModel();
 
@@ -49,8 +48,9 @@ const InitBackTest = () => {
       values?.ATTRIBUTES?.map((item: ATTRIBUTESItem) => {
         return `${item.first}=${item.last}`;
       }) || [];
-    molecule.layout.togglePanelVisibility();
-    backtestModel.customVisble = false;
+
+    backtestModel.visible = false;
+
     if (editorModel.dirPath) {
       await window.api.engine.backtest({
         id: editorModel.dirPath,
@@ -65,8 +65,8 @@ const InitBackTest = () => {
   return (
     <Modal
       width={476}
-      visible={backtestModel.customVisble}
-      onCancel={() => (backtestModel.customVisble = false)}
+      visible={backtestModel.visible}
+      onCancel={() => (backtestModel.visible = false)}
     >
       <div className={styles.content_body}>
         <Form
@@ -215,7 +215,9 @@ const InitBackTest = () => {
               shape="round"
               htmlType="button"
               ghost={true}
-              onClick={() => (backtestModel.customVisble = false)}
+              onClick={() => {
+                backtestModel.visible = false;
+              }}
             >
               {localize("customModal.cancel", "取消")}
             </Button>
@@ -226,4 +228,4 @@ const InitBackTest = () => {
   );
 };
 
-export default InitBackTest;
+export default CustomBackTest;

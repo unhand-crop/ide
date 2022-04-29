@@ -7,9 +7,16 @@ export const ENGINE_EVENT_RESULT = "engine-event-result";
 
 export const ENGINE_EVENT_STREAM_START = "engine-event-stream-start";
 export const ENGINE_EVENT_STREAM_DATA = "engine-event-stream-data";
-export const ENGINE_EVENT_STREAM_ERROR = "engine-event-stream-error";
 export const ENGINE_EVENT_STREAM_FINISH = "engine-event-stream-finish";
 export const ENGINE_EVENT_STREAM_STOP = "engine-event-stream-stop";
 
-export const ENGINE_EVENT_PULL_IMAGE_START = "engine-event-pull-image-start";
-export const ENGINE_EVENT_PULL_IMAGE_FINISH = "engine-event-pull-image-finish";
+export const ENGINE_EVENT_INIT_VM_START = "engine-event-init-vm-start";
+export const ENGINE_EVENT_INIT_VM_FINISH = "engine-event-init-vm-finish";
+
+export const ENGINE_EVENT_INIT_INSTANCE_START =
+  "engine-event-init-instance-start";
+export const ENGINE_EVENT_INIT_INSTANCE_FINISH =
+  "engine-event-init-instance-finish";
+
+export const ENGINE_EVENT_INIT_IMAGE_START = "engine-event-init-image-start";
+export const ENGINE_EVENT_INIT_IMAGE_FINISH = "engine-event-init-image-finish";

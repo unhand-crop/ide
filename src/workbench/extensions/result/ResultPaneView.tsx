@@ -57,6 +57,7 @@ interface statisticsListProps {
 
 export default () => {
   const { model } = useEngineModel();
+
   const state = useReactive<{
     oResults: any;
     loading: boolean;
@@ -78,43 +79,22 @@ export default () => {
   });
 
   useEffect(() => {
-    molecule.layout.onUpdateState(async (prevState, nextState) => {
-      try {
-        if (nextState.panel.hidden) {
-          await window.api.engine.stop();
-          initState();
-        }
-      } catch (e) {}
-    });
-  }, []);
-
-  useEffect(() => {
-    const { type = "", content = {} } = model?.results;
-    if (type === "backtestresult") {
-      const { Orders = {} } = (state.oResults = content?.oResults || {});
-      state.orders = Orders;
-      fetchData();
-      state.loading = false;
-    } else if (type === "kline") {
-      state.symbol = content?.Symbol?.Value || "";
-      state.TradeBars = content?.TradeBars || [];
-      console.log("state.symbol, state.TradeBars", state.TradeBars);
-    } else {
-      state.loading = true;
+    if (model.results) {
+      const { type = "", content = {} } = model?.results;
+      if (type === "backtestresult") {
+        const { Orders = {} } = (state.oResults = content?.oResults || {});
+        state.orders = Orders;
+        fetchData();
+        state.loading = false;
+      } else if (type === "kline") {
+        state.symbol = content?.Symbol?.Value || "";
+        state.TradeBars = content?.TradeBars || [];
+        console.log("state.symbol, state.TradeBars", state.TradeBars);
+      } else {
+        state.loading = true;
+      }
     }
   }, [model.results]);
-
-  const initState = () => {
-    state.oResults = {};
-    state.loading = true;
-    state.statisticsList = [{ label: "周期统计" }, { label: "订单" }];
-    state.selectItem = 0;
-    state.dateResult = {};
-    state.orders = [];
-    state.TradeBars = [];
-    state.symbol = "";
-    model.algorithmstep = {};
-  };
 
   const fetchData = () => {
     const datas = Object.keys(state.oResults?.RollingWindow).map((key) => {
@@ -139,7 +119,9 @@ export default () => {
     <div className={styles.container}>
       <div
         className={styles.loading_container_body}
-        style={{ display: state.loading ? "flex" : "none" }}
+        style={{
+          display: !!model.results ? "flex" : "none",
+        }}
       >
         <div className={styles.loading_container_content}>
           {model.algorithmstepConfig.map((key: any, index) => {
@@ -177,7 +159,10 @@ export default () => {
               size="large"
               block
               color="#2154E0"
-              onClick={() => molecule.layout.togglePanelVisibility()}
+              onClick={async () => {
+                await window.api.engine.stop();
+                molecule.layout.togglePanelVisibility();
+              }}
             >
               取消
             </Button>
@@ -186,7 +171,9 @@ export default () => {
       </div>
       <div
         className={styles.all_container}
-        style={{ visibility: state.loading ? "hidden" : "visible" }}
+        style={{
+          visibility: !model.results ? "hidden" : "visible",
+        }}
       >
         <div className={styles.card_container}>
           <div className={styles.card_header}>

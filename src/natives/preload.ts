@@ -1,7 +1,6 @@
 import { contextBridge, ipcRenderer } from "electron";
 
 import { registerEngineInvokes } from "./engine";
-import { registerEnvInvokes } from "./env";
 import { registerFsInvokes } from "./fs";
 import { registerGitInvokes } from "./git";
 import { registerLocalInvokes } from "./local";
@@ -27,5 +26,4 @@ contextBridge.exposeInMainWorld("api", {
   engine: registerEngineInvokes(),
   gitHttp: registerGitInvokes(),
   os: registerOsInvokes(),
-  env: registerEnvInvokes(),
 });

@@ -2,13 +2,14 @@ import Button from "@/components/Button";
 import React from "react";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
+import { resultPanel } from "@/workbench/extensions/result/base";
 import styles from "./index.module.scss";
-import useBackTestModel from "@/models/back-test";
+import useBacktestModel from "@/models/back-test";
 import useEngineModel from "@/models/engine";
 
 const BackTest = () => {
   const { model: engineModel } = useEngineModel();
-  const { model: backtestModel } = useBackTestModel();
+  const { model: backtestModel } = useBacktestModel();
 
   const handleBackTest = async () => {
     const { panel } = molecule.layout.getState();
@@ -17,7 +18,15 @@ const BackTest = () => {
         molecule.panel.toggleMaximize();
       }
     }
-    backtestModel.customVisble = true;
+    if (
+      engineModel.checkVM &&
+      engineModel.checkInstance &&
+      engineModel.checkImage
+    ) {
+      backtestModel.visible = true;
+    } else {
+      engineModel.modalVisible = true;
+    }
   };
 
   const handleResult = () => {
@@ -25,6 +34,7 @@ const BackTest = () => {
     if (!panel.panelMaximized) {
       molecule.panel.toggleMaximize();
     }
+    molecule.panel.setActive(resultPanel.id);
     molecule.layout.togglePanelVisibility();
   };
 
@@ -41,7 +51,7 @@ const BackTest = () => {
       </div>
       <div className={styles.button}>
         <Button
-          disabled={Object.keys(engineModel.results).length < 1}
+          disabled={!engineModel.results}
           title={localize("backtest.result", "结果")}
           onClick={() => handleResult()}
         />
@@ -49,10 +59,10 @@ const BackTest = () => {
       <div className={styles.button}>
         <Button
           onClick={() => {
-            backtestModel.apiDocumentation = !backtestModel.apiDocumentation;
+            engineModel.docsPanelVisible = !engineModel.docsPanelVisible;
           }}
           title={
-            backtestModel.apiDocumentation
+            engineModel.docsPanelVisible
               ? localize("backtest.CloseAPIDocumentation", "关闭API文档")
               : localize("backtest.OpenAPIDocumentation", "打开API文档")
           }
