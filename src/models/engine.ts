@@ -14,10 +14,8 @@ import { useMount, useReactive } from "ahooks";
 
 import { IpcRendererEvent } from "electron";
 import { createModel } from "hox";
-import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 import { resultPanel } from "@/workbench/extensions/result/base";
-import { uniqueId } from "lodash";
 
 function useEngineModel() {
   const model = useReactive<{
@@ -72,17 +70,11 @@ function useEngineModel() {
         case "kline":
           model.results = data;
           break;
+        case "end":
+          model.running = false;
+          break;
         case "error":
           molecule.panel.appendOutput(data.content + "\n");
-          model.running = false;
-          model.results = false;
-          molecule.notification.setState({ showNotifications: true });
-          molecule.notification.add([
-            {
-              id: uniqueId("engine-error"),
-              value: data.content,
-            },
-          ]);
           break;
         default:
           break;

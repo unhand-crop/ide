@@ -17,6 +17,7 @@ import Modal from "@/components/Modal";
 import { PickerLocale } from "antd/lib/date-picker/generatePicker";
 import en_US from "antd/es/date-picker/locale/en_US";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
+import molecule from "@dtinsight/molecule";
 import moment from "moment";
 import styles from "./index.module.scss";
 import useBackTestModel from "@/models/back-test";

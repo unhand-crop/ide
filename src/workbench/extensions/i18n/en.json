@@ -7,10 +7,10 @@
     "backtest.result": "Result",
     "backtest.OpenAPIDocumentation": "Open API document",
     "backtest.CloseAPIDocumentation": "Close API document",
-    "backtest.initConfig":"Initialize configuration",
-    "backtest.downloadData":"Download data",
-    "backtest.algorithmRunning":"Algorithm operation",
-    "backtest.responseResult":"Response results",
+    "backtest.initConfig": "Initialize configuration",
+    "backtest.downloadData": "Download data",
+    "backtest.algorithmRunning": "Algorithm operation",
+    "backtest.responseResult": "Response results",
     "launcher.newAlgorithm": "New algorithm",
     "launcher.openAlgorithm": "Open algorithm",
     "launcher.recentlyOpened": "Recently opened",
@@ -63,6 +63,8 @@
     "market.searchCurrency": "Search currency",
     "market.explain": "Explain",
     "market.total": "Total",
-    "market.items": "items"
+    "market.items": "items",
+
+    "panel.result.name": "RESULTS"
   }
 }

@@ -66,9 +66,10 @@ export default () => {
     selectItem: number;
     dateResult: any;
     orders: readonly object[];
-    TradeBars?: any;
+    TradeBars?: any[];
     symbol?: string;
     algorithmstepConfig: string[];
+    algorithmstepConfigMap: Record<string, string>;
   }>({
     oResults: {},
     loading: false,
@@ -79,12 +80,29 @@ export default () => {
     TradeBars: [],
     symbol: "",
     algorithmstepConfig: [
-      localize("backtest.initConfig", "初始化配置"),
-      localize("backtest.downloadData", "下载数据"),
-      localize("backtest.algorithmRunning", "算法运行"),
-      localize("backtest.responseResult", "相应结果"),
+      "initconfig",
+      "downloaddata",
+      "algorithmrunning",
+      "responseresult",
     ],
+    algorithmstepConfigMap: {
+      initconfig: localize("backtest.initConfig", "初始化配置"),
+      downloaddata: localize("backtest.downloadData", "下载数据"),
+      algorithmrunning: localize("backtest.algorithmRunning", "算法运行"),
+      responseresult: localize("backtest.responseResult", "响应结果"),
+    },
   });
+
+  // useEffect(() => {
+  //   molecule.layout.onUpdateState(async (prevState, nextState) => {
+  //     try {
+  //       if (nextState.panel.hidden) {
+  //         await window.api.engine.stop();
+  //         initState();
+  //       }
+  //     } catch (e) {}
+  //   });
+  // }, []);
 
   useEffect(() => {
     if (model.results) {
@@ -95,14 +113,35 @@ export default () => {
         fetchData();
         state.loading = false;
       } else if (type === "kline") {
-        state.symbol = content?.Symbol?.Value || "";
-        state.TradeBars = content?.TradeBars || [];
-        console.log("state.symbol, state.TradeBars", state.TradeBars);
+        state.symbol = content?.Symbol?.Value ?? "";
+        state.TradeBars = [
+          // ...(state.TradeBars ?? []),
+          ...(content?.TradeBars ?? []),
+        ];
+        console.log("state.TradeBars", state.TradeBars);
       } else {
         state.loading = true;
       }
     }
   }, [model.results]);
+
+  useEffect(() => {
+    if (model.running) {
+      initState();
+    }
+  }, [model.running]);
+
+  const initState = () => {
+    state.oResults = {};
+    state.loading = true;
+    state.statisticsList = [{ label: "周期统计" }, { label: "订单" }];
+    state.selectItem = 0;
+    state.dateResult = {};
+    state.orders = [];
+    state.TradeBars = [];
+    state.symbol = "";
+    model.algorithmstep = {};
+  };
 
   const fetchData = () => {
     const datas = Object.keys(state.oResults?.RollingWindow).map((key) => {
@@ -128,16 +167,18 @@ export default () => {
       <div
         className={styles.loading_container_body}
         style={{
-          display: !!model.results ? "flex" : "none",
+          display: model.running && !model.results ? "flex" : "none",
         }}
       >
         <div className={styles.loading_container_content}>
           {state.algorithmstepConfig.map((key: any, index) => {
-            const obj = model.algorithmstep[key] || {};
+            const obj = model.algorithmstep[key] ?? {};
             const { progress = 0, status = true } = obj;
             return (
               <div key={index} className={styles.loading_container_item}>
-                <span className={styles.loading_item_title}>{key}</span>
+                <span className={styles.loading_item_title}>
+                  {state.algorithmstepConfigMap[key]}
+                </span>
                 <div className={styles.loading_item_content}>
                   <Progress
                     percent={progress}
@@ -207,7 +248,7 @@ export default () => {
             <div className={styles.chart}>
               {state.TradeBars.length > 0 && (
                 <TradingViewDataBase
-                  TradeBars={state.TradeBars}
+                  TradeBars={[...state.TradeBars]}
                   symbol={state.symbol}
                   orders={state.orders}
                 />
