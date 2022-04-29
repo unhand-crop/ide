@@ -14,6 +14,7 @@ import { useMount, useReactive } from "ahooks";
 
 import { IpcRendererEvent } from "electron";
 import { createModel } from "hox";
+import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 import { resultPanel } from "@/workbench/extensions/result/base";
 import { uniqueId } from "lodash";

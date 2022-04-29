@@ -8,7 +8,10 @@ import useMarketModel from "@/models/market";
 interface ListProps {
   item: GetSymbolsOutput;
   index: number;
-  exchangeRate: number;
+  exchangeRate: {
+    price: number;
+    symbol: string;
+  };
   onClick: (index: number, name: string) => void;
   selectIndex: number;
   onCanel: (item: string) => void;
@@ -43,10 +46,10 @@ const List = ({
       <span className={`${styles.last_column_header} ${styles.column_header}`}>
         <span className={styles.label}>
           <span className={styles.inner}>
-            $
+            {exchangeRate.symbol}
             {Number(
               model.prices[item.enName + "-USD"]?.content?.currentPrice *
-                exchangeRate ?? 0
+                exchangeRate.price ?? 0
             ).toFixed(2)}
           </span>
         </span>

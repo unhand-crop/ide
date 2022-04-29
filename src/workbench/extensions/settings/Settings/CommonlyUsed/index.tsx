@@ -59,7 +59,7 @@ function CommonlyUsed() {
     getAllCurrencysData();
   };
 
-  const handleSetExchangeRate = async (fullName: string) => {
+  const handleSetExchangeRate = async (fullName: string, symbol: string) => {
     if (fullName !== "USD") {
       const { success, data } = await getCurrencyRates({
         from: "USD",
@@ -71,6 +71,7 @@ function CommonlyUsed() {
         window.api.store.set("currency-conversion", {
           currencyName: data.to,
           converted: data.converted,
+          symbol: symbol,
         });
       }
     } else {
@@ -79,6 +80,7 @@ function CommonlyUsed() {
       window.api.store.set("currency-conversion", {
         currencyName: "USD",
         converted: 1,
+        symbol: "$",
       });
     }
   };
@@ -158,7 +160,9 @@ function CommonlyUsed() {
             {state.content.map((item, index) => {
               return (
                 <li
-                  onClick={() => handleSetExchangeRate(item.fullName)}
+                  onClick={() =>
+                    handleSetExchangeRate(item.fullName, item.symbol)
+                  }
                   className={styles.exchange_rate_item}
                   key={index}
                 >
