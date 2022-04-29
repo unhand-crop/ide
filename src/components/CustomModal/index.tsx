@@ -40,7 +40,7 @@ interface formValue {
   ATTRIBUTES: any;
 }
 
-const InitBackTest = () => {
+const CustomBackTest = () => {
   const { model: editorModel } = useEditorModel();
   const { model: backtestModel } = useBackTestModel();
   const state = useReactive<{ locale: PickerLocale }>({
@@ -54,8 +54,9 @@ const InitBackTest = () => {
       values?.ATTRIBUTES?.map((item: ATTRIBUTESItem) => {
         return `${item.first}=${item.last}`;
       }) || [];
-    molecule.layout.togglePanelVisibility();
-    backtestModel.customVisble = false;
+
+    backtestModel.visible = false;
+
     if (editorModel.dirPath) {
       await window.api.engine.backtest({
         id: editorModel.dirPath,
@@ -79,8 +80,8 @@ const InitBackTest = () => {
   return (
     <Modal
       width={476}
-      visible={backtestModel.customVisble}
-      onCancel={() => (backtestModel.customVisble = false)}
+      visible={backtestModel.visible}
+      onCancel={() => (backtestModel.visible = false)}
     >
       <div className={styles.content_body}>
         <Form
@@ -229,7 +230,9 @@ const InitBackTest = () => {
               shape="round"
               htmlType="button"
               ghost={true}
-              onClick={() => (backtestModel.customVisble = false)}
+              onClick={() => {
+                backtestModel.visible = false;
+              }}
             >
               {localize("customModal.cancel", "取消")}
             </Button>
@@ -240,4 +243,4 @@ const InitBackTest = () => {
   );
 };
 
-export default InitBackTest;
+export default CustomBackTest;

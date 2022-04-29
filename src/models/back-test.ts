@@ -3,16 +3,12 @@ import { useMount, useReactive, useRequest } from "ahooks";
 import { createModel } from "hox";
 import { getApiTreeMethods } from "@/services/api-tree";
 
-function useBackTestModel() {
+function useBacktestModel() {
   const model = useReactive<{
     visible: boolean;
-    customVisble: boolean;
-    apiDocumentation: boolean;
     env: {};
   }>({
     visible: false,
-    customVisble: false,
-    apiDocumentation: false,
     env: {},
   });
 
@@ -32,4 +28,4 @@ function useBackTestModel() {
   };
 }
 
-export default createModel(useBackTestModel);
+export default createModel(useBacktestModel);

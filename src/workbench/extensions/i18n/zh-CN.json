@@ -7,24 +7,21 @@
     "backtest.result": "结果",
     "backtest.OpenAPIDocumentation": "打开API文档",
     "backtest.CloseAPIDocumentation": "关闭API文档",
-    "backtest.initConfig":"初始化配置",
-    "backtest.downloadData":"下载数据",
-    "backtest.algorithmRunning":"算法运行",
-    "backtest.responseResult":"相应结果",
+    "backtest.initConfig": "初始化配置",
+    "backtest.downloadData": "下载数据",
+    "backtest.algorithmRunning": "算法运行",
+    "backtest.responseResult": "响应结果",
     "launcher.newAlgorithm": "新建算法",
     "launcher.openAlgorithm": "打开算法",
     "launcher.recentlyOpened": "最近打开",
-    "infoBacktest.title": "检查环境变量",
-    "infoBacktest.WSL": "子系统是否已经开启",
-    "infoBacktest.notWSL": "子系统权限未开启，需要开启",
-    "infoBacktest.docker": "Docker是否已安装并启动了?",
-    "infoBacktest.notDocker": "Docker未安装或启动",
-    "infoBacktest.images": "镜像是否已经下载了?",
-    "infoBacktest.notImages": "镜像未下载，需要下载",
-    "infoBacktest.backtestData": "回测数据是否已经预先下载",
-    "infoBacktest.notBacktestData": "回测数据未预先下载，需要下载",
-    "infoBacktest.referenceDocuments": "参考文档",
-    "infoBacktest.next": "下一步",
+
+    "initEnvModel.referenceDocuments": "参考文档",
+    "initEnvModel.next": "下一步",
+    "initEnvModel.log": "查看日志",
+    "initEnvModel.vm": "安装虚拟机",
+    "initEnvModel.instance": "安装容器",
+    "initEnvModel.image": "安装算法引擎",
+
     "sidebar.algorithm": "新建算法",
     "newAlgorithm.selectLanguage": "选择使用的语言",
     "newAlgorithm.selectTemplate": "选择使用的模版",
@@ -66,6 +63,8 @@
     "market.searchCurrency": "搜索货币",
     "market.explain": "说明",
     "market.total": "共有",
-    "market.items": "数据"
+    "market.items": "数据",
+
+    "panel.result.name": "结果"
   }
 }

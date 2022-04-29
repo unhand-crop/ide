@@ -30,7 +30,7 @@ import CustomModal from "@/components/CustomModal";
 import { EditorView } from "@dtinsight/molecule/esm//workbench/editor";
 import { ID_APP } from "@dtinsight/molecule/esm/common/id";
 import { IWorkbench } from "@dtinsight/molecule/esm/model/workbench";
-import InitBacktest from "@/components/InitBacktest";
+import InitEnvModel from "@/components/InitEnvModel";
 import { LayoutService } from "@dtinsight/molecule/esm/services";
 import { MenuBarView } from "@dtinsight/molecule/esm/workbench/menuBar";
 import { PanelView } from "@dtinsight/molecule/esm/workbench/panel";
@@ -41,6 +41,7 @@ import { container } from "tsyringe";
 import molecule from "@dtinsight/molecule";
 import useBacktestModal from "@/models/back-test";
 import useEditorModel from "@/models/editor";
+import useEngineModal from "@/models/engine";
 import useSettingModel from "@/models/setting";
 
 const mainBenchClassName = prefixClaName("mainBench");
@@ -147,7 +148,10 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
     }
   };
   const {
-    model: { visible = false, customVisble = false, apiDocumentation },
+    model: { modalVisible, docsPanelVisible },
+  } = useEngineModal();
+  const {
+    model: { visible: customVisible = false },
   } = useBacktestModal();
 
   return (
@@ -199,7 +203,7 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
           <div
             className={`
               ${
-                apiDocumentation
+                docsPanelVisible
                   ? "file_tree_bar_display"
                   : "file_tree_bar_none"
               } file_tree_bar
@@ -209,10 +213,10 @@ function WorkbenchView(props: IWorkbench & ILayout & ILayoutController) {
           </div>
         </div>
       </div>
-      <Display visible={visible}>
-        <InitBacktest />
+      <Display visible={modalVisible}>
+        <InitEnvModel />
       </Display>
-      <Display visible={customVisble}>
+      <Display visible={customVisible}>
         <CustomModal />
       </Display>
       <Display visible={!statusBar.hidden}>

@@ -58,6 +58,7 @@ interface statisticsListProps {
 
 export default () => {
   const { model } = useEngineModel();
+
   const state = useReactive<{
     oResults: any;
     loading: boolean;
@@ -65,9 +66,10 @@ export default () => {
     selectItem: number;
     dateResult: any;
     orders: readonly object[];
-    TradeBars?: any;
+    TradeBars?: any[];
     symbol?: string;
     algorithmstepConfig: string[];
+    algorithmstepConfigMap: Record<string, string>;
   }>({
     oResults: {},
     loading: false,
@@ -78,39 +80,56 @@ export default () => {
     TradeBars: [],
     symbol: "",
     algorithmstepConfig: [
-      localize("backtest.initConfig", "初始化配置"),
-      localize("backtest.downloadData", "下载数据"),
-      localize("backtest.algorithmRunning", "算法运行"),
-      localize("backtest.responseResult", "相应结果"),
+      "initconfig",
+      "downloaddata",
+      "algorithmrunning",
+      "responseresult",
     ],
+    algorithmstepConfigMap: {
+      initconfig: localize("backtest.initConfig", "初始化配置"),
+      downloaddata: localize("backtest.downloadData", "下载数据"),
+      algorithmrunning: localize("backtest.algorithmRunning", "算法运行"),
+      responseresult: localize("backtest.responseResult", "响应结果"),
+    },
   });
 
-  useEffect(() => {
-    molecule.layout.onUpdateState(async (prevState, nextState) => {
-      try {
-        if (nextState.panel.hidden) {
-          await window.api.engine.stop();
-          initState();
-        }
-      } catch (e) {}
-    });
-  }, []);
+  // useEffect(() => {
+  //   molecule.layout.onUpdateState(async (prevState, nextState) => {
+  //     try {
+  //       if (nextState.panel.hidden) {
+  //         await window.api.engine.stop();
+  //         initState();
+  //       }
+  //     } catch (e) {}
+  //   });
+  // }, []);
 
   useEffect(() => {
-    const { type = "", content = {} } = model?.results;
-    if (type === "backtestresult") {
-      const { Orders = {} } = (state.oResults = content?.oResults || {});
-      state.orders = Orders;
-      fetchData();
-      state.loading = false;
-    } else if (type === "kline") {
-      state.symbol = content?.Symbol?.Value || "";
-      state.TradeBars = content?.TradeBars || [];
-      console.log("state.symbol, state.TradeBars", state.TradeBars);
-    } else {
-      state.loading = true;
+    if (model.results) {
+      const { type = "", content = {} } = model?.results;
+      if (type === "backtestresult") {
+        const { Orders = {} } = (state.oResults = content?.oResults || {});
+        state.orders = Orders;
+        fetchData();
+        state.loading = false;
+      } else if (type === "kline") {
+        state.symbol = content?.Symbol?.Value ?? "";
+        state.TradeBars = [
+          // ...(state.TradeBars ?? []),
+          ...(content?.TradeBars ?? []),
+        ];
+        console.log("state.TradeBars", state.TradeBars);
+      } else {
+        state.loading = true;
+      }
     }
   }, [model.results]);
+
+  useEffect(() => {
+    if (model.running) {
+      initState();
+    }
+  }, [model.running]);
 
   const initState = () => {
     state.oResults = {};
@@ -147,15 +166,19 @@ export default () => {
     <div className={styles.container}>
       <div
         className={styles.loading_container_body}
-        style={{ display: state.loading ? "flex" : "none" }}
+        style={{
+          display: model.running && !model.results ? "flex" : "none",
+        }}
       >
         <div className={styles.loading_container_content}>
           {state.algorithmstepConfig.map((key: any, index) => {
-            const obj = model.algorithmstep[key] || {};
+            const obj = model.algorithmstep[key] ?? {};
             const { progress = 0, status = true } = obj;
             return (
               <div key={index} className={styles.loading_container_item}>
-                <span className={styles.loading_item_title}>{key}</span>
+                <span className={styles.loading_item_title}>
+                  {state.algorithmstepConfigMap[key]}
+                </span>
                 <div className={styles.loading_item_content}>
                   <Progress
                     percent={progress}
@@ -185,7 +208,10 @@ export default () => {
               size="large"
               block
               color="#2154E0"
-              onClick={() => molecule.layout.togglePanelVisibility()}
+              onClick={async () => {
+                await window.api.engine.stop();
+                molecule.layout.togglePanelVisibility();
+              }}
             >
               取消
             </Button>
@@ -194,7 +220,9 @@ export default () => {
       </div>
       <div
         className={styles.all_container}
-        style={{ visibility: state.loading ? "hidden" : "visible" }}
+        style={{
+          visibility: !model.results ? "hidden" : "visible",
+        }}
       >
         <div className={styles.card_container}>
           <div className={styles.card_header}>
@@ -220,7 +248,7 @@ export default () => {
             <div className={styles.chart}>
               {state.TradeBars.length > 0 && (
                 <TradingViewDataBase
-                  TradeBars={state.TradeBars}
+                  TradeBars={[...state.TradeBars]}
                   symbol={state.symbol}
                   orders={state.orders}
                 />

@@ -1,10 +1,10 @@
 import { CaretRightOutlined, SearchOutlined } from "@ant-design/icons";
-import React, { useEffect } from "react";
 
 import { Collapse } from "antd";
 import { ISidebarPane } from "@dtinsight/molecule/esm/model";
 import Input from "@/components/Input";
 import { ParametersOutput } from "@/services/api-tree";
+import React from "react";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import styles from "./index.module.scss";
 import useBackTestModel from "@/models/back-test";
