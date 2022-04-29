@@ -27,7 +27,7 @@ export default () => {
     name: "",
     symbol: "",
   });
-  const [exchangeRate, setExchangeRate] = useState(1);
+  const [exchangeRate, setExchangeRate] = useState({ symbol: "$", price: 1 });
   const [auxiliary, setAuxiliary] = useState(1);
   const state = useReactive<{
     commodityList: any;
@@ -58,8 +58,10 @@ export default () => {
   }, [auxiliary, exchangeRate]);
 
   const fetchExchangeRate = async () => {
-    const { converted } = await window.api.store.get("currency-conversion");
-    setExchangeRate(converted);
+    const { converted, symbol } = await window.api.store.get(
+      "currency-conversion"
+    );
+    setExchangeRate({ symbol, price: converted });
     setAuxiliary(auxiliary + 1);
   };
 
