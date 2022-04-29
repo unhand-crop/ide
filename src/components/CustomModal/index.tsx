@@ -11,16 +11,19 @@ import {
   Space,
 } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import React, { useEffect } from "react";
 
 import Modal from "@/components/Modal";
-import React from "react";
-import locale from "antd/es/date-picker/locale/zh_CN";
+import { PickerLocale } from "antd/lib/date-picker/generatePicker";
+import en_US from "antd/es/date-picker/locale/en_US";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 import moment from "moment";
 import styles from "./index.module.scss";
 import useBackTestModel from "@/models/back-test";
 import useEditorModel from "@/models/editor";
+import { useReactive } from "ahooks";
+import zh_CN from "antd/es/date-picker/locale/zh_CN";
 
 moment.locale("zh-cn");
 
@@ -40,7 +43,9 @@ interface formValue {
 const InitBackTest = () => {
   const { model: editorModel } = useEditorModel();
   const { model: backtestModel } = useBackTestModel();
-
+  const state = useReactive<{ locale: PickerLocale }>({
+    locale: null,
+  });
   const onFinish = async (values: formValue) => {
     const STARTDATE = moment(values.DATE[0]).format("YYYY-MM-DD");
     const ENDDATE = moment(values.DATE[1]).format("YYYY-MM-DD");
@@ -61,6 +66,15 @@ const InitBackTest = () => {
       });
     }
   };
+
+  useEffect(() => {
+    const locale = molecule.i18n.getCurrentLocale();
+    if (locale.id === "custom-zh-CN") {
+      state.locale = zh_CN;
+    } else {
+      state.locale = en_US;
+    }
+  }, []);
 
   return (
     <Modal
@@ -94,7 +108,7 @@ const InitBackTest = () => {
             ]}
           >
             <RangePicker
-              locale={locale}
+              locale={state.locale}
               disabledDate={(current) => {
                 return current && current > moment().endOf("day");
               }}
