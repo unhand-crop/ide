@@ -18,10 +18,10 @@ import {
 
 import { factory } from "nerdctl";
 import moment from "moment";
-import shell from "shelljs";
+// import shell from "shelljs";
 import { store } from "./store";
 
-shell.config.execPath = shell.which("node").toString();
+// shell.config.execPath = which.sync("node")?.toString();
 
 export const vm = factory();
 
