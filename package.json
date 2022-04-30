@@ -1,6 +1,6 @@
 {
   "name": "ide",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "productName": "UnhandStudio",
   "description": "Unhand Studio",
   "keywords": [],
@@ -100,7 +100,6 @@
     "@types/lodash": "^4.14.181",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.13",
-    "@types/shelljs": "^0.8.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "@vercel/webpack-asset-relocator-loader": "1.7.0",
@@ -144,12 +143,11 @@
     "get-port": "^6.1.2",
     "hox": "^1.1.6",
     "lodash": "^4.17.21",
-    "nerdctl": "^0.2.1",
+    "nerdctl": "^0.2.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.2",
     "rimraf": "^3.0.2",
-    "shelljs": "^0.8.5",
     "umi-request": "^1.4.0",
     "unzipper": "^0.10.11"
   }
