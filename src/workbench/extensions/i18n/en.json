@@ -18,8 +18,7 @@
     "initEnvModel.referenceDocuments": "Reference documents",
     "initEnvModel.next": "Next",
     "initEnvModel.log": "View logs",
-    "initEnvModel.vm": "Installing virtual machine",
-    "initEnvModel.instance": "Installing container",
+    "initEnvModel.vm": "Installing virtual machine container",
     "initEnvModel.image": "Installing algorithm engine",
 
     "sidebar.algorithm": "New algorithm",

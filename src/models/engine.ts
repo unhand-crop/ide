@@ -1,7 +1,6 @@
 import { CompareInfo, getByVersion } from "@/services/env";
 import {
   ENGINE_EVENT_INIT_IMAGE_FINISH,
-  ENGINE_EVENT_INIT_INSTANCE_FINISH,
   ENGINE_EVENT_INIT_VM_FINISH,
   ENGINE_EVENT_RESULT,
   ENGINE_EVENT_STREAM_DATA,
@@ -24,7 +23,6 @@ function useEngineModel() {
     modalVisible: boolean;
     docsPanelVisible: boolean;
     checkVM: boolean;
-    checkInstance: boolean;
     checkImage: boolean;
     algorithmstep: any;
     algorithmstepConfig: any[];
@@ -36,7 +34,6 @@ function useEngineModel() {
     modalVisible: false,
     docsPanelVisible: false,
     checkVM: false,
-    checkInstance: false,
     checkImage: false,
 
     running: false,
@@ -109,14 +106,17 @@ function useEngineModel() {
     window.api.ipc.on(ENGINE_EVENT_INIT_VM_FINISH, () => {
       model.checkVM = true;
     });
-    window.api.ipc.on(ENGINE_EVENT_INIT_INSTANCE_FINISH, () => {
-      model.checkInstance = true;
-    });
     window.api.ipc.on(ENGINE_EVENT_INIT_IMAGE_FINISH, () => {
       model.checkImage = true;
     });
 
     setTimeout(async () => {
+      console.log(molecule.panel.getState());
+
+      molecule.panel.remove("panel.problems.title");
+      // molecule.panel.setActive("panel.output.title");
+      molecule.panel.cleanOutput();
+
       molecule.panel.appendOutput(
         "Querying the latest image version information\n"
       );
@@ -142,11 +142,11 @@ function useEngineModel() {
         `The virtual machine is ${model.checkVM ? "ready" : "not ready"}\n`
       );
 
-      molecule.panel.appendOutput(`Checking container environment\n`);
-      model.checkInstance = await window.api.engine.checkInstance();
-      molecule.panel.appendOutput(
-        `The container is ${model.checkInstance ? "ready" : "not ready"}\n`
-      );
+      if (!model.checkVM) {
+        molecule.panel.appendOutput(`Installing virtual machine\n`);
+        await window.api.engine.initVM();
+        molecule.panel.appendOutput(`Virtual machine installed\n`);
+      }
 
       molecule.panel.appendOutput(`Checking algorithm engine environment\n`);
       model.checkImage = await window.api.engine.checkImage();
@@ -154,16 +154,6 @@ function useEngineModel() {
         `The algorithm engine is ${model.checkImage ? "ready" : "not ready"}\n`
       );
 
-      if (!model.checkVM) {
-        molecule.panel.appendOutput(`Installing virtual machine\n`);
-        await window.api.engine.initVM();
-        molecule.panel.appendOutput(`Virtual machine installed\n`);
-      }
-      if (!model.checkInstance) {
-        molecule.panel.appendOutput(`Installing container\n`);
-        await window.api.engine.initInstance();
-        molecule.panel.appendOutput(`Container installed\n`);
-      }
       if (!model.checkImage) {
         molecule.panel.appendOutput(`Installing algorithm engine\n`);
         await window.api.engine.initImage();

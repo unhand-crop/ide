@@ -18,11 +18,7 @@ const BackTest = () => {
         molecule.panel.toggleMaximize();
       }
     }
-    if (
-      engineModel.checkVM &&
-      engineModel.checkInstance &&
-      engineModel.checkImage
-    ) {
+    if (engineModel.checkVM && engineModel.checkImage) {
       backtestModel.visible = true;
     } else {
       engineModel.modalVisible = true;
