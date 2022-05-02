@@ -10,6 +10,7 @@ import useEngineModel from "@/models/engine";
 
 const App = () => {
   useEngineModel();
+
   return (
     <MoleculeProvider extensions={extensions} defaultLocale="custom-zh-CN">
       <Router>

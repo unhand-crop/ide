@@ -24,10 +24,7 @@ const next = localize("initEnvModel.next", "下一步");
 const log = localize("initEnvModel.log", "查看日志");
 const checkList = [
   {
-    name: localize("initEnvModel.vm", "安装虚拟机"),
-  },
-  {
-    name: localize("initEnvModel.instance", "安装容器"),
+    name: localize("initEnvModel.vm", "安装虚拟机容器"),
   },
   {
     name: localize("initEnvModel.image", "安装算法引擎"),
@@ -45,16 +42,16 @@ const InitEnvModel = ({ onClick }: InitBackTestProps) => {
 
   const viewLogs = () => {
     model.modalVisible = false;
-    molecule.panel.setActive("panel.output.title");
     molecule.layout.setState({
       panel: {
         hidden: false,
         panelMaximized: true,
       },
     });
+    molecule.panel.setActive("panel.output.title");
   };
 
-  const disabled = !model.checkVM || !model.checkInstance || !model.checkImage;
+  const disabled = !model.checkVM || !model.checkImage;
 
   return (
     <Modal
@@ -73,19 +70,8 @@ const InitEnvModel = ({ onClick }: InitBackTestProps) => {
               }
             />
             <Step
-              status={model.checkInstance ? "finish" : "process"}
-              title={checkList[1].name}
-              icon={
-                model.checkInstance ? (
-                  <CheckCircleOutlined />
-                ) : (
-                  <LoadingOutlined />
-                )
-              }
-            />
-            <Step
               status={model.checkImage ? "finish" : "process"}
-              title={checkList[2].name}
+              title={checkList[1].name}
               icon={
                 model.checkImage ? <CheckCircleOutlined /> : <LoadingOutlined />
               }

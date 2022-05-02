@@ -1,12 +1,8 @@
-import { BrowserWindow, ipcMain, ipcRenderer } from "electron";
+import { BrowserWindow, app, ipcMain, ipcRenderer } from "electron";
 import {
   ENGINE_CONTAINER_NAME,
   ENGINE_EVENT_INIT_IMAGE_FINISH,
-  ENGINE_EVENT_INIT_IMAGE_START,
-  ENGINE_EVENT_INIT_INSTANCE_FINISH,
-  ENGINE_EVENT_INIT_INSTANCE_START,
   ENGINE_EVENT_INIT_VM_FINISH,
-  ENGINE_EVENT_INIT_VM_START,
   ENGINE_EVENT_SERVER_PORT,
   ENGINE_EVENT_STREAM_DATA,
   ENGINE_EVENT_STREAM_FINISH,
@@ -15,31 +11,41 @@ import {
   ENGINE_HOST_DOMAIN,
   ENGINE_IMAGE_NAME,
 } from "@/constants/engine";
+import { events, factory } from "nerdctl";
 
-import { factory } from "nerdctl";
 import moment from "moment";
-// import shell from "shelljs";
 import { store } from "./store";
 
-// shell.config.execPath = which.sync("node")?.toString();
-
-export const vm = factory();
-
 export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
+  const vm = factory(app.getAppPath());
+  vm.on(events.VM_INIT_OUTPUT, (data) => {
+    console.log(data);
+    mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data);
+  });
+  vm.on(events.VM_INIT_END, () => {
+    mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_FINISH);
+  });
+  vm.on(events.IMAGE_PULL_OUTPUT, (data: string) => {
+    console.log(data);
+    mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data);
+  });
+  vm.on(events.CONTAINER_RUN_OUTPUT, (data: string) => {
+    console.log(data);
+    mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data);
+  });
+
   ipcMain.handle("engine.backtest", async (_, args) => {
     mainWindow.webContents.send(ENGINE_EVENT_STREAM_START);
 
     const { id, ENDDATE, STARTDATE, SERVICECHARGE, ATTRIBUTES } = args[0];
 
     const port = await store.get(ENGINE_EVENT_SERVER_PORT);
+    try {
+      await vm.remove(ENGINE_CONTAINER_NAME, { force: true });
+    } finally {
+      const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
 
-    await vm.remove(ENGINE_CONTAINER_NAME, { force: true });
-
-    const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
-
-    await vm.run(
-      imageName,
-      {
+      await vm.run(imageName, {
         name: ENGINE_CONTAINER_NAME,
         rm: true,
         env: [
@@ -51,13 +57,10 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
           ...ATTRIBUTES,
         ],
         volume: [`${id}:/app/custom/algorithm`],
-      },
-      (data: string) => {
-        mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data);
-      }
-    );
+      });
 
-    mainWindow.webContents.send(ENGINE_EVENT_STREAM_FINISH);
+      mainWindow.webContents.send(ENGINE_EVENT_STREAM_FINISH);
+    }
   });
   ipcMain.handle("engine.stop", async (_, args) => {
     mainWindow.webContents.send(ENGINE_EVENT_STREAM_STOP);
@@ -67,21 +70,7 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     return await vm.checkVM();
   });
   ipcMain.handle("engine.initVM", async () => {
-    mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_START);
-    await vm.initVM((data) => {
-      mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data);
-    });
-    mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_FINISH);
-  });
-  ipcMain.handle("engine.checkInstance", async () => {
-    return await vm.checkInstance();
-  });
-  ipcMain.handle("engine.initInstance", async () => {
-    mainWindow.webContents.send(ENGINE_EVENT_INIT_INSTANCE_START);
-    await vm.initInstance((data) => {
-      mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data);
-    });
-    mainWindow.webContents.send(ENGINE_EVENT_INIT_INSTANCE_FINISH);
+    await vm.initVM();
   });
   ipcMain.handle("engine.checkImage", async () => {
     const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
@@ -95,12 +84,8 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     );
   });
   ipcMain.handle("engine.initImage", async () => {
-    mainWindow.webContents.send(ENGINE_EVENT_INIT_IMAGE_START);
     const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
-    await vm.pullImage(imageName, (data) => {
-      console.log(data);
-      mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data);
-    });
+    await vm.pullImage(imageName);
     mainWindow.webContents.send(ENGINE_EVENT_INIT_IMAGE_FINISH);
   });
 };
@@ -118,12 +103,6 @@ export const registerEngineInvokes = () => {
     },
     async initVM() {
       return await ipcRenderer.invoke("engine.initVM");
-    },
-    async checkInstance() {
-      return await ipcRenderer.invoke("engine.checkInstance");
-    },
-    async initInstance() {
-      return await ipcRenderer.invoke("engine.initInstance");
     },
     async checkImage() {
       return await ipcRenderer.invoke("engine.checkImage");

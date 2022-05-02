@@ -1,8 +1,7 @@
 {
   "name": "ide",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "productName": "UnhandStudio",
-  "description": "Unhand Studio",
   "keywords": [],
   "license": "MIT",
   "author": {
@@ -143,7 +142,7 @@
     "get-port": "^6.1.2",
     "hox": "^1.1.6",
     "lodash": "^4.17.21",
-    "nerdctl": "^0.2.2",
+    "nerdctl": "^0.3.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.2",

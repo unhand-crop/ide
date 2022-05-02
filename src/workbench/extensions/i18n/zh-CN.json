@@ -18,8 +18,7 @@
     "initEnvModel.referenceDocuments": "参考文档",
     "initEnvModel.next": "下一步",
     "initEnvModel.log": "查看日志",
-    "initEnvModel.vm": "安装虚拟机",
-    "initEnvModel.instance": "安装容器",
+    "initEnvModel.vm": "安装虚拟机容器",
     "initEnvModel.image": "安装算法引擎",
 
     "sidebar.algorithm": "新建算法",
