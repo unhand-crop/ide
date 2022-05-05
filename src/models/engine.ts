@@ -15,8 +15,10 @@ import { IpcRendererEvent } from "electron";
 import { createModel } from "hox";
 import molecule from "@dtinsight/molecule";
 import { resultPanel } from "@/workbench/extensions/result/base";
+import useConsoleModel from "./console";
 
 function useEngineModel() {
+  const { log } = useConsoleModel();
   const model = useReactive<{
     running: boolean;
     results: any;
@@ -72,7 +74,7 @@ function useEngineModel() {
           break;
         case "error":
           console.error(data.content);
-          // console.log(data.content + "\n");
+          log(data.content);
           break;
         default:
           break;
@@ -100,8 +102,7 @@ function useEngineModel() {
     window.api.ipc.on(
       ENGINE_EVENT_STREAM_DATA,
       (_: IpcRendererEvent, data: string) => {
-        console.log(data);
-        // console.log(data + "\n");
+        log(data);
       }
     );
 
@@ -113,7 +114,7 @@ function useEngineModel() {
     });
 
     setTimeout(async () => {
-      console.log("Querying the latest image version information\n");
+      log("Querying the latest image version information");
 
       model.platform = await window.api.os.platform();
       model.arch = await window.api.os.arch();
@@ -121,7 +122,7 @@ function useEngineModel() {
         await getByVersion(VERSION, model.platform, model.arch)
       ).data;
 
-      console.log(
+      log(
         `Latest image version: ${model.info.editVersionInfo.bestImageVersion.fullName}\n`
       );
 
@@ -130,28 +131,26 @@ function useEngineModel() {
         model.info.editVersionInfo.bestImageVersion.fullName
       );
 
-      console.log(`Checking virtual machine environment\n`);
+      log(`Checking virtual machine environment`);
       model.checkVM = await window.api.engine.checkVM();
-      console.log(
-        `The virtual machine is ${model.checkVM ? "ready" : "not ready"}\n`
-      );
+      log(`The virtual machine is ${model.checkVM ? "ready" : "not ready"}`);
 
       if (!model.checkVM) {
-        console.log(`Installing virtual machine\n`);
+        log(`Installing virtual machine`);
         await window.api.engine.initVM();
-        console.log(`Virtual machine installed\n`);
+        log(`Virtual machine installed`);
       }
 
-      console.log(`Checking algorithm engine environment\n`);
+      log(`Checking algorithm engine environment`);
       model.checkImage = await window.api.engine.checkImage();
-      console.log(
-        `The algorithm engine is ${model.checkImage ? "ready" : "not ready"}\n`
+      log(
+        `The algorithm engine is ${model.checkImage ? "ready" : "not ready"}`
       );
 
       if (!model.checkImage) {
-        console.log(`Installing algorithm engine\n`);
+        log(`Installing algorithm engine`);
         await window.api.engine.initImage();
-        console.log(`Algorithm engine installed\n`);
+        log(`Algorithm engine installed`);
       }
     }, 2000);
   });

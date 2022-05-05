@@ -1,5 +1,6 @@
 import { IExtension } from "@dtinsight/molecule/esm/model";
 import { IExtensionService } from "@dtinsight/molecule/esm/services";
+import { constants } from "@dtinsight/molecule/esm/services/builtinService/const";
 import molecule from "@dtinsight/molecule";
 import { resultPanel } from "./base";
 
@@ -14,10 +15,10 @@ export class ResultExtension implements IExtension {
         panelMaximized: false,
       },
     });
-    molecule.panel.remove("panel.problems.title");
-    molecule.panel.remove("panel.output.title");
+    molecule.panel.remove(constants.PANEL_PROBLEMS);
+    molecule.panel.remove(constants.PANEL_OUTPUT);
+    // molecule.panel.setActive(constants.PANEL_OUTPUT);
     molecule.panel.add(resultPanel);
-    molecule.panel.setActive(resultPanel.id);
   }
 
   dispose(extensionCtx: IExtensionService): void {

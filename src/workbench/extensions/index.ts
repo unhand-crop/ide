@@ -1,5 +1,6 @@
 import { AccountExtension } from "./account";
 import { ActionExtension } from "./action";
+import { ConsoleExtension } from "./console";
 import { ExplorerExtension } from "./explorer";
 import { ExtendLocales } from "./i18n";
 import { FoldTreeExtension } from "./folderTree";
@@ -18,6 +19,7 @@ const extensions: IExtension[] = [
   new AccountExtension(),
   new MarketExtension(),
   new ExplorerExtension(),
+  new ConsoleExtension(),
   new ResultExtension(),
   new StatusBarExtension(),
   new FoldTreeExtension(),

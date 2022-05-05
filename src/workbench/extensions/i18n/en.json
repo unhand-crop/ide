@@ -64,6 +64,7 @@
     "market.total": "Total",
     "market.items": "items",
 
-    "panel.result.name": "RESULTS"
+    "panel.result.name": "RESULTS",
+    "panel.console.name": "CONSOLE"
   }
 }

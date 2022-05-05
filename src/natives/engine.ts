@@ -77,11 +77,11 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
     const images = await vm.getImages();
     return (
-      !images ||
-      images.length <= 0 ||
+      !!images &&
+      images.length > 0 &&
       images.findIndex(
         (img) => `${img.Repository}:${img.Tag} === ${imageName}`
-      ) < 0
+      ) >= 0
     );
   });
   ipcMain.handle("engine.initImage", async () => {

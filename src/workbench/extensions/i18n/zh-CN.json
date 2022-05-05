@@ -64,6 +64,7 @@
     "market.total": "共有",
     "market.items": "数据",
 
-    "panel.result.name": "结果"
+    "panel.result.name": "结果",
+    "panel.console.name": "控制台"
   }
 }

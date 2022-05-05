@@ -3,6 +3,7 @@ import { CheckCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 
 import Modal from "@/components/Modal";
 import React from "react";
+import { consolePanel } from "@/workbench/extensions/console/base";
 import { localize } from "@dtinsight/molecule/esm/i18n/localize";
 import molecule from "@dtinsight/molecule";
 import styles from "./index.module.scss";
@@ -48,6 +49,7 @@ const InitEnvModel = ({ onClick }: InitBackTestProps) => {
         panelMaximized: true,
       },
     });
+    molecule.panel.setActive(consolePanel.id);
   };
 
   const disabled = !model.checkVM || !model.checkImage;
@@ -106,9 +108,9 @@ const InitEnvModel = ({ onClick }: InitBackTestProps) => {
         >
           {next}
         </Button>
-        {/* <a className={styles.view_logs} onClick={viewLogs}>
+        <a className={styles.view_logs} onClick={viewLogs}>
           {log}
-        </a> */}
+        </a>
       </div>
     </Modal>
   );
