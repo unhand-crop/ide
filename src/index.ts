@@ -44,9 +44,9 @@ const createWindow = (): void => {
   loadApi(mainWindow);
   initServer(mainWindow, signal);
 
-  if (isDev) {
-    mainWindow.webContents.toggleDevTools();
-  }
+  // if (isDev) {
+  mainWindow.webContents.toggleDevTools();
+  // }
 };
 
 // This method will be called when Electron has finished

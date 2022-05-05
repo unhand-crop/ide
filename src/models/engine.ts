@@ -99,7 +99,8 @@ function useEngineModel() {
     window.api.ipc.on(
       ENGINE_EVENT_STREAM_DATA,
       (_: IpcRendererEvent, data: string) => {
-        molecule.panel.appendOutput(data + "\n");
+        console.log(data);
+        // molecule.panel.appendOutput(data + "\n");
       }
     );
 
@@ -159,7 +160,7 @@ function useEngineModel() {
         await window.api.engine.initImage();
         molecule.panel.appendOutput(`Algorithm engine installed\n`);
       }
-    }, 1000);
+    }, 2000);
   });
 
   return {
