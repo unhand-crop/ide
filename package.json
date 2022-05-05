@@ -36,7 +36,8 @@
         {
           "name": "@electron-forge/maker-dmg",
           "config": {
-            "name": "Unhand Studio"
+            "name": "UnhandStudio",
+            "icon": "./public/image/logo.png"
           }
         }
       ],
