@@ -42,10 +42,10 @@ jobs:
         env:
           TARGET_PLATFORMS: darwin
 
-      # - name: Build windows app
-      #   if: matrix.os == 'windows-latest'
-      #   run: |
-      #     yarn make --arch=x64
+      - name: Build windows app
+        if: matrix.os == 'windows-latest'
+        run: |
+          yarn make
 
       # - name: Cleanup artifacts
       #   run: |
