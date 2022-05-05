@@ -23,6 +23,7 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data);
   });
   vm.on(events.VM_INIT_END, () => {
+    console.log("VM_INIT_END");
     mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_FINISH);
   });
   vm.on(events.IMAGE_PULL_OUTPUT, (data: string) => {
