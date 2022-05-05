@@ -48,7 +48,6 @@ const InitEnvModel = ({ onClick }: InitBackTestProps) => {
         panelMaximized: true,
       },
     });
-    molecule.panel.setActive("panel.output.title");
   };
 
   const disabled = !model.checkVM || !model.checkImage;
@@ -107,9 +106,9 @@ const InitEnvModel = ({ onClick }: InitBackTestProps) => {
         >
           {next}
         </Button>
-        <a className={styles.view_logs} onClick={viewLogs}>
+        {/* <a className={styles.view_logs} onClick={viewLogs}>
           {log}
-        </a>
+        </a> */}
       </div>
     </Modal>
   );

@@ -71,7 +71,8 @@ function useEngineModel() {
           model.running = false;
           break;
         case "error":
-          molecule.panel.appendOutput(data.content + "\n");
+          console.error(data.content);
+          // console.log(data.content + "\n");
           break;
         default:
           break;
@@ -100,7 +101,7 @@ function useEngineModel() {
       ENGINE_EVENT_STREAM_DATA,
       (_: IpcRendererEvent, data: string) => {
         console.log(data);
-        // molecule.panel.appendOutput(data + "\n");
+        // console.log(data + "\n");
       }
     );
 
@@ -112,15 +113,7 @@ function useEngineModel() {
     });
 
     setTimeout(async () => {
-      console.log(molecule.panel.getState());
-
-      molecule.panel.remove("panel.problems.title");
-      // molecule.panel.setActive("panel.output.title");
-      molecule.panel.cleanOutput();
-
-      molecule.panel.appendOutput(
-        "Querying the latest image version information\n"
-      );
+      console.log("Querying the latest image version information\n");
 
       model.platform = await window.api.os.platform();
       model.arch = await window.api.os.arch();
@@ -128,7 +121,7 @@ function useEngineModel() {
         await getByVersion(VERSION, model.platform, model.arch)
       ).data;
 
-      molecule.panel.appendOutput(
+      console.log(
         `Latest image version: ${model.info.editVersionInfo.bestImageVersion.fullName}\n`
       );
 
@@ -137,28 +130,28 @@ function useEngineModel() {
         model.info.editVersionInfo.bestImageVersion.fullName
       );
 
-      molecule.panel.appendOutput(`Checking virtual machine environment\n`);
+      console.log(`Checking virtual machine environment\n`);
       model.checkVM = await window.api.engine.checkVM();
-      molecule.panel.appendOutput(
+      console.log(
         `The virtual machine is ${model.checkVM ? "ready" : "not ready"}\n`
       );
 
       if (!model.checkVM) {
-        molecule.panel.appendOutput(`Installing virtual machine\n`);
+        console.log(`Installing virtual machine\n`);
         await window.api.engine.initVM();
-        molecule.panel.appendOutput(`Virtual machine installed\n`);
+        console.log(`Virtual machine installed\n`);
       }
 
-      molecule.panel.appendOutput(`Checking algorithm engine environment\n`);
+      console.log(`Checking algorithm engine environment\n`);
       model.checkImage = await window.api.engine.checkImage();
-      molecule.panel.appendOutput(
+      console.log(
         `The algorithm engine is ${model.checkImage ? "ready" : "not ready"}\n`
       );
 
       if (!model.checkImage) {
-        molecule.panel.appendOutput(`Installing algorithm engine\n`);
+        console.log(`Installing algorithm engine\n`);
         await window.api.engine.initImage();
-        molecule.panel.appendOutput(`Algorithm engine installed\n`);
+        console.log(`Algorithm engine installed\n`);
       }
     }, 2000);
   });
