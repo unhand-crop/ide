@@ -1,6 +1,6 @@
 {
   "name": "ide",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "productName": "UnhandStudio",
   "keywords": [],
   "license": "MIT",
@@ -36,7 +36,8 @@
         {
           "name": "@electron-forge/maker-dmg",
           "config": {
-            "name": "Unhand Studio"
+            "name": "UnhandStudio",
+            "icon": "./public/image/logo.png"
           }
         }
       ],
