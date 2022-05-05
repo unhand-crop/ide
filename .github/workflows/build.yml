@@ -14,7 +14,6 @@ jobs:
       matrix:
         node-version: [16.x]
         os: [macos-latest, windows-latest]
-        arch: [arm64, x64]
     steps:
       # - id: get_version
       #   uses: battila7/get-version-action@v2
@@ -36,21 +35,10 @@ jobs:
           npm i -g rimraf
           yarn
 
-      - name: Build macOS app for arm64
-        if: |
-          matrix.os == 'macos-latest' && 
-          matrix.arch == 'arm64'
+      - name: Build macOS app
+        if: matrix.os == 'macos-latest'
         run: |
-          yarn make --arch=arm64
-        env:
-          TARGET_PLATFORMS: darwin
-
-      - name: Build macOS app for x64
-        if: |
-          matrix.os == 'macos-latest' && 
-          matrix.arch == 'x64'
-        run: |
-          yarn make --arch=x64
+          yarn make --arch=arm64,x64
         env:
           TARGET_PLATFORMS: darwin
 
