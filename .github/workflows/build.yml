@@ -36,17 +36,17 @@ jobs:
           npm i -g rimraf
           yarn
 
-      - name: Build macOS app
+      - name: Build macOS arm64 app
         if: matrix.os == 'macos-latest'
         run: |
-          yarn make
+          yarn make --arch=x64,arm64
         env:
           TARGET_PLATFORMS: darwin
 
       - name: Build windows app
         if: matrix.os == 'windows-latest'
         run: |
-          yarn make
+          yarn make --arch=x64
 
       # - name: Cleanup artifacts
       #   run: |
