@@ -6,7 +6,7 @@ export async function getDirectoryTree(path: string): Promise<TreeNode> {
       path,
       {
         attributes: ["extension", "type"],
-        exclude: [/.DS_Store/],
+        exclude: [/.DS_Store/, /__pycache__/],
         depth: 1,
       },
       (item: any, path: string, stats: any) => {

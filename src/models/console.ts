@@ -16,7 +16,7 @@ const useConsoleModel = () => {
 
   const log = useCallback((message: string) => {
     console.log(message);
-    model.outputs.push(message);
+    model.outputs.push(message.trim());
   }, []);
 
   return {

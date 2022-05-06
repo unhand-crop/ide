@@ -13,11 +13,28 @@ import {
 } from "@/constants/engine";
 import { events, factory } from "nerdctl";
 
+import chmodr from "chmodr";
 import moment from "moment";
+import path from "path";
 import { store } from "./store";
 
 export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
-  const vm = factory(app.getAppPath());
+  const appPath = app.isPackaged
+    ? path.join(app.getAppPath(), ".webpack")
+    : app.getAppPath();
+
+  console.log(appPath);
+
+  const resourcesPath = path.join(appPath, "res");
+  await new Promise((resolve, reject) =>
+    chmodr(resourcesPath, 0o777, (err) => {
+      if (err) return reject();
+      resolve(true);
+    })
+  );
+
+  const vm = factory(appPath);
+
   vm.on(events.VM_INIT_OUTPUT, (data) => {
     console.log(data);
     mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data);

@@ -90,14 +90,12 @@ export default () => {
             document.querySelector(".mo-panel__container") as HTMLElement
           )?.offsetHeight;
           fitAddonRef.current?.fit();
-          console.log("Resized. New bounds:", rect.width, "x", rect.height);
         }}
         onPosition={(rect) => {
           state.termHeight = (
             document.querySelector(".mo-panel__container") as HTMLElement
           )?.offsetHeight;
           fitAddonRef.current?.fit();
-          console.log("Moved. New position:", rect.left, "x", rect.top);
         }}
       />
     </div>

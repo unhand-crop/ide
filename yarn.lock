@@ -1783,6 +1783,13 @@
   resolved "https://registry.npmjs.org/@types/caseless/-/caseless-0.12.2.tgz"
   integrity sha512-6ckxMjBBD8URvjB6J3NcnuAn5Pkl7t3TizAg+xdlzzQGSPSmBcXf8KoIH0ua/i+tio+ZRUHEXp0HEmvaR4kt0w==
 
+"@types/chmodr@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@types/chmodr/-/chmodr-1.0.0.tgz#c3db4716328a1e1b4a4ebce64a05ffbf456c27d9"
+  integrity sha512-S+X+Gy8V1uijitezjzXuan5vHbjllKgnC6q4VrD30HF2WRF6oIwQ/Wfjzvn5tGIIsl4VtRnBQbzqyzBo02juhw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/connect-history-api-fallback@^1.3.5":
   version "1.3.5"
   resolved "https://registry.npmjs.org/@types/connect-history-api-fallback/-/connect-history-api-fallback-1.3.5.tgz"
@@ -3220,6 +3227,11 @@ chardet@^0.7.0:
   version "0.7.0"
   resolved "https://registry.npmjs.org/chardet/-/chardet-0.7.0.tgz"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
+
+chmodr@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/chmodr/-/chmodr-1.2.0.tgz#720e96caa09b7f1cdbb01529b7d0ab6bc5e118b9"
+  integrity sha512-Y5uI7Iq/Az6HgJEL6pdw7THVd7jbVOTPwsmcPOBjQL8e3N+pz872kzK5QxYGEy21iRys+iHWV0UZQXDFJo1hyA==
 
 "chokidar@>=3.0.0 <4.0.0", chokidar@^3.4.2, chokidar@^3.5.3:
   version "3.5.3"
@@ -7323,10 +7335,10 @@ neo-async@^2.6.0, neo-async@^2.6.2:
   resolved "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-nerdctl@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.npmjs.org/nerdctl/-/nerdctl-0.4.0.tgz#0b2b4ba0300eac1de3223ce3cdf2feaa38f1635c"
-  integrity sha512-Q5v0TxYt5+JFxhG2dNQHETc+JRqBgO1Tta9p8E4f2Pyqf+QDvnBGHoaK/OWLs1j+yU9yveb76ULi0uIq6JnB5Q==
+nerdctl@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.npmjs.org/nerdctl/-/nerdctl-0.5.0.tgz#3287a057b8217f274d44490376c4c1e9c3adc42c"
+  integrity sha512-1unY8vEWEZDA8lLYLD9KHunwNx26FS6C+ESF1QhsZDDubgWxlmeR6YLquofu1YLEvtGYS0/7UsQihmBITbu3mA==
   dependencies:
     change-case "^4.1.2"
     lodash "^4.17.21"

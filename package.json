@@ -1,6 +1,6 @@
 {
   "name": "ide",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "productName": "UnhandStudio",
   "keywords": [],
   "license": "MIT",
@@ -14,7 +14,8 @@
     "start": "cross-env NODE_ENV=development electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "release": "electron-forge publish"
+    "release": "electron-forge publish",
+    "postinstall": "node ./scripts/post-install.mjs"
   },
   "config": {
     "husky": {
@@ -40,6 +41,7 @@
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
     "@electron-forge/plugin-webpack": "6.0.0-beta.63",
     "@electron-forge/publisher-github": "^6.0.0-beta.63",
+    "@types/chmodr": "^1.0.0",
     "@types/dockerode": "^3.3.3",
     "@types/electron-is-dev": "^1.1.1",
     "@types/lodash": "^4.14.181",
@@ -80,6 +82,7 @@
     "@types/unzipper": "^0.10.5",
     "ahooks": "^3.1.13",
     "antd": "^4.18.9",
+    "chmodr": "^1.2.0",
     "chokidar": "^3.5.3",
     "electron-is-dev": "^2.0.0",
     "electron-squirrel-startup": "^1.0.0",
@@ -88,7 +91,7 @@
     "get-port": "^6.1.2",
     "hox": "^1.1.6",
     "lodash": "^4.17.21",
-    "nerdctl": "^0.4.0",
+    "nerdctl": "^0.5.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-resize-observer": "^1.1.1",
