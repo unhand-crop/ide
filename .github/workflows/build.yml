@@ -45,6 +45,15 @@ jobs:
         env:
           TARGET_PLATFORMS: darwin
 
+      - name: Build macOS app for arm64
+        if: |
+          matrix.os == 'macos-latest' &&
+          matrix.arch == 'arm64'
+        run: |
+          yarn make --arch=arm64
+        env:
+          TARGET_PLATFORMS: darwin
+
       # - name: Build windows app
       #   if: matrix.os == 'windows-latest'
       #   run: |
