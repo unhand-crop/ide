@@ -1,7 +1,9 @@
 import { CompareInfo, getByVersion } from "@/services/env";
 import {
   ENGINE_EVENT_INIT_IMAGE_FINISH,
+  ENGINE_EVENT_INIT_IMAGE_START,
   ENGINE_EVENT_INIT_VM_FINISH,
+  ENGINE_EVENT_INIT_VM_START,
   ENGINE_EVENT_RESULT,
   ENGINE_EVENT_STREAM_DATA,
   ENGINE_EVENT_STREAM_FINISH,
@@ -25,7 +27,9 @@ function useEngineModel() {
     modalVisible: boolean;
     docsPanelVisible: boolean;
     checkVM: boolean;
+    checkingVM: boolean;
     checkImage: boolean;
+    checkingImage: boolean;
     algorithmstep: any;
     algorithmstepConfig: any[];
 
@@ -36,7 +40,9 @@ function useEngineModel() {
     modalVisible: false,
     docsPanelVisible: false,
     checkVM: false,
+    checkingVM: false,
     checkImage: false,
+    checkingImage: false,
 
     running: false,
     results: null,
@@ -105,54 +111,47 @@ function useEngineModel() {
         log(data);
       }
     );
-
-    window.api.ipc.on(ENGINE_EVENT_INIT_VM_FINISH, () => {
-      model.checkVM = true;
+    window.api.ipc.on(ENGINE_EVENT_INIT_VM_START, (_: IpcRendererEvent) => {
+      model.checkingVM = true;
     });
-    window.api.ipc.on(ENGINE_EVENT_INIT_IMAGE_FINISH, () => {
-      model.checkImage = true;
+    window.api.ipc.on(
+      ENGINE_EVENT_INIT_VM_FINISH,
+      (_: IpcRendererEvent, data: boolean) => {
+        model.checkVM = data;
+        model.checkingVM = false;
+      }
+    );
+    window.api.ipc.on(ENGINE_EVENT_INIT_IMAGE_START, (_: IpcRendererEvent) => {
+      model.checkingImage = true;
     });
-
-    setTimeout(async () => {
-      log("Querying the latest image version information");
-
-      model.platform = await window.api.os.platform();
-      model.arch = await window.api.os.arch();
-      model.info = (
-        await getByVersion(VERSION, model.platform, model.arch)
-      ).data;
-
-      log(
-        `Latest image version: ${model.info.editVersionInfo.bestImageVersion.fullName}\n`
-      );
-
-      await window.api.store.set(
-        ENGINE_IMAGE_NAME,
-        model.info.editVersionInfo.bestImageVersion.fullName
-      );
-
-      log(`Checking virtual machine environment`);
-      model.checkVM = await window.api.engine.checkVM();
-      log(`The virtual machine is ${model.checkVM ? "ready" : "not ready"}`);
-
-      if (!model.checkVM) {
-        log(`Installing virtual machine`);
-        await window.api.engine.initVM();
-        log(`Virtual machine installed`);
+    window.api.ipc.on(
+      ENGINE_EVENT_INIT_IMAGE_FINISH,
+      (_: IpcRendererEvent, data: boolean) => {
+        model.checkImage = data;
+        model.checkingImage = false;
       }
+    );
 
-      log(`Checking algorithm engine environment`);
-      model.checkImage = await window.api.engine.checkImage();
-      log(
-        `The algorithm engine is ${model.checkImage ? "ready" : "not ready"}`
-      );
+    log("Querying the latest image version information");
 
-      if (!model.checkImage) {
-        log(`Installing algorithm engine`);
-        await window.api.engine.initImage();
-        log(`Algorithm engine installed`);
-      }
-    }, 2000);
+    model.platform = await window.api.os.platform();
+    model.arch = await window.api.os.arch();
+    model.info = (await getByVersion(VERSION, model.platform, model.arch)).data;
+
+    if (!model.info?.editVersionInfo?.bestImageVersion?.fullName) {
+      return log("Failed to query the image version information");
+    }
+
+    log(
+      `Latest image version: ${model.info.editVersionInfo.bestImageVersion.fullName}\n`
+    );
+
+    await window.api.store.set(
+      ENGINE_IMAGE_NAME,
+      model.info.editVersionInfo.bestImageVersion.fullName
+    );
+
+    window.api.engine.init();
   });
 
   return {

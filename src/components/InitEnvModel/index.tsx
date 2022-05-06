@@ -1,5 +1,9 @@
 import { Button, Steps } from "antd";
-import { CheckCircleOutlined, LoadingOutlined } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  HistoryOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 
 import Modal from "@/components/Modal";
 import React from "react";
@@ -64,17 +68,45 @@ const InitEnvModel = ({ onClick }: InitBackTestProps) => {
         <div className={styles.check_body}>
           <Steps direction="vertical">
             <Step
-              status={model.checkVM ? "finish" : "process"}
+              status={
+                !model.checkingVM
+                  ? model.checkVM
+                    ? "finish"
+                    : "wait"
+                  : "process"
+              }
               title={checkList[0].name}
               icon={
-                model.checkVM ? <CheckCircleOutlined /> : <LoadingOutlined />
+                !model.checkingVM ? (
+                  model.checkingVM ? (
+                    <HistoryOutlined />
+                  ) : (
+                    <CheckCircleOutlined />
+                  )
+                ) : (
+                  <LoadingOutlined />
+                )
               }
             />
             <Step
-              status={model.checkImage ? "finish" : "process"}
+              status={
+                !model.checkingImage
+                  ? model.checkImage
+                    ? "finish"
+                    : "wait"
+                  : "process"
+              }
               title={checkList[1].name}
               icon={
-                model.checkImage ? <CheckCircleOutlined /> : <LoadingOutlined />
+                !model.checkingImage ? (
+                  model.checkImage ? (
+                    <HistoryOutlined />
+                  ) : (
+                    <CheckCircleOutlined />
+                  )
+                ) : (
+                  <LoadingOutlined />
+                )
               }
             />
           </Steps>

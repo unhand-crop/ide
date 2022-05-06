@@ -2,7 +2,9 @@ import { BrowserWindow, app, ipcMain, ipcRenderer } from "electron";
 import {
   ENGINE_CONTAINER_NAME,
   ENGINE_EVENT_INIT_IMAGE_FINISH,
+  ENGINE_EVENT_INIT_IMAGE_START,
   ENGINE_EVENT_INIT_VM_FINISH,
+  ENGINE_EVENT_INIT_VM_START,
   ENGINE_EVENT_SERVER_PORT,
   ENGINE_EVENT_STREAM_DATA,
   ENGINE_EVENT_STREAM_FINISH,
@@ -23,25 +25,11 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     ? path.join(app.getAppPath(), ".webpack")
     : app.getAppPath();
 
-  console.log(appPath);
-
-  const resourcesPath = path.join(appPath, "res");
-  await new Promise((resolve, reject) =>
-    chmodr(resourcesPath, 0o777, (err) => {
-      if (err) return reject();
-      resolve(true);
-    })
-  );
-
   const vm = factory(appPath);
 
   vm.on(events.VM_INIT_OUTPUT, (data) => {
     console.log(data);
     mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data);
-  });
-  vm.on(events.VM_INIT_END, () => {
-    console.log("VM_INIT_END");
-    mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_FINISH);
   });
   vm.on(events.IMAGE_PULL_OUTPUT, (data: string) => {
     console.log(data);
@@ -52,6 +40,79 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data);
   });
 
+  ipcMain.handle("engine.init", async (_, args) => {
+    const resourcesPath = path.join(appPath, "res");
+
+    try {
+      await new Promise((resolve, reject) =>
+        chmodr(resourcesPath, 0o777, (err) => {
+          if (err) return reject();
+          resolve(true);
+        })
+      );
+    } catch (err) {
+      console.error(err);
+    }
+
+    mainWindow.webContents.send(
+      ENGINE_EVENT_STREAM_DATA,
+      `Checking virtual machine environment`
+    );
+    const checkVM = await vm.checkVM();
+    mainWindow.webContents.send(
+      ENGINE_EVENT_STREAM_DATA,
+      `The virtual machine is ${checkVM ? "ready" : "not ready"}`
+    );
+
+    if (!checkVM) {
+      mainWindow.webContents.send(
+        ENGINE_EVENT_STREAM_DATA,
+        `Installing virtual machine`
+      );
+      mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_START);
+      await vm.initVM();
+    }
+    mainWindow.webContents.send(
+      ENGINE_EVENT_STREAM_DATA,
+      `Virtual machine installed`
+    );
+    mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_FINISH, true);
+
+    mainWindow.webContents.send(
+      ENGINE_EVENT_STREAM_DATA,
+      `Checking algorithm engine environment`
+    );
+
+    const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
+    const images = await vm.getImages();
+    const checkImage =
+      !!images &&
+      images.length > 0 &&
+      images.findIndex(
+        (img) => `${img.Repository}:${img.Tag} === ${imageName}`
+      ) >= 0;
+
+    mainWindow.webContents.send(
+      ENGINE_EVENT_STREAM_DATA,
+      `The algorithm engine is ${checkImage ? "ready" : "not ready"}`
+    );
+
+    if (!checkImage) {
+      mainWindow.webContents.send(
+        ENGINE_EVENT_STREAM_DATA,
+        `Installing algorithm engine`
+      );
+
+      mainWindow.webContents.send(ENGINE_EVENT_INIT_IMAGE_START);
+      const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
+      await vm.pullImage(imageName);
+    }
+    mainWindow.webContents.send(ENGINE_EVENT_INIT_IMAGE_FINISH, true);
+    mainWindow.webContents.send(
+      ENGINE_EVENT_STREAM_DATA,
+      `Algorithm engine installed`
+    );
+  });
   ipcMain.handle("engine.backtest", async (_, args) => {
     mainWindow.webContents.send(ENGINE_EVENT_STREAM_START);
 
@@ -84,49 +145,18 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     mainWindow.webContents.send(ENGINE_EVENT_STREAM_STOP);
     await vm.remove(ENGINE_CONTAINER_NAME, { force: true });
   });
-  ipcMain.handle("engine.checkVM", async () => {
-    return await vm.checkVM();
-  });
-  ipcMain.handle("engine.initVM", async () => {
-    await vm.initVM();
-  });
-  ipcMain.handle("engine.checkImage", async () => {
-    const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
-    const images = await vm.getImages();
-    return (
-      !!images &&
-      images.length > 0 &&
-      images.findIndex(
-        (img) => `${img.Repository}:${img.Tag} === ${imageName}`
-      ) >= 0
-    );
-  });
-  ipcMain.handle("engine.initImage", async () => {
-    const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
-    await vm.pullImage(imageName);
-    mainWindow.webContents.send(ENGINE_EVENT_INIT_IMAGE_FINISH);
-  });
 };
 
 export const registerEngineInvokes = () => {
   return {
+    async init(...args: any[]) {
+      return await ipcRenderer.invoke("engine.init", args);
+    },
     async backtest(...args: any[]) {
       return await ipcRenderer.invoke("engine.backtest", args);
     },
     async stop(...args: any[]) {
       return await ipcRenderer.invoke("engine.stop", args);
-    },
-    async checkVM() {
-      return await ipcRenderer.invoke("engine.checkVM");
-    },
-    async initVM() {
-      return await ipcRenderer.invoke("engine.initVM");
-    },
-    async checkImage() {
-      return await ipcRenderer.invoke("engine.checkImage");
-    },
-    async initImage() {
-      return await ipcRenderer.invoke("engine.initImage");
     },
   };
 };
