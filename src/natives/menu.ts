@@ -22,7 +22,7 @@ export const registerMenus = async (mainWindow: BrowserWindow) => {
         {
           label: "新建算法",
           click: async () => {
-            await mainWindow.webContents.send(EDITOR_EVENT_NEW_ALGO);
+            mainWindow.webContents.send(EDITOR_EVENT_NEW_ALGO);
           },
         },
         {
@@ -39,6 +39,17 @@ export const registerMenus = async (mainWindow: BrowserWindow) => {
               mainWindow.webContents.send(EDITOR_EVENT_OPEN_DIR, dirPath);
             }
             return dirPath;
+          },
+        },
+      ],
+    },
+    {
+      label: "开发者",
+      submenu: [
+        {
+          label: "开发者工具",
+          click: async () => {
+            mainWindow.webContents.toggleDevTools();
           },
         },
       ],

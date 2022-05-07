@@ -14,3 +14,9 @@ export const ENGINE_EVENT_INIT_VM_START = "engine-event-init-vm-start";
 export const ENGINE_EVENT_INIT_VM_FINISH = "engine-event-init-vm-finish";
 export const ENGINE_EVENT_INIT_IMAGE_START = "engine-event-init-image-start";
 export const ENGINE_EVENT_INIT_IMAGE_FINISH = "engine-event-init-image-finish";
+
+export const ENGINE_EVENT_INIT_SERVER_FINISH =
+  "engine-event-init-server-finish";
+export const ENGINE_EVENT_INIT_SERVER_MESSAGE =
+  "engine-event-init-server-message";
+export const ENGINE_EVENT_INIT_SERVER_ERROR = "engine-event-init-server-error";

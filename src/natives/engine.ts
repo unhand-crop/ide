@@ -16,11 +16,20 @@ import {
 import { events, factory } from "nerdctl";
 
 import chmodr from "chmodr";
+import { fork } from "child_process";
+import { initServer } from "./server";
 import moment from "moment";
 import path from "path";
 import { store } from "./store";
 
 export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
+  const controller = new AbortController();
+  const { signal } = controller;
+
+  app.on("before-quit", () => {
+    controller.abort();
+  });
+
   const appPath = app.isPackaged
     ? path.join(app.getAppPath(), ".webpack")
     : app.getAppPath();
@@ -41,77 +50,70 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
   });
 
   ipcMain.handle("engine.init", async (_, args) => {
-    const resourcesPath = path.join(appPath, "res");
-
-    try {
-      await new Promise((resolve, reject) =>
-        chmodr(resourcesPath, 0o777, (err) => {
-          if (err) return reject();
-          resolve(true);
-        })
-      );
-    } catch (err) {
-      console.error(err);
-    }
-
-    mainWindow.webContents.send(
-      ENGINE_EVENT_STREAM_DATA,
-      `Checking virtual machine environment`
-    );
-    const checkVM = await vm.checkVM();
-    mainWindow.webContents.send(
-      ENGINE_EVENT_STREAM_DATA,
-      `The virtual machine is ${checkVM ? "ready" : "not ready"}`
-    );
-
-    if (!checkVM) {
-      mainWindow.webContents.send(
-        ENGINE_EVENT_STREAM_DATA,
-        `Installing virtual machine`
-      );
-      mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_START);
-      await vm.initVM();
-    }
-    mainWindow.webContents.send(
-      ENGINE_EVENT_STREAM_DATA,
-      `Virtual machine installed`
-    );
-    mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_FINISH, true);
-
-    mainWindow.webContents.send(
-      ENGINE_EVENT_STREAM_DATA,
-      `Checking algorithm engine environment`
-    );
-
-    const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
-    const images = await vm.getImages();
-    const checkImage =
-      !!images &&
-      images.length > 0 &&
-      images.findIndex(
-        (img) => `${img.Repository}:${img.Tag} === ${imageName}`
-      ) >= 0;
-
-    mainWindow.webContents.send(
-      ENGINE_EVENT_STREAM_DATA,
-      `The algorithm engine is ${checkImage ? "ready" : "not ready"}`
-    );
-
-    if (!checkImage) {
-      mainWindow.webContents.send(
-        ENGINE_EVENT_STREAM_DATA,
-        `Installing algorithm engine`
-      );
-
-      mainWindow.webContents.send(ENGINE_EVENT_INIT_IMAGE_START);
-      const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
-      await vm.pullImage(imageName);
-    }
-    mainWindow.webContents.send(ENGINE_EVENT_INIT_IMAGE_FINISH, true);
-    mainWindow.webContents.send(
-      ENGINE_EVENT_STREAM_DATA,
-      `Algorithm engine installed`
-    );
+    await initServer(mainWindow, signal);
+    // const resourcesPath = path.join(appPath, "res");
+    // try {
+    //   await new Promise((resolve, reject) =>
+    //     chmodr(resourcesPath, 0o777, (err) => {
+    //       if (err) return reject();
+    //       resolve(true);
+    //     })
+    //   );
+    // } catch (err) {
+    //   console.error(err);
+    // }
+    // mainWindow.webContents.send(
+    //   ENGINE_EVENT_STREAM_DATA,
+    //   `Checking virtual machine environment...`
+    // );
+    // const checkVM = await vm.checkVM();
+    // mainWindow.webContents.send(
+    //   ENGINE_EVENT_STREAM_DATA,
+    //   `The virtual machine is ${checkVM ? "ready" : "not ready"}`
+    // );
+    // if (!checkVM) {
+    //   mainWindow.webContents.send(
+    //     ENGINE_EVENT_STREAM_DATA,
+    //     `Installing virtual machine...`
+    //   );
+    //   mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_START);
+    //   await vm.initVM();
+    // }
+    // mainWindow.webContents.send(
+    //   ENGINE_EVENT_STREAM_DATA,
+    //   `Virtual machine installed`
+    // );
+    // mainWindow.webContents.send(ENGINE_EVENT_INIT_VM_FINISH, true);
+    // mainWindow.webContents.send(
+    //   ENGINE_EVENT_STREAM_DATA,
+    //   `Checking algorithm engine environment...`
+    // );
+    // const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
+    // const images = await vm.getImages();
+    // const checkImage =
+    //   !!images &&
+    //   images.length > 0 &&
+    //   images.findIndex(
+    //     (img) => `${img.Repository}:${img.Tag} === ${imageName}`
+    //   ) >= 0;
+    // mainWindow.webContents.send(
+    //   ENGINE_EVENT_STREAM_DATA,
+    //   `The algorithm engine is ${checkImage ? "ready" : "not ready"}`
+    // );
+    // if (!checkImage) {
+    //   mainWindow.webContents.send(
+    //     ENGINE_EVENT_STREAM_DATA,
+    //     `Installing algorithm engine...`
+    //   );
+    //   mainWindow.webContents.send(ENGINE_EVENT_INIT_IMAGE_START);
+    //   const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
+    //   await vm.pullImage(imageName);
+    // }
+    // mainWindow.webContents.send(ENGINE_EVENT_INIT_IMAGE_FINISH, true);
+    // mainWindow.webContents.send(
+    //   ENGINE_EVENT_STREAM_DATA,
+    //   `Algorithm engine installed`
+    // );
   });
   ipcMain.handle("engine.backtest", async (_, args) => {
     mainWindow.webContents.send(ENGINE_EVENT_STREAM_START);
@@ -119,6 +121,7 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
     const { id, ENDDATE, STARTDATE, SERVICECHARGE, ATTRIBUTES } = args[0];
 
     const port = await store.get(ENGINE_EVENT_SERVER_PORT);
+
     try {
       await vm.remove(ENGINE_CONTAINER_NAME, { force: true });
     } finally {

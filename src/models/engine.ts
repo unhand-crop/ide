@@ -132,7 +132,7 @@ function useEngineModel() {
       }
     );
 
-    log("Querying the latest image version information");
+    log("Querying the latest image version information...");
 
     model.platform = await window.api.os.platform();
     model.arch = await window.api.os.arch();
