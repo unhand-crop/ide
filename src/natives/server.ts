@@ -8,7 +8,6 @@ import {
 } from "@/constants/engine";
 
 import { BrowserWindow } from "electron";
-import chmodr from "chmodr";
 import { fork } from "child_process";
 import getPort from "get-port";
 import path from "path";
@@ -19,31 +18,14 @@ export async function initServer(
   mainWindow: BrowserWindow,
   signal: AbortSignal
 ) {
-  mainWindow.webContents.send(
-    ENGINE_EVENT_STREAM_DATA,
-    `Getting web server port...`
-  );
-
-  const port = await getPort();
-  store.set(ENGINE_EVENT_SERVER_PORT, port);
-
-  mainWindow.webContents.send(
-    ENGINE_EVENT_STREAM_DATA,
-    `The web server port is: ${port}`
-  );
-
   try {
     mainWindow.webContents.send(
       ENGINE_EVENT_STREAM_DATA,
       `Starting web server...`
     );
 
-    await new Promise((resolve, reject) =>
-      chmodr(path.join(__dirname, "scripts", "server.js"), 0o777, (err) => {
-        if (err) return reject();
-        resolve(true);
-      })
-    );
+    const port = await getPort();
+    store.set(ENGINE_EVENT_SERVER_PORT, port);
 
     const child = fork(
       path.join(__dirname, "scripts", "server.js"),
@@ -53,77 +35,63 @@ export async function initServer(
       }
     );
 
-    if (child) {
-      child
-        .on("exit", (code, signal) => {
+    child
+      .on("exit", (code, signal) => {
+        console.log(
+          `The web server exit: code = ${code}, signal = ${JSON.stringify(
+            signal
+          )}`
+        );
+      })
+      .on("error", (err: any) => {
+        if (err?.code === "ABORT_ERR") {
+          console.error(`Process exit: ${err.name}`);
+          return;
+        }
+        mainWindow.webContents.send(
+          ENGINE_EVENT_STREAM_DATA,
+          `Failed to initialize web server: ${JSON.stringify(err)}`
+        );
+        mainWindow.webContents.send(
+          ENGINE_EVENT_STREAM_DATA,
+          JSON.stringify(err)
+        );
+      })
+      .on("message", (data: any) => {
+        if (data?.type === ENGINE_EVENT_INIT_SERVER_FINISH) {
           mainWindow.webContents.send(
             ENGINE_EVENT_STREAM_DATA,
-            `The web server exit: code = ${code}, signal = ${JSON.stringify(
-              signal
-            )}`
+            `Web server initialization succeeded`
           );
-        })
-        .on("error", (err) => {
-          console.error(
-            `Failed to initialize web server: ${JSON.stringify(err)}`
-          );
-          mainWindow.webContents.send(
-            ENGINE_EVENT_STREAM_DATA,
-            `Failed to initialize web server: ${JSON.stringify(err)}`
-          );
-          mainWindow.webContents.send(
-            ENGINE_EVENT_STREAM_DATA,
-            JSON.stringify(err)
-          );
-          process.exit(0);
-        })
-        .on("message", (data: any) => {
-          if (data?.type === ENGINE_EVENT_INIT_SERVER_FINISH) {
-            mainWindow.webContents.send(
-              ENGINE_EVENT_STREAM_DATA,
-              `Web server initialization succeeded`
-            );
-            console.log(`Web server initialization succeeded`);
-            request(`http://127.0.0.1:${port}`)
-              .then((res) => {
-                mainWindow.webContents.send(
-                  ENGINE_EVENT_STREAM_DATA,
-                  `Ping web server http://127.0.0.1:${port}: ${JSON.stringify(
-                    res
-                  )}`
-                );
-                console.log(
-                  `Ping web server http://127.0.0.1:${port}: ${JSON.stringify(
-                    res
-                  )}`
-                );
-              })
-              .catch((err) => {
-                mainWindow.webContents.send(
-                  ENGINE_EVENT_STREAM_DATA,
-                  `Ping web server error: ${JSON.stringify(err)}`
-                );
-                console.log(`Ping web server error: ${JSON.stringify(err)}`);
-              });
-            return;
-          }
-          if (data?.type === ENGINE_EVENT_INIT_SERVER_MESSAGE) {
-            mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data?.data);
-            mainWindow.webContents.send(ENGINE_EVENT_RESULT, data?.data);
-            return;
-          }
-          if (data?.type === ENGINE_EVENT_INIT_SERVER_ERROR) {
-            console.error(`Failed to initialize web server`);
-            return;
-          }
-          mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data);
-        });
-    } else {
-      mainWindow.webContents.send(
-        ENGINE_EVENT_STREAM_DATA,
-        `Failed to start the web server`
-      );
-    }
+          console.log(`Web server initialization succeeded`);
+          request(`http://127.0.0.1:${port}`)
+            .then((res) => {
+              mainWindow.webContents.send(
+                ENGINE_EVENT_STREAM_DATA,
+                `Ping web server: ${JSON.stringify(res)}`
+              );
+              console.log(`Ping web server: ${JSON.stringify(res)}`);
+            })
+            .catch((err) => {
+              mainWindow.webContents.send(
+                ENGINE_EVENT_STREAM_DATA,
+                `Ping web server error: ${JSON.stringify(err)}`
+              );
+              console.log(`Ping web server error: ${JSON.stringify(err)}`);
+            });
+          return;
+        }
+        if (data?.type === ENGINE_EVENT_INIT_SERVER_MESSAGE) {
+          mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data?.data);
+          mainWindow.webContents.send(ENGINE_EVENT_RESULT, data?.data);
+          return;
+        }
+        if (data?.type === ENGINE_EVENT_INIT_SERVER_ERROR) {
+          console.error(`Failed to initialize web server`);
+          return;
+        }
+        mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data);
+      });
   } catch (err) {
     console.error(err);
   }
