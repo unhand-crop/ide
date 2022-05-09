@@ -13,6 +13,7 @@ try {
       res.statusCode = 200;
       res.setHeader("Content-Type", "application/json");
       const response = JSON.stringify({ success: true, message: "OK" });
+
       if (req.method === "POST") {
         let data = "";
         req.on("data", (chunk) => {
@@ -20,7 +21,7 @@ try {
         });
         req.on("end", () => {
           process.send({
-            type: ENGINE_EVENT_INIT_SERVER_MESSAGE,
+            event: ENGINE_EVENT_INIT_SERVER_MESSAGE,
             data,
           });
           console.log(data);
@@ -32,7 +33,7 @@ try {
     })
     .on("error", (error) => {
       process.send({
-        type: ENGINE_EVENT_INIT_SERVER_ERROR,
+        event: ENGINE_EVENT_INIT_SERVER_ERROR,
         data: JSON.stringify(error),
       });
       console.error(error);
@@ -40,7 +41,7 @@ try {
     .listen(port, hostname, () => {
       console.log(`Server running at http://${hostname}:${port}/`);
       process.send({
-        type: ENGINE_EVENT_INIT_SERVER_FINISH,
+        event: ENGINE_EVENT_INIT_SERVER_FINISH,
       });
     });
 } catch (err) {

@@ -58,7 +58,7 @@ export async function initServer(
         );
       })
       .on("message", (data: any) => {
-        if (data?.type === ENGINE_EVENT_INIT_SERVER_FINISH) {
+        if (data?.event === ENGINE_EVENT_INIT_SERVER_FINISH) {
           mainWindow.webContents.send(
             ENGINE_EVENT_STREAM_DATA,
             `Web server initialization succeeded`
@@ -81,12 +81,15 @@ export async function initServer(
             });
           return;
         }
-        if (data?.type === ENGINE_EVENT_INIT_SERVER_MESSAGE) {
+        if (data?.event === ENGINE_EVENT_INIT_SERVER_MESSAGE) {
           mainWindow.webContents.send(ENGINE_EVENT_STREAM_DATA, data?.data);
-          mainWindow.webContents.send(ENGINE_EVENT_RESULT, data?.data);
+          mainWindow.webContents.send(
+            ENGINE_EVENT_RESULT,
+            JSON.parse(data.data)
+          );
           return;
         }
-        if (data?.type === ENGINE_EVENT_INIT_SERVER_ERROR) {
+        if (data?.event === ENGINE_EVENT_INIT_SERVER_ERROR) {
           console.error(`Failed to initialize web server`);
           return;
         }
