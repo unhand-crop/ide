@@ -115,7 +115,7 @@ export default () => {
       } else if (type === "kline") {
         state.symbol = content?.Symbol?.Value ?? "";
         state.TradeBars = [
-          // ...(state.TradeBars ?? []),
+          ...(state.TradeBars ?? []),
           ...(content?.TradeBars ?? []),
         ];
         console.log("state.TradeBars", state.TradeBars);

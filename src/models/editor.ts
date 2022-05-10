@@ -20,9 +20,13 @@ import useBackTestModel from "./back-test";
 
 export async function loadFolderTree(path: string) {
   const data = await getDirectoryTree(path);
+  const tree = new TreeNodeModel(data);
+
   molecule.folderTree.reset();
-  molecule.folderTree.add(new TreeNodeModel(data));
+  molecule.folderTree.add(tree);
+
   window.api.watch.change(path);
+  return tree;
 }
 
 async function syncFileContent(path: UniqueId, position?: Position) {
@@ -164,13 +168,26 @@ function useEditorModel() {
     if (model.dirPath) {
       // setHistoryPath(model.dirPath);
       (async () => {
-        await loadFolderTree(model.dirPath);
+        const tree = await loadFolderTree(model.dirPath);
         window.api.store.set(EDITOR_DIR_PATH, model.dirPath);
         molecule.explorer.onPanelToolbarClick(async (panel, toolbarId) => {
           if (toolbarId === "refresh") {
             await loadFolderTree(model.dirPath);
           }
         });
+        const file = tree.children?.find(
+          (item) => item.id === model.dirPath + "/main.py"
+        );
+        if (file) {
+          molecule.editor.open({
+            id: file.id,
+            name: file.name,
+            icon: getFileIcon(file.name),
+            data: {
+              value: await window.api.fs.readFile(file.path),
+            },
+          });
+        }
       })();
     }
   }, [model.dirPath]);
