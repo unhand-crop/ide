@@ -78,10 +78,10 @@ const InitEnvModel = ({ onClick }: InitBackTestProps) => {
               title={checkList[0].name}
               icon={
                 !model.checkingVM ? (
-                  model.checkingVM ? (
-                    <HistoryOutlined />
-                  ) : (
+                  model.checkVM ? (
                     <CheckCircleOutlined />
+                  ) : (
+                    <HistoryOutlined />
                   )
                 ) : (
                   <LoadingOutlined />
@@ -100,9 +100,9 @@ const InitEnvModel = ({ onClick }: InitBackTestProps) => {
               icon={
                 !model.checkingImage ? (
                   model.checkImage ? (
-                    <HistoryOutlined />
-                  ) : (
                     <CheckCircleOutlined />
+                  ) : (
+                    <HistoryOutlined />
                   )
                 ) : (
                   <LoadingOutlined />
@@ -130,6 +130,7 @@ const InitEnvModel = ({ onClick }: InitBackTestProps) => {
                 )} */}
           </div>
         </div>
+        <a className={styles.tips}>首次安装环境耗时较长，请耐心等待...</a>
         <Button
           className={`${styles.content_button} ${
             disabled ? styles.content_button_disabled : null

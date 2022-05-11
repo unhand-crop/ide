@@ -99,11 +99,11 @@ export const registerEngineHandlers = async (mainWindow: BrowserWindow) => {
       const imageName = (await store.get(ENGINE_IMAGE_NAME)) as string;
       await vm.pullImage(imageName);
     }
-    mainWindow.webContents.send(ENGINE_EVENT_INIT_IMAGE_FINISH, true);
     mainWindow.webContents.send(
       ENGINE_EVENT_STREAM_DATA,
       `Algorithm engine installed`
     );
+    mainWindow.webContents.send(ENGINE_EVENT_INIT_IMAGE_FINISH, true);
   });
   ipcMain.handle("engine.backtest", async (_, args) => {
     mainWindow.webContents.send(ENGINE_EVENT_STREAM_START);
